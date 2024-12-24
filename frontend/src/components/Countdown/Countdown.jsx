@@ -74,7 +74,8 @@ class FlipClock extends Component {
 	}
 
 	updateTime() {
-		const targetDate = new Date(2024, 2, 9, 18, 0, 0);
+		// const targetDate = new Date(2025, 0, 25, 0, 0, 0);
+		const targetDate = new Date(2025, 0, 25, 17, 0, 0);
 
 		// Fecha actual
 		const currentDate = new Date();

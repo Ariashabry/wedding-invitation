@@ -120,9 +120,10 @@ const handlePartnerNameChange = ( index, value ) => {
       };
 
       console.log(formData);
-
+      // https://back-smoky-pi.vercel.app/api/guests
+      // http://localhost:5000/api/guests
       axios
-      .post('https://wedding-invitation-backend.vercel.app/api/guests', formData)
+      .post('https://back-smoky-pi.vercel.app/api/guests', formData)
       .then((response) => {
          console.log('Response:', response.data);
          if (formData.assist !== "false") {
@@ -168,8 +169,8 @@ const handlePartnerNameChange = ( index, value ) => {
          <div className="relative py-3 w-10/12 mx-auto text-center">
 
             <section className="flex flex-col mb-6">
-               <span className="text-2xl font-medium mb-4">¿Hay equipo?</span>
-               <span className="text-base font-light ">Hay que enviar un solo formulario por pareja, grupo familiar o individual, si te llegó a vos es porque es tu función 😉 
+               <span className="text-2xl font-medium mb-4">¿Asistiras a nuestra boda?</span>
+               <span className="text-base font-light ">Hay que enviar un solo formulario por pareja, grupo familiar o individual, si te llegó a ti es porque es tu función 😉 
                   <br></br> ¡Esperamos que nos acompañes!
                </span>
                <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>*</span> son obligatorios )</span>

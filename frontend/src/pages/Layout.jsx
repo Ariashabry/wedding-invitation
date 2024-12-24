@@ -76,10 +76,10 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={"Ceremonia | 17:00 pm"}
-                     subtitle={"Nuestra Señora del Perpetuo Socorro"}
+                     subtitle={"Iglesia San Martin de Porres 💒"}
                      lineColorCode={"border-green"}
                   >
-                     Mazzolari 1 | Chacras de Coria, Mendoza
+                     2do anillo, Av. Roca y Coronado
                   </InfoSection>
                   <Button
                      buttonText={"¿Cómo llego?"}
@@ -96,10 +96,10 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={"Fiesta | 19:00 pm"}
-                     subtitle={"Finca AMproS"}
+                     subtitle={"Salon de evento ... 🕺"}
                      lineColorCode={"border-green"}
                   >
-                     C. Pescara, Cruz de Piedra, Maipú, Mendoza
+                     alguna direccion
                   </InfoSection>
                   <Button
                      buttonText={"¿Cómo llego?"}
@@ -108,7 +108,7 @@ const Layout = () => {
                   />
                </SectionContainerElement>
 
-               {/* Present section (only Desktop) ---------- */}
+               {/* Present section (only Desktop) ----------
                <SectionContainerElement mobileView={ 'off' }>
                   <ImageComponent
                      src={"/assets/images/plane-icon.png"}
@@ -127,7 +127,7 @@ const Layout = () => {
                      url={false}
                      action={'openInfoModal'}
                   />
-               </SectionContainerElement>
+               </SectionContainerElement> */}
 
 
             </SectionContainer>
@@ -143,7 +143,7 @@ const Layout = () => {
             <SectionContainer>
 
                {/* Dress section ---------- */}
-               <SectionContainerElement>
+               {/* <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/dress-icon.png"}
                      alt={"Icono vestimenta"}
@@ -162,10 +162,10 @@ const Layout = () => {
                         action={'openWeatherModal'}
                      />
                   </div>
-               </SectionContainerElement>
+               </SectionContainerElement> */}
 
                {/* Music section ---------- */}
-               <SectionContainerElement>
+               {/* <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/dance-icon.png"}
                      alt={"Icono baile"}
@@ -182,7 +182,7 @@ const Layout = () => {
                      colorCode={"bg-mustard"}
                      url={'spotify'}
                   />
-               </SectionContainerElement>
+               </SectionContainerElement> */}
 
                {/* Confirmation section (only Desktop) ---------- */}
                <SectionContainerElement mobileView={ 'off' }>
@@ -192,12 +192,10 @@ const Layout = () => {
                      margin={"disabled"}
                   />
                   <InfoSection
-                     header={'¿Hay equipo?'}
+                     header={'¿Asistiras a nuestra boda?'}
                      lineColorCode={'border-mustard'}
                   >
-                     Esperamos que puedas acompañarnos.
-                     PD: Si no confirmás nos dolerá
-                     el bolsillo (y el alma).
+                     Esperamos que puedas acompañarnos.😀
 
                   </InfoSection>
                   <Button
@@ -228,13 +226,11 @@ const Layout = () => {
                      margin={"disabled"}
                   />
                   <InfoSection
-                     header={'¿Hay equipo?'}
+                     header={'¿Asistiras a nuestra boda?'}
                      lineColorCode={'border-mustard'}
                      textColorCode={'text-gray-dark'}
                   >
-                     Esperamos que puedas acompañarnos.
-                     PD: Si no confirmás nos dolerá
-                     el bolsillo (y el alma).
+                     Esperamos que puedas acompañarnos.😀
 
                   </InfoSection>
                   <Button
@@ -246,7 +242,7 @@ const Layout = () => {
                </SectionContainerElement>
 
                {/* Present section ---------- */}
-               <SectionContainerElement desktopView={ 'off' }>
+               {/* <SectionContainerElement desktopView={ 'off' }>
                   <ImageComponent
                      src={"/assets/images/plane-icon.png"}
                      alt={"plane icon"}
@@ -268,7 +264,7 @@ const Layout = () => {
                      url={false}
                      action={'openInfoModal'}
                   />
-               </SectionContainerElement>
+               </SectionContainerElement> */}
 
             </SectionContainer>
 
