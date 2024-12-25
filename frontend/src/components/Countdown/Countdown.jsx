@@ -121,8 +121,15 @@ class FlipClock extends Component {
 
 		return (
 			<>
-				<h5  className='text-xl text-center font-medium w-64 text-white tracking-wide mb-4
-					lg:text-2xl lg:pb-8'>Faltan...</h5>
+				<h1 className="text-center text-white text-[27px] mt-2 drop-shadow-lg lg:text-[24px] font-bold">
+					La fecha de nuestra boda es:
+				</h1>	
+				<h1 className="text-center text-white text-[27px] mt-2 drop-shadow-lg lg:text-[24px] font-bold">
+					25 de Enero 2025
+				</h1>
+				<h5 className='text-xl text-center font-medium w-64 text-white tracking-wide mb-4 lg:text-2xl lg:pb-8'>
+					Faltan...
+				</h5>
 				<div className={'flipClock'}>
 					<FlipUnitContainer unit={'months'} digit={months} shuffle={monthsShuffle} />
 					<FlipUnitContainer unit={'days'} digit={days} shuffle={daysShuffle} />
@@ -130,8 +137,7 @@ class FlipClock extends Component {
 					<FlipUnitContainer unit={'minutes'} digit={minutes} shuffle={minutesShuffle} />
 					<FlipUnitContainer unit={'seconds'} digit={seconds} shuffle={secondsShuffle} />
 				</div>
-				<div className='grid grid-rows-1 grid-cols-5 gap-1 text-xs w-full md:w-[764px] mt-3 text-center
-					lg:text-base'>
+				<div className='grid grid-rows-1 grid-cols-5 gap-1 text-xs w-full md:w-[764px] mt-3 text-center lg:text-base font-bold'>
 					<div>mes</div>
 					<div>días</div>
 					<div>hrs</div>

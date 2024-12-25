@@ -8,16 +8,19 @@ export default {
     colors: {
       cream: '#EAE8E4',
       gray:{
-        dark: '#404040',
-        light: '#E3E0D9',
+        dark: '#2E2E2E',
+        light: '#D3D3D3',
       } ,
       green: {
-        DEFAULT:'#5D7551',
-        dark: '#506841'
+        DEFAULT:'#957C3D',
+        // dark: '#388E3C'
       } ,
       mustard: '#C49F5F',
-      red: '#C44848',
-      white: '#FFF',
+      blue: {
+        DEFAULT: '#002349',
+      },
+      red: '#E57373',
+      white: '#FFFFFF',
     }
     // extend: {},
   },

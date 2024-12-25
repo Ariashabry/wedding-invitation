@@ -5,12 +5,10 @@ const MainHeadline = () => {
          
          {/* <img src="/assets/images/names.png" alt="" className="w-72 lg:w-96"/> */}
          <h1 className="text-center text-white text-4xl font-bold drop-shadow-lg lg:text-5xl">
-            Alcides y Nilda
+            Alcides & Nilda
          </h1>
-         <hr className="w-44 border-1 border-mustard " />
-         <h3 className="text-center text-white text-[22px] mt-2 drop-shadow-lg lg:text-[24px]">
-            25 de Enero 2025
-         </h3>
+ {/* <hr className="w-44 border-1 border-mustard " /> */}
+         
       </section>
    )
 }

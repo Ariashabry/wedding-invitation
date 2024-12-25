@@ -51,11 +51,11 @@ const Layout = () => {
             <Portrait />
             <MainHeadline />
             <Arrows />
-            <CurvedTopSection bgColor={"bg-mustard"} />
+            <CurvedTopSection bgColor={"bg-blue"} />
          </section>
 
          {/* 2° Countdown, maps and schelude section --------------------------------------- */}
-         <section className="relative flex flex-col items-center justify-center w-full bg-mustard h-fit px-8 pb-4 z-30
+         <section className="relative flex flex-col items-center justify-center w-full bg-blue h-fit px-8 pb-4 z-30
             lg:px-8 lg:pb-20">
 
             <Countdown />
@@ -75,7 +75,7 @@ const Layout = () => {
                      alt={"church icon"}
                   />
                   <InfoSection
-                     header={"Ceremonia | 17:00 pm"}
+                     header={"Ceremonia | 14:00 pm"}
                      subtitle={"Iglesia San Martin de Porres 💒"}
                      lineColorCode={"border-green"}
                   >
@@ -87,8 +87,8 @@ const Layout = () => {
                      url={'church'}
                   />
                </SectionContainerElement>
-
-               {/* Party section ---------- */}
+            
+               {/* Salon de eventos ---------- */}
                <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/music-icon.png"}
@@ -96,15 +96,34 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={"Fiesta | 19:00 pm"}
-                     subtitle={"Salon de evento ... 🕺"}
+                     subtitle={"Salon de evento del primer dia... 🕺"}
                      lineColorCode={"border-green"}
                   >
-                     alguna direccion
+                     direccion del salon de eventos
                   </InfoSection>
                   <Button
                      buttonText={"¿Cómo llego?"}
                      colorCode={"bg-green"}
                      url={'salon'}
+                  />
+               </SectionContainerElement>
+
+               {/* Finca donde sera la fiesta ---------- */}
+                              <SectionContainerElement>
+                  <ImageComponent
+                     src={"/assets/images/music-icon.png"}
+                     alt={"Icono música"}
+                  />
+                  <InfoSection
+                     header={"Fiesta del segundo dia!"}
+                     subtitle={"La fiesta continua en la quinta ... 🕺"}
+                     lineColorCode={"border-green"}
+                  >
+                     direccion de la finca                  </InfoSection>
+                  <Button
+                     buttonText={"¿Cómo llego?"}
+                     colorCode={"bg-green"}
+                     url={'quinta'}
                   />
                </SectionContainerElement>
 
@@ -137,7 +156,7 @@ const Layout = () => {
          {/* 3° Music & clothes section --------------------------------------- */}
          <section className="relative flex flex-col items-center w-full h-fit text-sm bg-green px-8 pt-20 pb-32 z-20
             lg:pb-40">
-            <CurvedBottomSection bgColor={"bg-mustard"} />
+            <CurvedBottomSection bgColor={"bg-blue"} />
 
             {/* Dress and music container ---------- */}
             <SectionContainer>
@@ -193,7 +212,7 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={'¿Asistiras a nuestra boda?'}
-                     lineColorCode={'border-mustard'}
+                     lineColorCode={'border-blue'}
                   >
                      Esperamos que puedas acompañarnos.😀
 
@@ -201,7 +220,7 @@ const Layout = () => {
                   <Button
                      buttonText={'Confirmar asistencia'}
                      
-                     colorCode={'bg-mustard'}
+                     colorCode={'bg-blue'}
                      action={'openConfirmationModal'}
                   />
                </SectionContainerElement>
@@ -227,7 +246,7 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={'¿Asistiras a nuestra boda?'}
-                     lineColorCode={'border-mustard'}
+                     lineColorCode={'border-blue'}
                      textColorCode={'text-gray-dark'}
                   >
                      Esperamos que puedas acompañarnos.😀
