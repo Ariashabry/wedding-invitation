@@ -94,3 +94,40 @@
   }
 }
 
+/* Estilo para el título introductorio */
+h1.text-center {
+  font-size: 42px;  /* Más grande en mobile */
+  font-family: "Young Serif", serif;
+  letter-spacing: 1.2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  margin-top: 1.5rem;
+  line-height: 1.2;  /* Mejor espaciado para múltiples líneas */
+}
+
+/* Ajustes para desktop */
+@media screen and (min-width: 1024px) {
+  h1.text-center {
+    font-size: 46px;  /* Más grande en desktop */
+    letter-spacing: 1.5px;
+  }
+}
+
+/* Estilo para el título del countdown */
+h1.font-poppins {
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.5px;  /* Espaciado más sutil */
+  line-height: 1.4;  /* Mejor espaciado entre líneas */
+}
+
+/* Estilo específico para los títulos del countdown */
+.countdown h1 {
+  font-size: 16px !important;
+}
+
+@media screen and (min-width: 1024px) {
+  .countdown h1 {
+    font-size: 20px !important;
+  }
+}
+

@@ -84,10 +84,10 @@ const Layout = () => {
                      subtitle={"Iglesia San Martin de Porres 💒"}
                      lineColorCode={"border-green"}
                   >
-                     2do anillo, Av. Roca y Coronado
+                     Av. Roca y Coronado
                   </InfoSection>
                   <Button
-                     buttonText={"¿Cómo llego?"}
+                     buttonText={"🗺️ ¿Cómo llego? 📍"}
                      colorCode={"bg-green"}
                      url={'church'}
                   />
@@ -101,13 +101,13 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={"Fiesta | 19:00 pm"}
-                     subtitle={"Salon de evento del primer dia... 🕺"}
+                     subtitle={"🎶 Recepción Social 🕺💃"}
                      lineColorCode={"border-green"}
                   >
-                     direccion del salon de eventos
+                     Av. Radial 13, Calle 5
                   </InfoSection>
                   <Button
-                     buttonText={"¿Cómo llego?"}
+                     buttonText={"🗺️ ¿Cómo llego? 📍"}
                      colorCode={"bg-green"}
                      url={'salon'}
                   />
@@ -126,7 +126,7 @@ const Layout = () => {
                   >
                      direccion de la finca                  </InfoSection>
                   <Button
-                     buttonText={"¿Cómo llego?"}
+                     buttonText={"🗺️ ¿Cómo llego? 📍"}
                      colorCode={"bg-green"}
                      url={'quinta'}
                   />

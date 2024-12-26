@@ -74,20 +74,26 @@ class FlipClock extends Component {
 	}
 
 	updateTime() {
-		// const targetDate = new Date(2025, 0, 25, 0, 0, 0);
-		const targetDate = new Date(2025, 0, 25, 17, 0, 0);
-
-		// Fecha actual
+		// Fecha objetivo: 25 de Enero 2025, 14:00 hora de Bolivia (UTC-4)
+		const targetDate = new Date(Date.UTC(2025, 0, 25, 18, 0, 0)); // 14:00 Bolivia = 18:00 UTC
+		
+		// Fecha actual en Bolivia
 		const currentDate = new Date();
-	
-		// Diferencia en milisegundos entre las dos fechas
-		const difference = targetDate - currentDate;
-		const months = Math.floor(difference / (1000 * 60 * 60 * 24 * 30.44)); // Promedio de días en un mes
-		const days = Math.floor(difference / (1000 * 60 * 60 * 24) % 30);
-		const hours = Math.floor(difference / (1000 * 60 * 60) % 24);
+		const boliviaOffset = -4 * 60; // UTC-4 en minutos
+		const localOffset = currentDate.getTimezoneOffset();
+		const totalOffset = (boliviaOffset + localOffset) * 60 * 1000; // Convertir a milisegundos
+		
+		// Diferencia en milisegundos entre las dos fechas, ajustada a hora Bolivia
+		const difference = targetDate - (currentDate.getTime() + totalOffset);
+		
+		// Cálculo corregido de meses y días (incluyendo el día 25)
+		const totalDays = Math.ceil(difference / (1000 * 60 * 60 * 24));
+		const months = Math.floor(totalDays / 30);
+		const days = Math.floor(totalDays % 30);
+		
+		const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
 		const minutes = Math.floor((difference / (1000 * 60)) % 60);
 		const seconds = Math.floor((difference / 1000) % 60);
-		
 
 		if (months !== this.state.months) {
 			const monthsShuffle = !this.state.monthsShuffle;
@@ -121,14 +127,13 @@ class FlipClock extends Component {
 
 		return (
 			<>
-				<h1 className="text-center text-white text-[27px] mt-2 drop-shadow-lg lg:text-[24px] font-bold">
-					La fecha de nuestra boda es:
+				<h1 className="text-center text-white !text-[20px] mt-2 drop-shadow-lg !lg:text-[24px] font-medium font-poppins">
+					Celebremos nuestra boda juntos este:
 				</h1>	
-				<h1 className="text-center text-white text-[27px] mt-2 drop-shadow-lg lg:text-[24px] font-bold">
+				<h1 className="text-center text-white !text-[55px] mt-2 drop-shadow-lg !lg:text-[38px] font-bold">
 					25 de Enero 2025
 				</h1>
 				<h5 className='text-xl text-center font-medium w-64 text-white tracking-wide mb-4 lg:text-2xl lg:pb-8'>
-					Faltan...
 				</h5>
 				<div className={'flipClock'}>
 					<FlipUnitContainer unit={'months'} digit={months} shuffle={monthsShuffle} />
