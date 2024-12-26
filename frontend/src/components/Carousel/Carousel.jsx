@@ -5,10 +5,10 @@ const Carousel = () => {
    const [loadedImages, setLoadedImages] = useState({});
 
    const imageFormats = {
-      1: '.jpeg',
-      2: '.jpeg',
-      3: '.jpeg',
-      4: '.jpeg',
+      1: '.jpg',
+      2: '.jpg',
+      3: '.jpg',
+      4: '.jpg',
       5: '.jpg'
    };
 

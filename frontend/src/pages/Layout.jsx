@@ -16,13 +16,15 @@ import ModalContainer from "../components/ModalContainer/ModalContainer"
 import ModalAccounts from "../components/ModalAccounts/ModalAccounts"
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm"
 import ModalWeather from "../components/ModalWeather/ModalWeather"
+import ModalHistory from "../components/ModalHistory/ModalHistory"
+
 import SectionContainer from "../components/SectionContainer/SectionContainer"
 import SectionContainerElement from "../components/SectionContainerElement/SectionContainerElement"
 
 
 const Layout = () => {
 
-   const { modal, confirmationModal, weatherModal, sent } = useContext(ModalContext);
+   const { modal, confirmationModal, weatherModal, sent, isHistoryModalOpen} = useContext(ModalContext);
 
    return (
       <div className={` relative flex flex-col items-center overflow-hidden
@@ -44,6 +46,9 @@ const Layout = () => {
             <ModalConfirm />
          </ModalContainer>
 
+         <ModalContainer isOpen={ isHistoryModalOpen }>
+            <ModalHistory />
+         </ModalContainer>
 
          {/* 1° Portrait Section --------------------------------------- */}
          <section className="relative flex flex-col items-center w-full h-[100vh] text-sm bg-cream pt-8 px-8 overflow-hidden z-20">
@@ -114,7 +119,7 @@ const Layout = () => {
                </SectionContainerElement>
 
                {/* Finca donde sera la fiesta ---------- */}
-                              <SectionContainerElement>
+                              {/* <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/music-icon.png"}
                      alt={"Icono música"}
@@ -130,7 +135,7 @@ const Layout = () => {
                      colorCode={"bg-green"}
                      url={'quinta'}
                   />
-               </SectionContainerElement>
+               </SectionContainerElement> */}
 
                {/* Present section (only Desktop) ----------
                <SectionContainerElement mobileView={ 'off' }>
@@ -167,7 +172,7 @@ const Layout = () => {
             <SectionContainer>
 
                {/* Dress section ---------- */}
-               {/* <SectionContainerElement>
+               <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/dress-icon.png"}
                      alt={"Icono vestimenta"}
@@ -175,10 +180,12 @@ const Layout = () => {
                   />
                   <div className="flex flex-col items-center">
                      <InfoSection
-                        header={'¿Qué me pongo?'}
-                        subtitle={'Dresscode: Vos metele facha y comodidad porque, oxidados o no, vamos a bailar.'}
+                        header={'¿Qué puedo vestir?'}
+                        subtitle={'Código de Vestimenta'}
                         lineColorCode={'border-mustard'}
                      >
+                        ✨ Formal para la ceremonia y elegante para la recepción.
+                        Elige lo que te haga sentir cómodo/a y espectacular. 👗🤵🎉
                      </InfoSection>
                      <Button
                         buttonText={'Mirá el clima'}
@@ -186,7 +193,7 @@ const Layout = () => {
                         action={'openWeatherModal'}
                      />
                   </div>
-               </SectionContainerElement> */}
+               </SectionContainerElement>
 
                {/* Music section ---------- */}
                {/* <SectionContainerElement>
@@ -207,6 +214,31 @@ const Layout = () => {
                      url={'spotify'}
                   />
                </SectionContainerElement> */}
+
+               {/* HISTORY section ---------- */}
+               <SectionContainerElement>
+                  <ImageComponent
+                     src={"/assets/images/heart-icon.png"}
+                     alt={"Icono historia"}
+                     margin={"disabled"}
+                  />
+                  <div className="flex flex-col items-center">
+                     <InfoSection
+                        header={'Nuestra historia ❤️💑'}
+                        subtitle={''}
+                        lineColorCode={'border-mustard'}
+                     >
+                        Cada gran amor tiene un inicio especial. 
+                        ❤️ Descubre cómo empezó el nuestro y acompáñanos en este recorrido lleno de momentos inolvidables.
+                         ¡Te encantará conocer más! 🌟
+                     </InfoSection>
+                     <Button
+                        buttonText={'Conoce nuestra historia'}
+                        colorCode={'bg-mustard'}
+                        action={'openHistoryModal'}
+                     />
+                  </div>
+               </SectionContainerElement>
 
                {/* Confirmation section (only Desktop) ---------- */}
                <SectionContainerElement mobileView={ 'off' }>
@@ -241,6 +273,30 @@ const Layout = () => {
 
             {/* Confirmation and present container ---------- */}
             <SectionContainer>
+                {/* Present section ---------- */}
+                {/* Solo es visible desde una computadora, no desde movil
+                desktopView={ 'off' } */}
+                <SectionContainerElement desktopView={ 'off' }>
+                  <ImageComponent
+                     src={"/assets/images/plane-icon.png"}
+                     alt={"plane icon"}
+                  />
+                  <InfoSection
+                     header={"Regalo de Corazón ❤️🎁"}
+                     lineColorCode={"border-mustard"}
+                     textColorCode={"text-gray-dark"}
+                  >
+Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo con una donación para ayudarnos a comenzar esta nueva etapa. ¡Gracias por ser parte de nuestra historia! 🎁💌
+
+                  </InfoSection>
+                  <Button
+                     buttonText={'Ver información'}
+                     
+                     colorCode={'bg-green'}
+                     url={false}
+                     action={'openInfoModal'}
+                  />
+               </SectionContainerElement>
 
                {/* Confirmation section ---------- */}
                <SectionContainerElement desktopView={ 'off' }>
@@ -265,30 +321,7 @@ const Layout = () => {
                   />
                </SectionContainerElement>
 
-               {/* Present section ---------- */}
-               {/* <SectionContainerElement desktopView={ 'off' }>
-                  <ImageComponent
-                     src={"/assets/images/plane-icon.png"}
-                     alt={"plane icon"}
-                  />
-                  <InfoSection
-                     header={"¿Qué les regalo?"}
-                     lineColorCode={"border-mustard"}
-                     textColorCode={"text-gray-dark"}
-                  >
-                     ¿El mejor regalo? tu presencia,
-                     pero si querés ayudarnos a cumplir
-                     un sueño hacé click en el botón.
-
-                  </InfoSection>
-                  <Button
-                     buttonText={'Ver información'}
-                     
-                     colorCode={'bg-green'}
-                     url={false}
-                     action={'openInfoModal'}
-                  />
-               </SectionContainerElement> */}
+              
 
             </SectionContainer>
 

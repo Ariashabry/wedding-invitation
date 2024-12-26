@@ -10,8 +10,8 @@ const ModalWeather = () => {
    const [ formatDate, setFormatDate ] = useState('')
    const { setWeatherModal } = useContext(ModalContext);
 
-   const handleWeather = () => {
-      axios.get(`https://api.weatherapi.com/v1/current.json?q=Mendoza&lang=es&key=${import.meta.env.VITE_REACT_APP_WEATHER_API_KEY}`)
+   const handleWeather = (location = 'Santa Cruz') => { // prime axios
+      axios.get(`https://api.weatherapi.com/v1/current.json?q=${location}&lang=es&key=${import.meta.env.VITE_REACT_APP_WEATHER_API_KEY}`)
          .then((response) => {
             console.log('Response:', response.data);
             setLocalWeather(response.data)
@@ -42,6 +42,7 @@ const ModalWeather = () => {
    }
 
    const handleFutureWeather = () => {
+      // segundo axios
       axios.get(`https://api.weatherapi.com/v1/forecast.json?q=Mendoza&dt=${formatDate}&lang=es&key=${import.meta.env.VITE_REACT_APP_WEATHER_API_KEY}`)
          .then((response) => {
             console.log('Response:', response.data);
@@ -53,7 +54,7 @@ const ModalWeather = () => {
    }
 
    useEffect(() => {
-      handleWeather()
+      handleWeather('Santa Cruz')
       handleFutureWeather()
       fechaActual()
    }, [])
@@ -128,9 +129,13 @@ const ModalWeather = () => {
 
          </main>
 
-         <footer className='h-[8vh] bg-green flex items-center justify-center rounded-b-md'>
-            <img src="./assets/images/cbu-footer.png" alt="" className=" h-3/6" />
-         </footer>
+         <footer className='h-[8vh] bg-green flex flex-col items-center justify-center rounded-b-md'>
+        <div className="w-full border-t border-white my-2"></div>
+        <p className="text-white text-lg font-serif italic">A & N</p>
+        <div className="w-full border-t border-white my-2"></div>
+      </footer>
+         
+         
 
       </div>
    )
