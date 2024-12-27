@@ -70,9 +70,10 @@ const Layout = () => {
 
             <Countdown />
             <Button
-               buttonText={ 'Agendar' }
+               buttonText={ '🗓️ Agendar' }
                colorCode={"bg-green"}
                url={'calendar'}
+               className="clickable"
             />
 
             {/* Church and party container ---------- */}
@@ -85,14 +86,14 @@ const Layout = () => {
                      alt={"church icon"}
                   />
                   <InfoSection
-                     header={"Ceremonia | 14:00 pm"}
-                     subtitle={"Iglesia San Martin de Porres 💒"}
+                     header={"Ceremonia Religiosa | 14:00 pm"}
+                     subtitle={"💒 Iglesia San Martin de Porres"}
                      lineColorCode={"border-green"}
                   >
                      Av. Roca y Coronado
                   </InfoSection>
                   <Button
-                     buttonText={"🗺️ ¿Cómo llego? 📍"}
+                     buttonText={"🗺️ ¿Cómo llego?"}
                      colorCode={"bg-green"}
                      url={'church'}
                   />
@@ -105,14 +106,14 @@ const Layout = () => {
                      alt={"Icono música"}
                   />
                   <InfoSection
-                     header={"Fiesta | 19:00 pm"}
-                     subtitle={"🎶 Recepción Social 🕺💃"}
+                     header={"Matrimonio Civil y Recepción Social | 6:00 pm"}
+                     subtitle={"📜 🕺💃 Salón de eventos Elianne 2"}
                      lineColorCode={"border-green"}
                   >
-                     Av. Radial 13, Calle 5
+                     Av. Radial 13, Calle 5 Entre 3er y 4to Anillo
                   </InfoSection>
                   <Button
-                     buttonText={"🗺️ ¿Cómo llego? 📍"}
+                     buttonText={"🗺️ ¿Cómo llego?"}
                      colorCode={"bg-green"}
                      url={'salon'}
                   />
