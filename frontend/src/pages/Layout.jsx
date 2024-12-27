@@ -24,7 +24,7 @@ import SectionContainerElement from "../components/SectionContainerElement/Secti
 
 const Layout = () => {
 
-   const { modal, confirmationModal, weatherModal, sent, isHistoryModalOpen} = useContext(ModalContext);
+   const { modal, confirmationModal, weatherModal, sent, isHistoryModalOpen } = useContext(ModalContext);
 
    return (
       <div className={` relative flex flex-col items-center overflow-hidden
@@ -34,19 +34,19 @@ const Layout = () => {
          <ButtonGift />
 
          {/* Modals --------------------------------------- */}
-         <ModalContainer isOpen={ modal }>
+         <ModalContainer isOpen={modal}>
             <ModalAccounts />
          </ModalContainer>
-         
-         <ModalContainer isOpen={ weatherModal }>
+
+         <ModalContainer isOpen={weatherModal}>
             <ModalWeather />
          </ModalContainer>
-         
-         <ModalContainer isOpen={ confirmationModal }>
+
+         <ModalContainer isOpen={confirmationModal}>
             <ModalConfirm />
          </ModalContainer>
 
-         <ModalContainer isOpen={ isHistoryModalOpen }>
+         <ModalContainer isOpen={isHistoryModalOpen}>
             <ModalHistory />
          </ModalContainer>
 
@@ -70,7 +70,7 @@ const Layout = () => {
 
             <Countdown />
             <Button
-               buttonText={ 'Agendar' }
+               buttonText={'Agendar'}
                colorCode={"bg-green"}
                url={'calendar'}
             />
@@ -97,7 +97,7 @@ const Layout = () => {
                      url={'church'}
                   />
                </SectionContainerElement>
-            
+
                {/* Salon de eventos ---------- */}
                <SectionContainerElement>
                   <ImageComponent
@@ -119,7 +119,7 @@ const Layout = () => {
                </SectionContainerElement>
 
                {/* Finca donde sera la fiesta ---------- */}
-                              {/* <SectionContainerElement>
+               {/* <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/music-icon.png"}
                      alt={"Icono música"}
@@ -181,14 +181,14 @@ const Layout = () => {
                   <div className="flex flex-col items-center">
                      <InfoSection
                         header={'¿Qué puedo vestir?'}
-                        subtitle={'Código de Vestimenta'}
+                        subtitle={''}
                         lineColorCode={'border-mustard'}
                      >
-                        ✨ Formal para la ceremonia y elegante para la recepción.
-                        Elige lo que te haga sentir cómodo/a y espectacular. 👗🤵🎉
+
+Formal para la ceremonia y elegante para la recepción. Elige algo cómodo y espectacular. ✨
                      </InfoSection>
                      <Button
-                        buttonText={'Mirá el clima'}
+                        buttonText={'Mirá el clima ⛅'}
                         colorCode={'bg-mustard'}
                         action={'openWeatherModal'}
                      />
@@ -224,14 +224,12 @@ const Layout = () => {
                   />
                   <div className="flex flex-col items-center">
                      <InfoSection
-                        header={'Nuestra historia ❤️💑'}
+                        header={'Nuestra historia'}
                         subtitle={''}
                         lineColorCode={'border-mustard'}
                      >
-                        Cada gran amor tiene un inicio especial. 
-                        ❤️ Descubre cómo empezó el nuestro y acompáñanos en este recorrido lleno de momentos inolvidables.
-                         ¡Te encantará conocer más! 🌟
-                     </InfoSection>
+                        Cada amor tiene un inicio especial. Descubre cómo comenzó el nuestro. 🌟                     
+                        </InfoSection>
                      <Button
                         buttonText={'Conoce nuestra historia'}
                         colorCode={'bg-mustard'}
@@ -241,7 +239,7 @@ const Layout = () => {
                </SectionContainerElement>
 
                {/* Confirmation section (only Desktop) ---------- */}
-               <SectionContainerElement mobileView={ 'off' }>
+               <SectionContainerElement mobileView={'off'}>
                   <ImageComponent
                      src={"/assets/images/confirm-icon.png"}
                      alt={"Icono confimación"}
@@ -251,12 +249,11 @@ const Layout = () => {
                      header={'¿Asistiras a nuestra boda?'}
                      lineColorCode={'border-blue'}
                   >
-                     Tu presencia es muy importante para nosotros. Por favor, confirma si podrás acompañarnos y también cuántos serán tus acompañantes. ¡Te esperamos! 💌✨
-
+Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
                   <Button
-                     buttonText={'Confirmar asistencia'}
-                     
+                     buttonText={'Confirmar asistencia 📝'}
+
                      colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
                   />
@@ -273,10 +270,10 @@ const Layout = () => {
 
             {/* Confirmation and present container ---------- */}
             <SectionContainer>
-                {/* Present section ---------- */}
-                {/* Solo es visible desde una computadora, no desde movil
+               {/* Present section ---------- */}
+               {/* Solo es visible desde una computadora, no desde movil
                 desktopView={ 'off' } */}
-                {/* <SectionContainerElement desktopView={ 'off' }>
+               {/* <SectionContainerElement desktopView={ 'off' }>
                   <ImageComponent
                      src={"/assets/images/plane-icon.png"}
                      alt={"plane icon"}
@@ -298,8 +295,8 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                   />
                </SectionContainerElement> */}
 
-               {/* Confirmation section ---------- */}
-               <SectionContainerElement desktopView={ 'off' }>
+               {/* Confirmation section ---------- only mobile*/}
+               <SectionContainerElement desktopView={'off'}>
                   <ImageComponent
                      src={"/assets/images/confirm-icon.png"}
                      alt={"Icono confimación"}
@@ -309,19 +306,17 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                      header={'¿Asistiras a nuestra boda?'}
                      lineColorCode={'border-blue'}
                      textColorCode={'text-gray-dark'}
-                  >
-                     Tu presencia es muy importante para nosotros. Por favor, confirma si podrás acompañarnos y también cuántos serán tus acompañantes. ¡Te esperamos! 💌✨
-
+                  >Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
                   <Button
-                     buttonText={ sent ? 'Formulario enviado' : 'Confirmar asistencia' }
-                     disabled={ sent }
+                     buttonText={sent ? 'Formulario enviado' : 'Confirmar asistencia 📝'}
+                     disabled={sent}
                      colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
                   />
                </SectionContainerElement>
 
-              
+
 
             </SectionContainer>
 
