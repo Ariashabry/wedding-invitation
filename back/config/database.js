@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 let uri_link = process.env.MONGO;
+console.log('Connection string:', uri_link);
 
 mongoose.connect(uri_link)
    .then(() => {
@@ -9,4 +13,3 @@ mongoose.connect(uri_link)
    .catch((err) => {
       console.log(err)
    })
-

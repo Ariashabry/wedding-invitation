@@ -6,25 +6,59 @@
 
 :root {
   font-family: "Poppins", sans-serif;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --cream: #EAE8E4;
-  --gray-dark: #404040;
-  --gray-light: #E3E0D9;
-  --green: #5D7551;
-  --green-dark: #5F7752;
-  --mustard: #C49F5F;
-  --red: #C44848;
-  --white: #FFF;
+  /* Paleta Principal */
+  --primary-blue: #002B5B;    /* Azul marino - Color principal */
+  --primary-gold: #C49F5F;    /* Dorado - Color de acento */
+  --primary-cream: #F5F5F5;   /* Blanco/Beige - Color de fondo */
+
+  /* Variaciones de los colores principales */
+  --blue-dark: #001F43;       /* Variación oscura del azul */
+  --blue-light: #003875;      /* Variación clara del azul */
+  --gold-dark: #A88544;       /* Variación oscura del dorado */
+  --gold-light: #D4B77C;      /* Variación clara del dorado */
+  --cream-dark: #EAE8E4;      /* Variación oscura del cream */
+  
+  /* Colores de utilidad */
+  --white: #FFFFFF;
+  --black: #000000;
 }
 
-/* #root{
-  width: 100vw;
-} */
+/* Mantener la implementación existente de la transición */
+.wave-shape-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: 10;
+}
+
+.wave-shape-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+  transform: rotateY(180deg);
+}
+
+.wave-shape-divider .shape-fill {
+  fill: var(--primary-blue);
+}
+
+.bg-blue {
+  background-color: var(--primary-blue) !important;
+}
+
+.bg-cream {
+  background-color: var(--primary-cream) !important;
+}
 
 @keyframes fadeIn {
   from {
@@ -43,9 +77,57 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--primary-blue);
+    background-color: var(--white);
   }
+}
 
+@media screen and (max-width: 768px) {
+  .wave-shape-divider svg {
+    height: 100px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .wave-shape-divider svg {
+    height: 70px;
+  }
+}
+
+/* Estilo para el título introductorio */
+h1.text-center {
+  font-size: 42px;  /* Más grande en mobile */
+  font-family: "Young Serif", serif;
+  letter-spacing: 1.2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  margin-top: 1.5rem;
+  line-height: 1.2;  /* Mejor espaciado para múltiples líneas */
+}
+
+/* Ajustes para desktop */
+@media screen and (min-width: 1024px) {
+  h1.text-center {
+    font-size: 46px;  /* Más grande en desktop */
+    letter-spacing: 1.5px;
+  }
+}
+
+/* Estilo para el título del countdown */
+h1.font-poppins {
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.5px;  /* Espaciado más sutil */
+  line-height: 1.4;  /* Mejor espaciado entre líneas */
+}
+
+/* Estilo específico para los títulos del countdown */
+.countdown h1 {
+  font-size: 16px !important;
+}
+
+@media screen and (min-width: 1024px) {
+  .countdown h1 {
+    font-size: 20px !important;
+  }
 }
 

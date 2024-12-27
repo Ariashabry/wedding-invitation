@@ -28,14 +28,14 @@ const ButtonGift = () => {
 
    return (
       <button 
-         onClick={ handleClick }
+         // onClick={ handleClick }
          className={`unselectable fixed h-12 w-12 z-50 top-[10px] right-[30px]
             transition-all duration-300 ease-in-out hover:scale-110 active:scale-95
             lg:top-6 lg:right-40
             ${ ringMovement && 'phone' }`
          }
       >
-         <section className='relative'>
+         {/* <section className='relative'>
             <img src="/assets/images/gift-icon.png" alt="Heart icon" className='absolute top-0 left-0 drop-shadow-md' />
             {
                clicked &&
@@ -44,7 +44,7 @@ const ButtonGift = () => {
                   <span className="relative -top-1 -left-1 rounded-full h-3 w-3 bg-mustard"></span>
                </span>  
             }
-         </section> 
+         </section>  */}
       </button>
    )
 }

@@ -16,13 +16,15 @@ import ModalContainer from "../components/ModalContainer/ModalContainer"
 import ModalAccounts from "../components/ModalAccounts/ModalAccounts"
 import ModalConfirm from "../components/ModalConfirm/ModalConfirm"
 import ModalWeather from "../components/ModalWeather/ModalWeather"
+import ModalHistory from "../components/ModalHistory/ModalHistory"
+
 import SectionContainer from "../components/SectionContainer/SectionContainer"
 import SectionContainerElement from "../components/SectionContainerElement/SectionContainerElement"
 
 
 const Layout = () => {
 
-   const { modal, confirmationModal, weatherModal, sent } = useContext(ModalContext);
+   const { modal, confirmationModal, weatherModal, sent, isHistoryModalOpen } = useContext(ModalContext);
 
    return (
       <div className={` relative flex flex-col items-center overflow-hidden
@@ -32,18 +34,21 @@ const Layout = () => {
          <ButtonGift />
 
          {/* Modals --------------------------------------- */}
-         <ModalContainer isOpen={ modal }>
+         <ModalContainer isOpen={modal}>
             <ModalAccounts />
          </ModalContainer>
-         
-         <ModalContainer isOpen={ weatherModal }>
+
+         <ModalContainer isOpen={weatherModal}>
             <ModalWeather />
          </ModalContainer>
-         
-         <ModalContainer isOpen={ confirmationModal }>
+
+         <ModalContainer isOpen={confirmationModal}>
             <ModalConfirm />
          </ModalContainer>
 
+         <ModalContainer isOpen={isHistoryModalOpen}>
+            <ModalHistory />
+         </ModalContainer>
 
          {/* 1° Portrait Section --------------------------------------- */}
          <section className="relative flex flex-col items-center w-full h-[100vh] text-sm bg-cream pt-8 px-8 overflow-hidden z-20">
@@ -51,16 +56,21 @@ const Layout = () => {
             <Portrait />
             <MainHeadline />
             <Arrows />
-            <CurvedTopSection bgColor={"bg-mustard"} />
+            <CurvedTopSection bgColor={"bg-blue"} />
+            <div className="wave-shape-divider">
+               <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                  <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
+               </svg>
+            </div>
          </section>
 
          {/* 2° Countdown, maps and schelude section --------------------------------------- */}
-         <section className="relative flex flex-col items-center justify-center w-full bg-mustard h-fit px-8 pb-4 z-30
+         <section className="relative flex flex-col items-center justify-center w-full bg-blue h-fit px-8 pb-4 z-30
             lg:px-8 lg:pb-20">
 
             <Countdown />
             <Button
-               buttonText={ 'Agendar' }
+               buttonText={'Agendar'}
                colorCode={"bg-green"}
                url={'calendar'}
             />
@@ -75,20 +85,20 @@ const Layout = () => {
                      alt={"church icon"}
                   />
                   <InfoSection
-                     header={"Ceremonia | 17:00 pm"}
-                     subtitle={"Nuestra Señora del Perpetuo Socorro"}
+                     header={"Ceremonia | 14:00 pm"}
+                     subtitle={"Iglesia San Martin de Porres 💒"}
                      lineColorCode={"border-green"}
                   >
-                     Mazzolari 1 | Chacras de Coria, Mendoza
+                     Av. Roca y Coronado
                   </InfoSection>
                   <Button
-                     buttonText={"¿Cómo llego?"}
+                     buttonText={"🗺️ ¿Cómo llego? 📍"}
                      colorCode={"bg-green"}
                      url={'church'}
                   />
                </SectionContainerElement>
 
-               {/* Party section ---------- */}
+               {/* Salon de eventos ---------- */}
                <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/music-icon.png"}
@@ -96,19 +106,38 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={"Fiesta | 19:00 pm"}
-                     subtitle={"Finca AMproS"}
+                     subtitle={"🎶 Recepción Social 🕺💃"}
                      lineColorCode={"border-green"}
                   >
-                     C. Pescara, Cruz de Piedra, Maipú, Mendoza
+                     Av. Radial 13, Calle 5
                   </InfoSection>
                   <Button
-                     buttonText={"¿Cómo llego?"}
+                     buttonText={"🗺️ ¿Cómo llego? 📍"}
                      colorCode={"bg-green"}
                      url={'salon'}
                   />
                </SectionContainerElement>
 
-               {/* Present section (only Desktop) ---------- */}
+               {/* Finca donde sera la fiesta ---------- */}
+               {/* <SectionContainerElement>
+                  <ImageComponent
+                     src={"/assets/images/music-icon.png"}
+                     alt={"Icono música"}
+                  />
+                  <InfoSection
+                     header={"Fiesta del segundo dia!"}
+                     subtitle={"La fiesta continua en la quinta ... 🕺"}
+                     lineColorCode={"border-green"}
+                  >
+                     direccion de la finca                  </InfoSection>
+                  <Button
+                     buttonText={"🗺️ ¿Cómo llego? 📍"}
+                     colorCode={"bg-green"}
+                     url={'quinta'}
+                  />
+               </SectionContainerElement> */}
+
+               {/* Present section (only Desktop) ----------
                <SectionContainerElement mobileView={ 'off' }>
                   <ImageComponent
                      src={"/assets/images/plane-icon.png"}
@@ -127,7 +156,7 @@ const Layout = () => {
                      url={false}
                      action={'openInfoModal'}
                   />
-               </SectionContainerElement>
+               </SectionContainerElement> */}
 
 
             </SectionContainer>
@@ -137,7 +166,7 @@ const Layout = () => {
          {/* 3° Music & clothes section --------------------------------------- */}
          <section className="relative flex flex-col items-center w-full h-fit text-sm bg-green px-8 pt-20 pb-32 z-20
             lg:pb-40">
-            <CurvedBottomSection bgColor={"bg-mustard"} />
+            <CurvedBottomSection bgColor={"bg-blue"} />
 
             {/* Dress and music container ---------- */}
             <SectionContainer>
@@ -151,13 +180,15 @@ const Layout = () => {
                   />
                   <div className="flex flex-col items-center">
                      <InfoSection
-                        header={'¿Qué me pongo?'}
-                        subtitle={'Dresscode: Vos metele facha y comodidad porque, oxidados o no, vamos a bailar.'}
+                        header={'¿Qué puedo vestir?'}
+                        subtitle={''}
                         lineColorCode={'border-mustard'}
                      >
+
+Formal para la ceremonia y elegante para la recepción. Elige algo cómodo y espectacular. ✨
                      </InfoSection>
                      <Button
-                        buttonText={'Mirá el clima'}
+                        buttonText={'Mirá el clima ⛅'}
                         colorCode={'bg-mustard'}
                         action={'openWeatherModal'}
                      />
@@ -165,7 +196,7 @@ const Layout = () => {
                </SectionContainerElement>
 
                {/* Music section ---------- */}
-               <SectionContainerElement>
+               {/* <SectionContainerElement>
                   <ImageComponent
                      src={"/assets/images/dance-icon.png"}
                      alt={"Icono baile"}
@@ -182,27 +213,47 @@ const Layout = () => {
                      colorCode={"bg-mustard"}
                      url={'spotify'}
                   />
+               </SectionContainerElement> */}
+
+               {/* HISTORY section ---------- */}
+               <SectionContainerElement>
+                  <ImageComponent
+                     src={"/assets/images/heart-icon.png"}
+                     alt={"Icono historia"}
+                     margin={"disabled"}
+                  />
+                  <div className="flex flex-col items-center">
+                     <InfoSection
+                        header={'Nuestra historia'}
+                        subtitle={''}
+                        lineColorCode={'border-mustard'}
+                     >
+                        Cada amor tiene un inicio especial. Descubre cómo comenzó el nuestro. 🌟                     
+                        </InfoSection>
+                     <Button
+                        buttonText={'Conoce nuestra historia'}
+                        colorCode={'bg-mustard'}
+                        action={'openHistoryModal'}
+                     />
+                  </div>
                </SectionContainerElement>
 
                {/* Confirmation section (only Desktop) ---------- */}
-               <SectionContainerElement mobileView={ 'off' }>
+               <SectionContainerElement mobileView={'off'}>
                   <ImageComponent
                      src={"/assets/images/confirm-icon.png"}
                      alt={"Icono confimación"}
                      margin={"disabled"}
                   />
                   <InfoSection
-                     header={'¿Hay equipo?'}
-                     lineColorCode={'border-mustard'}
+                     header={'¿Asistiras a nuestra boda?'}
+                     lineColorCode={'border-blue'}
                   >
-                     Esperamos que puedas acompañarnos.
-                     PD: Si no confirmás nos dolerá
-                     el bolsillo (y el alma).
-
+Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
                   <Button
-                     buttonText={'Confirmar asistencia'}
-                     
+                     buttonText={'Confirmar asistencia 📝'}
+
                      colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
                   />
@@ -219,46 +270,20 @@ const Layout = () => {
 
             {/* Confirmation and present container ---------- */}
             <SectionContainer>
-
-               {/* Confirmation section ---------- */}
-               <SectionContainerElement desktopView={ 'off' }>
-                  <ImageComponent
-                     src={"/assets/images/confirm-icon.png"}
-                     alt={"Icono confimación"}
-                     margin={"disabled"}
-                  />
-                  <InfoSection
-                     header={'¿Hay equipo?'}
-                     lineColorCode={'border-mustard'}
-                     textColorCode={'text-gray-dark'}
-                  >
-                     Esperamos que puedas acompañarnos.
-                     PD: Si no confirmás nos dolerá
-                     el bolsillo (y el alma).
-
-                  </InfoSection>
-                  <Button
-                     buttonText={ sent ? 'Formulario enviado' : 'Confirmar asistencia' }
-                     disabled={ sent }
-                     colorCode={'bg-green'}
-                     action={'openConfirmationModal'}
-                  />
-               </SectionContainerElement>
-
                {/* Present section ---------- */}
-               <SectionContainerElement desktopView={ 'off' }>
+               {/* Solo es visible desde una computadora, no desde movil
+                desktopView={ 'off' } */}
+               {/* <SectionContainerElement desktopView={ 'off' }>
                   <ImageComponent
                      src={"/assets/images/plane-icon.png"}
                      alt={"plane icon"}
                   />
                   <InfoSection
-                     header={"¿Qué les regalo?"}
+                     header={"Regalo de Corazón ❤️🎁"}
                      lineColorCode={"border-mustard"}
                      textColorCode={"text-gray-dark"}
                   >
-                     ¿El mejor regalo? tu presencia,
-                     pero si querés ayudarnos a cumplir
-                     un sueño hacé click en el botón.
+Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo con una donación para ayudarnos a comenzar esta nueva etapa. ¡Gracias por ser parte de nuestra historia! 🎁💌
 
                   </InfoSection>
                   <Button
@@ -268,7 +293,30 @@ const Layout = () => {
                      url={false}
                      action={'openInfoModal'}
                   />
+               </SectionContainerElement> */}
+
+               {/* Confirmation section ---------- only mobile*/}
+               <SectionContainerElement desktopView={'off'}>
+                  <ImageComponent
+                     src={"/assets/images/confirm-icon.png"}
+                     alt={"Icono confimación"}
+                     margin={"disabled"}
+                  />
+                  <InfoSection
+                     header={'¿Asistiras a nuestra boda?'}
+                     lineColorCode={'border-blue'}
+                     textColorCode={'text-gray-dark'}
+                  >Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
+                  </InfoSection>
+                  <Button
+                     buttonText={sent ? 'Formulario enviado' : 'Confirmar asistencia 📝'}
+                     disabled={sent}
+                     colorCode={'bg-mustard'}
+                     action={'openConfirmationModal'}
+                  />
                </SectionContainerElement>
+
+
 
             </SectionContainer>
 
