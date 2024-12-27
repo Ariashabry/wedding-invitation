@@ -18,10 +18,10 @@ const initialFormState = {
    childrens: 'false',
    childrensQuantity: 0,
    assistChurch: false,
-   dietaryRestrictions: 'false',
-   dietaryRestrictionsIndications: '',
-   otherFoodPreference: '',
-   message: '',
+   // dietaryRestrictions: 'false',
+   // dietaryRestrictionsIndications: '',
+   // otherFoodPreference: '',
+   // message: '',
 };
 
 const ModalConfirm = () => {
@@ -120,23 +120,24 @@ const handlePartnerNameChange = ( index, value ) => {
       };
 
       console.log(formData);
+      // https://back-alexticlla-familia-b86c04df.vercel.app/?vercelToolbarCode=oTba5_erL4c31gB#
       // https://back-smoky-pi.vercel.app/api/guests
       // http://localhost:5000/api/guests
       axios
-      .post('https://back-smoky-pi.vercel.app/api/guests', formData)
+      .post('https://back-alexticlla-familia-b86c04df.vercel.app/?vercelToolbarCode=oTba5_erL4c31gB#/api/guests', formData)
       .then((response) => {
          console.log('Response:', response.data);
          if (formData.assist !== "false") {
             showConfirmation(
-               '¡Es un si! 💜', 
-               'Te esperamos para compartir y darlo todo con nosotros.', 
-               'Formulario enviado con éxito!'
+               '¡Gracias por Confirmar!', 
+               'Estamos felices de saber que nos acompañarás en este día tan especial.', 
+               '🎉 Tu confirmación ha sido enviada con éxito. ¡Nos vemos pronto para celebrar juntos! ❤️✨'
             );
             setSent(true);
          } else {
             showConfirmation(
                '¡Te vamos a extrañar!', 
-               'pero creemos que la energía lo atraviesa todo así que igualmente ahí estarás con nosotros ✨.', 
+               'Lamentamos que no puedas acompañarnos en este día tan especial. ❤️ Sabemos que estarás con nosotros en pensamiento y corazón. ¡Gracias por hacérnoslo saber! ✨', 
                'Formulario enviado con éxito!'
             );
             setSent(true);
@@ -145,7 +146,7 @@ const handlePartnerNameChange = ( index, value ) => {
       .catch((error) => {
          console.error('Error:', error);
          showConfirmation(
-            'Ups!', 
+            'Error al enviar el formulario!', 
             'Algo salió mal.', 
             'El formulario no se ha enviado'
             );
@@ -173,7 +174,7 @@ const handlePartnerNameChange = ( index, value ) => {
                <span className="text-base font-light ">Hay que enviar un solo formulario por pareja, grupo familiar o individual, si te llegó a ti es porque es tu función 😉 
                   <br></br> ¡Esperamos que nos acompañes!
                </span>
-               <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>*</span> son obligatorios )</span>
+               <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>(obligatorio)</span> son obligatorios )</span>
             </section>
 
             <form onClick={ handleArrowBehavior } className="mt-4 flex flex-col gap-4 text-left">
@@ -186,7 +187,7 @@ const handlePartnerNameChange = ( index, value ) => {
                      <div className="section-header">
                         <h3>
                            Nombre completo
-                           <span className='section-required'>*</span>
+                           <span className='section-required text-red'>(obligatorio)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180' }` } fontSize='medium' /> 
                      </div>
@@ -213,8 +214,8 @@ const handlePartnerNameChange = ( index, value ) => {
                   <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
                      <div className="section-header">
                         <h3>
-                           Teléfono
-                           <span className='section-required'>*</span>
+                           Teléfono ☎️
+                           <span className='section-required text-red'>(obligatorio)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180' }` } fontSize='medium' /> 
                      </div>
@@ -242,8 +243,8 @@ const handlePartnerNameChange = ( index, value ) => {
                   <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-52">
                   <div className="section-header">
                      <h3>
-                        Confirmación
-                        <span className='section-required'>*</span>
+                        Confirmación ✅
+                        <span className='section-required text-red'>(obligatorio)</span>
                      </h3>
                      <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'assist') && 'rotate-180' }` } fontSize='medium' /> 
                   </div>
@@ -256,7 +257,7 @@ const handlePartnerNameChange = ( index, value ) => {
                               value={true}
                               onChange={handleChange}
                               className="section-input-radio"
-                           />YENDO 🚀
+                           />ASISTIRÉ 🚀
                         </label>
                         <label className="section-label-radio">
                            <input
@@ -278,8 +279,8 @@ const handlePartnerNameChange = ( index, value ) => {
                   <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-fit">
                      <div className="section-header">
                         <h3>
-                           Acompañante/s
-                           <span className='section-required'>*</span>
+                           Acompañante/s 🧑‍🤝‍🧑
+                           <span className='section-required text-red'>(obligatorio)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180' }` } fontSize='medium' /> 
                      </div>
@@ -337,11 +338,11 @@ const handlePartnerNameChange = ( index, value ) => {
                   <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-72">
                      <div className="section-header">
                         <h3>
-                           Niños
+                           Niños 👶
                         </h3>
                         <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180' }` } fontSize='medium' /> 
                      </div>
-                     <h3 className="text-sm font-medium mb-4">¿Venís con niños que sean mayores a 4 años? Necesitamos agregarlos a la lista.</h3>
+                     <h3 className="text-sm font-medium mb-4">Por su seguridad y comodidad, recomendamos considerar si es adecuado que los pequeños asistan, ya que habrá bebidas alcohólicas. Si deciden traerlos, asegúrense de incluirlos en la lista. 👶🍷✨</h3>
                      <div className="section-label-text">
                         <div className='flex gap-4'>
                            <label htmlFor="childrensConfirm" className='flex gap-2 cursor-pointer'>Si
@@ -387,8 +388,8 @@ const handlePartnerNameChange = ( index, value ) => {
                   <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-52">
                      <div className="section-header">
                         <h3>
-                           Iglesia
-                           <span className='section-required'>*</span>
+                           Iglesia 💒
+                           <span className='section-required text-red'>(obligatorio)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'assist_church') && 'rotate-180' }` } fontSize='medium' /> 
                      </div>
@@ -400,7 +401,7 @@ const handlePartnerNameChange = ( index, value ) => {
                               value={ true }
                               onChange={ handleChange }
                               className="section-input-radio"
-                           />Sí, 17 h estoy en la iglesia. 💒
+                           />Sí, 14 h estoy en la iglesia. 💒
                         </label>
                         <label className="section-label-radio">
                            <input
@@ -416,7 +417,7 @@ const handlePartnerNameChange = ( index, value ) => {
                </label>
 
                {/* Food section ---------------------- */}
-               <label>
+               {/* <label>
                   <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='partners_name' />
                   <div className="section-line"></div>
                   <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-72">
@@ -463,11 +464,11 @@ const handlePartnerNameChange = ( index, value ) => {
                         </label>
                      </div>
                   </span>
-               </label>
+               </label> */}
 
 
                {/* Message section ---------------------- */}
-               <label>
+               {/* <label>
                   <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='message' />
                   <div className="section-line"></div>
                   <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-64">
@@ -491,7 +492,7 @@ const handlePartnerNameChange = ( index, value ) => {
                         </label>
                      </div>
                   </span>
-               </label>
+               </label> */}
 
                <div className="flex justify-between items-baseline">
                   {
