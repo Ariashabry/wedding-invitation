@@ -251,13 +251,13 @@ const Layout = () => {
                      header={'¿Asistiras a nuestra boda?'}
                      lineColorCode={'border-blue'}
                   >
-                     Esperamos que puedas acompañarnos.😀
+                     Tu presencia es muy importante para nosotros. Por favor, confirma si podrás acompañarnos y también cuántos serán tus acompañantes. ¡Te esperamos! 💌✨
 
                   </InfoSection>
                   <Button
                      buttonText={'Confirmar asistencia'}
                      
-                     colorCode={'bg-blue'}
+                     colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
                   />
                </SectionContainerElement>
@@ -276,7 +276,7 @@ const Layout = () => {
                 {/* Present section ---------- */}
                 {/* Solo es visible desde una computadora, no desde movil
                 desktopView={ 'off' } */}
-                <SectionContainerElement desktopView={ 'off' }>
+                {/* <SectionContainerElement desktopView={ 'off' }>
                   <ImageComponent
                      src={"/assets/images/plane-icon.png"}
                      alt={"plane icon"}
@@ -296,7 +296,7 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                      url={false}
                      action={'openInfoModal'}
                   />
-               </SectionContainerElement>
+               </SectionContainerElement> */}
 
                {/* Confirmation section ---------- */}
                <SectionContainerElement desktopView={ 'off' }>
@@ -310,13 +310,13 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                      lineColorCode={'border-blue'}
                      textColorCode={'text-gray-dark'}
                   >
-                     Esperamos que puedas acompañarnos.😀
+                     Tu presencia es muy importante para nosotros. Por favor, confirma si podrás acompañarnos y también cuántos serán tus acompañantes. ¡Te esperamos! 💌✨
 
                   </InfoSection>
                   <Button
                      buttonText={ sent ? 'Formulario enviado' : 'Confirmar asistencia' }
                      disabled={ sent }
-                     colorCode={'bg-green'}
+                     colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
                   />
                </SectionContainerElement>
