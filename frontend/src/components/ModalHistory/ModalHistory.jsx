@@ -37,15 +37,21 @@ const ModalHistory = () => {
           <section className="flex items-center gap-2 mb-4">
             <h2 className='font-semibold text-lg'>La Historia de Alcides & Nilda</h2>
           </section>
-          <div className='flex flex-col flex-wrap gap-1'>
+          <div className='flex flex-col flex-wrap gap-2'>
             <p className='italic text-base'>
-              Alcides y Nilda se conocieron en un hermoso día de primavera. Desde el primer momento, supieron que estaban destinados a estar juntos. Su amor creció con cada día que pasaba, y juntos han construido una vida llena de amor, risas y aventuras.
+              Alcides y Nilda comparten una pasión por el deporte. Alcides es un amante del ciclismo, mientras que Nilda encuentra su alegría en el atletismo. A pesar de sus diferentes disciplinas, ambos comparten el espíritu competitivo y la dedicación que estos deportes requieren.
             </p>
             <p className='italic text-base'>
-              Han viajado por el mundo, explorado nuevos lugares y creado recuerdos inolvidables. Su historia es un testimonio de amor verdadero y compromiso, y están emocionados de compartir este próximo capítulo de sus vidas con todos ustedes.
+              Su historia comenzó en su etapa universitaria, cuando sus caminos se cruzaron por casualidad. Desde ese momento, se convirtieron en compañeros inseparables, tanto en la vida como en sus respectivas pasiones.
             </p>
             <p className='italic text-base'>
-              Gracias por ser parte de su viaje y por celebrar este día tan especial con ellos.
+              Nilda siempre ha estado al lado de Alcides en sus competencias de ciclismo, brindándole apoyo incondicional y celebrando cada logro. De la misma forma, Alcides está ahí para animarla cuando ella participa en sus carreras, demostrando que el amor verdadero también es trabajo en equipo.
+            </p>
+            <p className='italic text-base'>
+              Después de más de siete años juntos, su amor sigue creciendo, construyendo una relación basada en la confianza, el respeto y el apoyo mutuo. Hoy celebran su historia de amor junto a todos ustedes, sus amigos y familia, quienes han sido testigos de esta bella unión.
+            </p>
+            <p className='italic text-base'>
+              Gracias por acompañarlos en este día tan especial y ser parte de este nuevo capítulo en su vida juntos.
             </p>
             <div className="flex justify-center mt-4">
               <img src="./assets/photos/img-alcides04.jpg" alt="Alcides y Nilda" className="rounded-lg shadow-lg max-w-full h-auto" />
