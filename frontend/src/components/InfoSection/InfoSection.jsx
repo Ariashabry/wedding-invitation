@@ -1,17 +1,33 @@
 import React from 'react'
 
 const InfoSection = ( { header, subtitle, children, lineColorCode, textColorCode } ) => {
+   const isLongHeader = header.includes('Ceremonia') || header.includes('Boda Civil');
+
    return (
-      <section className="flex flex-col items-center tracking-wide text-center z-50">
-         <h2 className={ `text-xl font-medium w-64 lg:w-full ${ textColorCode? textColorCode : 'text-white' }` }> { header } </h2> 
-         <hr className={ `w-32 mx-auto my-2 border-1 ${ lineColorCode }` } />
-         {
-            subtitle &&
-            <p className={ `text-base ${ textColorCode? textColorCode : 'text-gray-light' } ` }> { subtitle } </p>
-         }
-         <p className={ `text-base ${ textColorCode? textColorCode : 'text-gray-light' } ` }> { children } </p>
-      </section>
-   )
-}
+      <div className="flex flex-col items-center gap-2 w-full">
+         <h2 className={`
+            font-semibold text-center text-white
+            ${isLongHeader 
+               ? 'text-sm sm:text-base md:text-lg max-w-[280px] break-words whitespace-normal' 
+               : 'text-base sm:text-lg md:text-xl'}
+            ${textColorCode}
+         `}>
+            {header}
+         </h2>
+         
+         {subtitle && (
+            <h3 className="text-center text-white">
+               {subtitle}
+            </h3>
+         )}
+
+         <div className={`w-12 border-t-2 ${lineColorCode}`}></div>
+
+         <p className="text-center text-white">
+            {children}
+         </p>
+      </div>
+   );
+};
 
 export default InfoSection

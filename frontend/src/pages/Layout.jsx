@@ -86,7 +86,7 @@ const Layout = () => {
                      alt={"church icon"}
                   />
                   <InfoSection
-                     header={"Ceremonia Religiosa | 14:00 pm"}
+                     header={"Ceremonia Religiosa  14:00"}
                      subtitle={"💒 Iglesia San Martin de Porres"}
                      lineColorCode={"border-green"}
                   >
@@ -106,7 +106,7 @@ const Layout = () => {
                      alt={"Icono música"}
                   />
                   <InfoSection
-                     header={"Matrimonio Civil y Recepción Social | 6:00 pm"}
+                     header={"Boda Civil y Recepción 17:30"}
                      subtitle={"📜 🕺💃 Salón de eventos Elianne 2"}
                      lineColorCode={"border-green"}
                   >
