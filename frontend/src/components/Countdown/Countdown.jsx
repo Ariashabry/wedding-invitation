@@ -127,11 +127,12 @@ class FlipClock extends Component {
 
 		return (
 			<>
-				<h1 className="text-center text-white !text-[20px] mt-2 drop-shadow-lg !lg:text-[24px] font-medium font-poppins">
+				<h2 className="text-center text-white !text-[20px] mt-2 drop-shadow-lg !lg:text-[24px] font-medium font-poppins">
 					Celebremos nuestra boda juntos este:
-				</h1>	
-				<h1 className="text-center text-white !text-[55px] mt-2 drop-shadow-lg !lg:text-[38px] font-bold">
-					25 de Enero 2025
+				</h2>	
+				<h1 className="text-center text-white !text-[55px] mt-2 drop-shadow-lg !lg:text-[38px] font-bold font-poppins">
+					<span className="lg:block hidden">25 de Enero 2025</span>
+					<span className="block lg:hidden">01·25·2025</span>
 				</h1>
 				<h5 className='text-xl text-center font-medium w-64 text-white tracking-wide mb-4 lg:text-2xl lg:pb-8'>
 				</h5>
