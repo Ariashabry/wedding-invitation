@@ -5,11 +5,11 @@ const Carousel = () => {
    const [loadedImages, setLoadedImages] = useState({});
 
    const imageFormats = {
-      1: '.jpg',
-      2: '.jpg',
-      3: '.jpg',
-      4: '.jpg',
-      5: '.jpg'
+      1: '.png',
+      2: '.png',
+      3: '.png',
+      4: '.png',
+      5: '.png'
    };
 
    const tryLoadImage = async (index) => {

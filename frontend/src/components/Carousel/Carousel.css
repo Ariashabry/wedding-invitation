@@ -58,26 +58,27 @@
 }
 
 @keyframes animation03{
-   0%{ transform: translate(0px, 0px) rotate(0) scale(1.1); z-index: 50;}
-   5%{ transform: translate(0px, 0px) rotate(0) scale(1.1); z-index: 50;}
-   20%{ transform: translate(150px, 50px) rotate(12deg) scale(1); z-index: 30;}
-   25%{ transform: translate(150px, 50px) rotate(12deg); z-index: 30;}
-   45%{  transform: translate(350px, 100px) rotate(12deg); z-index: 1;}
-   50%{  transform: translate(350px, 100px) rotate(12deg); z-index: 1;}
-   70%{ transform: translate(-350px, 100px) rotate(-12deg); z-index: 1;}
-   100%{ transform: translate(0px, 0px) rotate(0) scale(1.1); z-index: 50;}
+   0%  { transform: translate(0px, 0px) rotate(0) scale(1.1); z-index: 50; }
+   10% { transform: translate(0px, 0px) rotate(0) scale(1.1); z-index: 50; }
+   25% { transform: translate(150px, 50px) rotate(12deg) scale(1); z-index: 30; }
+   35% { transform: translate(150px, 50px) rotate(12deg); z-index: 30; }
+   50% { transform: translate(350px, 100px) rotate(12deg); z-index: 1; }
+   60% { transform: translate(350px, 100px) rotate(12deg); z-index: 1; }
+   75% { transform: translate(-350px, 100px) rotate(-12deg); z-index: 1; }
+   85% { transform: translate(-350px, 100px) rotate(-12deg); z-index: 1; }
+   100%{ transform: translate(0px, 0px) rotate(0) scale(1.1); z-index: 50; }
 }
 
 @keyframes animation04{
-   0%{ transform: translate(150px, 50px) rotate(12deg); z-index: 30; }
-   5%{ transform: translate(150px, 50px) rotate(12deg); z-index: 30;}
-   20%{ transform: translate(350px, 100px) rotate(12deg); z-index: 1;}
-   25%{ transform: translate(350px, 100px) rotate(12deg); z-index: 1;}
-   45%{  transform: translate(-350px, 100px) rotate(-12deg); z-index: 1;}
-   50%{  transform: translate(-350px, 100px) rotate(-12deg); z-index: 1;}
-   70%{ transform: translate(-150px, 50px) rotate(-12deg); z-index: 30;}
-   75%{ transform: translate(-150px, 50px) rotate(-12deg); z-index: 30;}
-   100%{ transform: translate(150px, 50px) rotate(12deg); z-index: 30;}
+   0%  { transform: translate(250px, 25px) rotate(8deg); z-index: 30; }
+   10% { transform: translate(250px, 25px) rotate(8deg); z-index: 30; }
+   25% { transform: translate(550px, 100px) rotate(12deg); z-index: 1; }
+   35% { transform: translate(550px, 100px) rotate(12deg); z-index: 1; }
+   50% { transform: translate(-550px, 100px) rotate(-12deg); z-index: 1; }
+   60% { transform: translate(-550px, 100px) rotate(-12deg); z-index: 1; }
+   75% { transform: translate(-250px, 25px) rotate(-8deg); z-index: 30; }
+   85% { transform: translate(-250px, 25px) rotate(-8deg); z-index: 30; }
+   100%{ transform: translate(250px, 25px) rotate(8deg); z-index: 30; }
 }
 
 @keyframes animation05{
