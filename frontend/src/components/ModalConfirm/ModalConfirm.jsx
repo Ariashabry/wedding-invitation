@@ -124,7 +124,7 @@ const ModalConfirm = () => {
       // https://back-smoky-pi.vercel.app/api/guests
       // http://localhost:5000/api/guests
       axios
-         .post('https://back-xi-seven.vercel.app/api/guests', formData)
+         .post('https://backend-lake-nu.vercel.app/api/guests', formData)
          .then((response) => {
             console.log('Response:', response.data);
             if (formData.assist !== "false") {
