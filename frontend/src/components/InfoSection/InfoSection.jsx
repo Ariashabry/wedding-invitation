@@ -11,7 +11,7 @@ const InfoSection = ( { header, subtitle, children, lineColorCode, textColorCode
          }
          <p className={ `text-base ${ textColorCode? textColorCode : 'text-gray-light' } ` }> { children } </p>
       </section>
-   )
+   )// Siempre guardar con control + s
 }
 
-export default InfoSection
+export default InfoSection 
