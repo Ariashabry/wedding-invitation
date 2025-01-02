@@ -1,16 +1,20 @@
 {
-   "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
-   ],
-   "routes": [
-      { "handle": "filesystem" },
-      { 
-         "src": "/assets/(.*)",
-         "headers": { "cache-control": "public, max-age=31536000, immutable" },
-         "continue": true
-      }
-   ],
-   "buildCommand": "npm run build",
-   "outputDirectory": "dist",
-   "framework": "vite"
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "functions": {
+    "api/*": {
+      "maxDuration": 60
+    }
+  }
 }
