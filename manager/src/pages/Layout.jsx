@@ -47,7 +47,7 @@ const Layout = () => {
 
    const handleData = () => {
       axios
-         .get('https://wedding-invitation-backend.vercel.app/api/guests')
+         .get('https://backend-lake-nu.vercel.app/api/guests')
          .then((response) => {
             console.log('Response:----------->', response.data);
             console.log('Response type:----------->', typeof response.data );
