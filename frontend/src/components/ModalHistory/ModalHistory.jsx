@@ -54,7 +54,7 @@ const ModalHistory = () => {
               Gracias por acompañarlos en este viaje. Esta es una historia de amor que inspira, un viaje que comenzó en los pasillos de una universidad y que hoy continúa con la promesa de una vida juntos. Su historia apenas comienza.
             </p>
             <div className="flex justify-center mt-4">
-              <img src="./assets/photos/img-alcides04.jpg" alt="Alcides y Nilda" className="rounded-lg shadow-lg max-w-full h-auto" />
+              <img src="./assets/photos/modalhistoria/nuestrahistoria.webp" alt="Alcides y Nilda" className="rounded-lg shadow-lg max-w-full h-auto" />
             </div>
           </div>
         </article>
