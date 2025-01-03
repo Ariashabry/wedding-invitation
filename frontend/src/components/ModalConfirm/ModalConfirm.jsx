@@ -174,7 +174,7 @@ const ModalConfirm = () => {
                <span className="text-base font-light ">Hay que enviar un solo formulario por pareja, grupo familiar o individual, si te llegó a ti es porque es tu función 😉
                   <br></br> ¡Esperamos que nos acompañes!
                </span>
-               <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>(obligatorio)</span> son obligatorios )</span>
+               <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>(*)</span> son obligatorios )</span>
             </section>
 
             <form onClick={handleArrowBehavior} className="mt-4 flex flex-col gap-4 text-left">
@@ -187,7 +187,7 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Nombre completo
-                           <span className='section-required text-red'>(obligatorio)</span>
+                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180'}`} fontSize='medium' />
                      </div>
@@ -215,7 +215,7 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Teléfono ☎️
-                           <span className='section-required text-red'>(obligatorio)</span>
+                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180'}`} fontSize='medium' />
                      </div>
@@ -244,7 +244,7 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Confirmación ✅
-                           <span className='section-required text-red'>(obligatorio)</span>
+                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'assist') && 'rotate-180'}`} fontSize='medium' />
                      </div>
@@ -280,7 +280,7 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Acompañante/s 🧑‍🤝‍🧑
-                           <span className='section-required text-red'>(obligatorio)</span>
+                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180'}`} fontSize='medium' />
                      </div>
@@ -390,7 +390,7 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Iglesia 💒
-                           <span className='section-required text-red'>(obligatorio)</span>
+                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${arrowBehavior.checked && arrowBehavior.name === 'assist_church' && 'rotate-180'}`} fontSize='medium' />
                      </div>

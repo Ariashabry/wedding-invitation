@@ -69,12 +69,20 @@ const Layout = () => {
             lg:px-8 lg:pb-20">
 
             <Countdown />
-            <Button
-               buttonText={ '🗓️ Agendar' }
+            {/* <Button
+               buttonText={'🗓️ Agendar'}
                colorCode={"bg-green"}
                url={'calendar'}
                className="clickable"
-            />
+            /> */}
+ {/* Schedule label ---------- */}
+<div className="mt-4 w-full max-w-md lg:max-w-lg">
+   <img
+      src={"/assets/images/cronograma_alcides.jpg"}
+      alt={"cronograma"}
+      className="w-full h-auto"
+   />
+</div>
 
             {/* Church and party container ---------- */}
             <SectionContainer>
@@ -186,7 +194,7 @@ const Layout = () => {
                         lineColorCode={'border-mustard'}
                      >
 
-Formal para la ceremonia y elegante para la recepción. Elige algo cómodo y espectacular. ✨
+                        Formal para la ceremonia y elegante para la recepción. Elige algo cómodo y espectacular. ✨
                      </InfoSection>
                      <Button
                         buttonText={'Mirá el clima ⛅'}
@@ -229,8 +237,8 @@ Formal para la ceremonia y elegante para la recepción. Elige algo cómodo y esp
                         subtitle={''}
                         lineColorCode={'border-mustard'}
                      >
-                        Cada amor tiene un inicio especial. Descubre cómo comenzó el nuestro. 🌟                     
-                        </InfoSection>
+                        Cada amor tiene un inicio especial. Descubre cómo comenzó el nuestro. 🌟
+                     </InfoSection>
                      <Button
                         buttonText={'Conoce nuestra historia'}
                         colorCode={'bg-mustard'}
@@ -250,7 +258,7 @@ Formal para la ceremonia y elegante para la recepción. Elige algo cómodo y esp
                      header={'¿Asistiras a nuestra boda?'}
                      lineColorCode={'border-blue'}
                   >
-Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
+                     Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
                   <Button
                      buttonText={'Confirmar asistencia 📝'}
