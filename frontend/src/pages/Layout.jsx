@@ -240,7 +240,7 @@ const Layout = () => {
                         Cada amor tiene un inicio especial. Descubre cómo comenzó el nuestro. 🌟
                      </InfoSection>
                      <Button
-                        buttonText={'Conoce nuestra historia'}
+                        buttonText={'Nuestra historia'}
                         colorCode={'bg-mustard'}
                         action={'openHistoryModal'}
                      />
@@ -261,7 +261,7 @@ const Layout = () => {
                      Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
                   <Button
-                     buttonText={'Confirmar asistencia 📝'}
+                     buttonText={'Confirmar 📝'}
 
                      colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
@@ -318,7 +318,7 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                   >Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
                   <Button
-                     buttonText={sent ? 'Formulario enviado' : 'Confirmar asistencia 📝'}
+                     buttonText={sent ? 'Formulario enviado' : 'Confirmar 📝'}
                      disabled={sent}
                      colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
