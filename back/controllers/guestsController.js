@@ -18,7 +18,7 @@ const guestsController = {
       try {
          const existingGuest = await Guest.findOne({ fullName: formatedName });
          if (existingGuest) {
-            return res.status(400).json({ success: false, error: 'Ya existe un invitado con el mismo número de teléfono' });
+            return res.status(400).json({ success: false, error: 'Ya existe un invitado con el mismo nombre completo' });
          }
 
          const newGuest = new Guest({ fullName: formatedName, phone, assist, partner, partnersName, childrens, childrensQuantity, assistChurch, dietaryRestrictions, dietaryRestrictionsIndications, message });

@@ -39,22 +39,22 @@ const ModalHistory = () => {
           </section>
           <div className='flex flex-col flex-wrap gap-2'>
             <p className='italic text-base'>
-              Alcides y Nilda comparten una pasión por el deporte. Alcides es un amante del ciclismo, mientras que Nilda encuentra su alegría en el atletismo. A pesar de sus diferentes disciplinas, ambos comparten el espíritu competitivo y la dedicación que estos deportes requieren.
+              En el año 2010, en los pasillos de una universidad llena de sueños y esperanzas, dos personas cruzaron miradas por primera vez. Aunque nunca fueron compañeros de clase, ella estudiando medicina y él ingeniería de sistemas, el destino encontró la manera de unir sus caminos. Sus primeros encuentros fueron casuales, pero con el tiempo, lo que parecía una coincidencia se transformó en una conexión especial, una que no podía ser ignorada.
             </p>
             <p className='italic text-base'>
-              Su historia comenzó en su etapa universitaria, cuando sus caminos se cruzaron por casualidad. Desde ese momento, se convirtieron en compañeros inseparables, tanto en la vida como en sus respectivas pasiones.
+              Con los años, su relación floreció. Entre risas, charlas interminables y momentos compartidos, construyeron un vínculo marcado por el respeto, el apoyo mutuo y el amor incondicional. Una pasión que los une es su amor por el deporte competitivo. Ella, como una dedicada atleta de fondo, conquistando distancias de 10K y 21K, y él, como ciclista apasionado, enfrentando kilómetros sobre dos ruedas. Juntos, han aprendido a acompañarse y alentarse en su "locura" por el deporte, celebrando cada meta alcanzada y cada desafío enfrentado.
             </p>
             <p className='italic text-base'>
-              Nilda siempre ha estado al lado de Alcides en sus competencias de ciclismo, brindándole apoyo incondicional y celebrando cada logro. De la misma forma, Alcides está ahí para animarla cuando ella participa en sus carreras, demostrando que el amor verdadero también es trabajo en equipo.
+              En el 2020, cuando el mundo enfrentó desafíos inesperados, decidieron dar un paso más y comenzar a convivir. Fue en esos días de incertidumbre que descubrieron la verdadera fuerza de su amor. Aprendieron a disfrutar de los pequeños momentos, a encontrar alegría en lo cotidiano y a construir una vida basada en la comprensión y el compromiso. Cada día fue una lección, un recordatorio de que, juntos, podían superar cualquier adversidad.
             </p>
             <p className='italic text-base'>
-              Después de más de siete años juntos, su amor sigue creciendo, construyendo una relación basada en la confianza, el respeto y el apoyo mutuo. Hoy celebran su historia de amor junto a todos ustedes, sus amigos y familia, quienes han sido testigos de esta bella unión.
+              Hoy, en el 2025, están listos para dar el siguiente gran paso: unirse en matrimonio. Este momento celebra no solo el amor que comparten, sino también el crecimiento, las experiencias vividas y los sueños que aún están por alcanzar.
             </p>
             <p className='italic text-base'>
-              Gracias por acompañarlos en este día tan especial y ser parte de este nuevo capítulo en su vida juntos.
+              Gracias por acompañarlos en este viaje. Esta es una historia de amor que inspira, un viaje que comenzó en los pasillos de una universidad y que hoy continúa con la promesa de una vida juntos. Su historia apenas comienza.
             </p>
             <div className="flex justify-center mt-4">
-              <img src="./assets/photos/img-alcides04.jpg" alt="Alcides y Nilda" className="rounded-lg shadow-lg max-w-full h-auto" />
+              <img src="./assets/photos/modalhistoria/nuestrahistoria.webp" alt="Alcides y Nilda" className="rounded-lg shadow-lg max-w-full h-auto" />
             </div>
           </div>
         </article>
