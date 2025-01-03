@@ -20,6 +20,7 @@ import ModalHistory from "../components/ModalHistory/ModalHistory"
 
 import SectionContainer from "../components/SectionContainer/SectionContainer"
 import SectionContainerElement from "../components/SectionContainerElement/SectionContainerElement"
+import NewGallery from '../components/NewGallery/NewGallery';
 
 
 const Layout = () => {
@@ -329,17 +330,18 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
 
             </SectionContainer>
 
-            <section className="hidden lg:flex lg:w-full lg:justify-center">
+            {/* Desktop Gallery + Carousel */}
+            <section className="hidden lg:flex lg:w-full lg:flex-col lg:items-center">
                <Carousel />
+               <NewGallery />
             </section>
-
-
          </section>
 
-         {/* 5° Carousel section --------------------------------------- */}
-         <section className="relative flex justify-center items-end bg-cream w-full z-20
+         {/* 5° Carousel section (mobile only) --------------------------------------- */}
+         <section className="relative flex flex-col items-center bg-cream w-full z-20
             sm:hidden">
             <Carousel />
+            <NewGallery />
          </section>
 
 
