@@ -21,6 +21,8 @@ import ModalHistory from "../components/ModalHistory/ModalHistory"
 import SectionContainer from "../components/SectionContainer/SectionContainer"
 import SectionContainerElement from "../components/SectionContainerElement/SectionContainerElement"
 import NewGallery from '../components/NewGallery/NewGallery';
+import FeatureWrapper from '../components/FeatureWrapper/FeatureWrapper';
+import Timeline from '../components/Timeline/Timeline';
 
 
 const Layout = () => {
@@ -32,7 +34,9 @@ const Layout = () => {
          ${confirmationModal || weatherModal || modal ? ' h-screen' : 'h-min-screen'} `
       }>
 
-         <ButtonGift />
+         <FeatureWrapper featureKey="TIPACU_BUTTON">
+            <ButtonGift />
+         </FeatureWrapper>
 
          {/* Modals --------------------------------------- */}
          <ModalContainer isOpen={modal}>
@@ -70,20 +74,7 @@ const Layout = () => {
             lg:px-8 lg:pb-20">
 
             <Countdown />
-            {/* <Button
-               buttonText={'🗓️ Agendar'}
-               colorCode={"bg-green"}
-               url={'calendar'}
-               className="clickable"
-            /> */}
- {/* Schedule label ---------- */}
-<div className="mt-4 w-full max-w-md lg:max-w-lg">
-   <img
-      src={"/assets/images/cronograma_alcides.jpg"}
-      alt={"cronograma"}
-      className="w-full h-auto"
-   />
-</div>
+            <Timeline />
 
             {/* Church and party container ---------- */}
             <SectionContainer>
