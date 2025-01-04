@@ -1,12 +1,29 @@
+import React, { useContext, useState, useEffect } from 'react'
 import { ModalContext } from "../../context/ModalContext"
-import { useContext, useState } from "react"
 import './ModalAccounts.css'
-
 
 const ModalAccounts = () => {
 
    const { setModal } = useContext(ModalContext);
    const [ copied, setCopied ] = useState(false);
+
+   const handleClose = () => {
+      setModal(false);
+   };
+
+   useEffect(() => {
+      const handleEscapeKey = (event) => {
+         if (event.key === 'Escape') {
+            handleClose();
+         }
+      };
+
+      document.addEventListener('keydown', handleEscapeKey);
+
+      return () => {
+         document.removeEventListener('keydown', handleEscapeKey);
+      };
+   }, []);
 
    const copyToClipboard = (text) => {
       navigator.clipboard.writeText(text);
@@ -17,36 +34,50 @@ const ModalAccounts = () => {
    }
 
    return (
-      <div className="flex flex-col w-11/12 rounded-md overflow-y-scroll shadow-md h-full
-         md:w-[640px] md:h-5/6 md:self-center
+      <div className="flex flex-col w-11/12 rounded-md shadow-md h-auto max-h-[95vh]
+         md:w-[640px] md:self-center
          lg:w-[720px]">
 
-         <header className="relative flex flex-col items-center justify-start gap-2 w-full rounded-t-md
-            bg-[url('/assets/backgrounds/cbu-header-vertical.png')] bg-no-repeat bg-cover bg-bottom ">
-            <div className="h-[150px] md:h-[150px] lg:h-[150px] flex pt-[4vh]">
-               <h2 className="text-2xl font-semibold text-center text-white z-50
-                  lg:text-3xl">
-                     Si no sabes que regalarnos! 🎁💵
-               </h2>
-            </div> 
+         <header className="relative flex flex-col items-center justify-start gap-1 w-full rounded-t-md overflow-hidden">
+            <div className='absolute inset-0 bg-white/80'></div>
             <img 
-               onClick={ () => setModal( false ) }
-               src="./assets/images/btn-close.png" 
-               alt=" Boton cerrar " 
-               className="absolute top-4 right-4 h-10 cursor-pointer rounded-md z-50
-                  transition-all delay-50 duration-150 hover:cursor-pointer hover:scale-90 hover:drop-shadow-md hover:rotate-90" 
+               src="./assets/images/aguayo.webp" 
+               className="absolute inset-0 w-full h-full object-cover opacity-20"
             />
-            <img src="./assets/images/cbu-header-pieces-03.png" alt="Gift animation" className="h-16 absolute -bottom-4 right-5 jumping-element lg:h-20 lg:-bottom-4 lg:right-12" />
-            <img src="./assets/images/cbu-header-pieces-06.png" alt="Star animation" className="h-4 absolute top-2 left-12 jumping-element-reverse lg:h-5 lg:top-5 lg:left-20" />
-            <img src="./assets/images/cbu-header-pieces-04.png" alt="Coins animation" className="h-10 absolute top-16 left-2 jumping-element-reverse lg:h-16 lg:top-16 lg:left-12" />
-            <img src="./assets/images/cbu-header-pieces-01.png" alt="" className="h-6 absolute bottom-2 left-5 jumping-element lg:h-8 lg:-bottom-2" />
+            <div className="h-[100px] md:h-[120px] flex flex-col items-center pt-[2vh] gap-1 relative z-20">
+               <h2 className="text-lg font-semibold text-center text-blue md:text-xl lg:text-2xl max-w-[80%]">
+                  T'ipacu: ✨ Uniendo Corazones y Tradiciones 🫶 
+               </h2>
+               <p className="text-sm md:text-base text-blue/90 italic">
+                  Ayni : Donde Cada Mano que Da, Recibe
+               </p>
+            </div> 
+            <button 
+               onClick={handleClose}
+               className="absolute top-1 right-1 p-1.5 md:p-2 bg-white/10 rounded-full z-30
+                  transition-all duration-300 hover:bg-white/20 hover:rotate-90"
+            >
+               <img 
+                  src="./assets/images/btn-close.png" 
+                  alt="Botón cerrar (Esc)" 
+                  className="h-5 w-5 md:h-6 md:w-6"
+               />
+            </button>
          </header>
 
-         <main className='flex flex-col items-center gap-8 grow bg-cream p-6 text-gray-dark text-sm'>
+         <main className='flex flex-col items-center gap-3 md:gap-4 grow bg-cream p-3 md:p-4 text-gray-dark text-sm'>
+            <article className="text-center max-w-2xl">
+               <p className="text-sm md:text-base mb-3 md:mb-4">
+                  En nuestra cultura andina 🦙, el Ayni representa el equilibrio perfecto entre dar y recibir. 
+                  Es la sabiduría ancestral que nos enseña que en la reciprocidad encontramos la verdadera riqueza de nuestra comunidad.
+               </p>
+               <p className="text-sm md:text-base mb-3 md:mb-4">
+                  Si deseas ser parte de esta hermosa tradición de reciprocidad:
+               </p>
+            </article>
 
             {/* Banco Ganadero */}
-            <article className="flex flex-col gap-2 w-full
-            lg:w-[450px]">
+            <article className="flex flex-col gap-2 w-full lg:w-[450px] bg-white/80 p-2 md:p-3 rounded-lg border-l-4 border-[#058E6E]">
                <section className="flex items-center gap-2">
                   <img src="./assets/images/green-arrows-icon.png" alt="" className='h-6'/>
                   <h2 className='font-semibold text-base'>BANCO GANADERO</h2>
@@ -54,94 +85,36 @@ const ModalAccounts = () => {
                <div className="flex flex-col gap-1.5">
                   <div className='flex-wrap'>
                      <span className='italic'>Titular :</span>
-                     <span className='font-semibold'> Alcides Ticlla Choque</span>
+                     <span className='font-semibold'> Nilda B. Caballero</span>
                   </div>
-                  {/* <div className='flex items-center gap-2 flex-wrap'>
-                     <span className='italic'>Alias :</span>
-                        <div className='flex items-center gap-2'>
-                           <span className='font-semibold'> FEDERICO.CASPER.BBVA</span>
-                        </div>
-                        <button
-                           className="group relative inline-flex " >
-                           <img 
-                              onClick={ () => copyToClipboard('FEDERICO.CASPER.BBVA') } 
-                              src="./assets/images/copy-icon.png" 
-                              alt=" Boton copiar " 
-                              title='Copiar' 
-                              className='h-6 cursor-pointer
-                              transition origin-bottom-left duration-300 ease-in-out hover:scale-110 hover:rotate-3' />
-                           <div className="hidden group-hover:block">
-                              <div
-                                 className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-cream before:-top-2">
-                                 <div className={`rounded-md py-1 px-2 ${ copied ? 'bg-mustard' : 'bg-green' }`}>
-                                    <p className="whitespace-nowrap">{ copied ? 'Copiado!' : 'Copiar' }</p>
-                                 </div>
-                              </div>
-                           </div>
-                        </button>
-                  </div> */}
                   <div className='flex-wrap'>
-                     <span className='italic'>Numero de Cuenta :</span>
-                     <span className='font-semibold'> Tu numero de cuenta</span>
+                     <span className='italic'>Número de Cuenta :</span>
+                     <span className='font-semibold'> Tu número de cuenta</span>
                   </div>
-                  {/* <div className='flex items-center gap-2 flex-wrap'>
-                     <span className='italic'>CBU :</span>
-                     <div className='flex items-center gap-2'>
-                        <span className='font-semibold'> 0170237040000005581238</span>
-                        <button
-                           className="group relative inline-flex " >
-                           <img 
-                              onClick={ () => copyToClipboard('0170237040000005581238') } 
-                              src="./assets/images/copy-icon.png" 
-                              alt=" Boton copiar " 
-                              title='Copiar' 
-                              className='h-6 cursor-pointer
-                              transition origin-bottom-left duration-300 ease-in-out hover:scale-110 hover:rotate-3' />
-                           <div className="hidden group-hover:block">
-                              <div
-                                 className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-[#EAE8E4] before:-top-2">
-                                 <div className={`rounded-md py-1 px-2 ${ copied ? 'bg-mustard' : 'bg-green' }`}>
-                                    <p className="whitespace-nowrap">{ copied ? 'Copiado!' : 'Copiar' }</p>
-                                 </div>
-                              </div>
-                           </div>
-                        </button>
-                     </div>
-                  </div> */}
                </div>
             </article>
 
-            {/* Dolars Section
-            <article className="flex flex-col gap-2 w-full
-               lg:w-[450px]">
-               <section className="flex items-center gap-2">
-                  <img src="./assets/images/green-arrows-icon.png" alt="" className='h-6'/>
-                  <h2 className='font-semibold text-base'>MONEDA EXTRANJERA</h2>
-               </section>
-               <p >
-                  <span className='italic text-sm leading-6'>
-                     No tenemos cuentas para recibir dinero extranjero, por lo tanto 👉🏼 sobre en mano.<br></br>
-                     <span className='font-semibold not-italic'> Requisito único : </span>
-                     No dólar cara chica o estropeado (después nadie nos los recibe 😥)
-                  </span>
-               </p>
-            </article> */}
-
-            
-
-            {/* Western Union Section */}
-
-
-               <article className='flex flex-col gap-3 items-center mt-2'>
-                  <hr className='w-48 border border-[#5D7551]' />
-                  <h2 className='text-lg font-medium'>¡Gracias de Corazón!
-                  Estamos inmensamente agradecidos por acompañarnos en este día tan especial. Su cariño y buenos deseos hacen de este momento algo inolvidable. ¡Gracias por ser parte de nuestra historia! ❤️✨</h2>
-               </article>
-
+            <article className='flex flex-col gap-1.5 md:gap-2 items-center'>
+               <div className="w-36 md:w-48 h-1 bg-gradient-to-r from-[#D52B1E] via-[#F4E400] to-[#058E6E]"></div>
+               <div className='text-center max-w-2xl'>
+                  <p className='text-sm md:text-base font-medium mb-1.5 md:mb-2'>
+                     ¡Que viva el amor! 💝
+                  </p>
+                  <p className='text-sm md:text-base'>
+                     Tu compañía es la bendición más grande. Con humildad y gratitud, 
+                     valoramos cada gesto de apoyo. Gracias por permitirnos compartir 
+                     contigo nuestras tradiciones y este momento especial.
+                  </p>
+               </div>
+            </article>
          </main>
 
-         <footer className='h-[8vh] bg-green flex items-center justify-center rounded-b-md'>
-            <img src="./assets/images/cbu-footer.png" alt="" className=" h-3/6" />
+         <footer className='h-[5vh] md:h-[6vh] relative overflow-hidden rounded-b-md'>
+            <div className='absolute inset-0 bg-white/80'></div>
+            <img 
+               src="./assets/images/aguayo.webp" 
+               className="w-full h-full object-cover opacity-40"
+            />
          </footer>
 
       </div>
