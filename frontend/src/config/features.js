@@ -10,5 +10,13 @@ export const FEATURES = {
   LIVE_COUNTDOWN: {
     enabled: false,
     version: '1.1.0'
+  },
+  TIPACU_BUTTON: {
+    enabled: false,
+    version: '1.0.0'
+  },
+  TIMELINE: {
+    enabled: false,
+    version: '1.0.0'
   }
 }; 
