@@ -39,17 +39,17 @@ const ModalAccounts = () => {
          lg:w-[720px]">
 
          <header className="relative flex flex-col items-center justify-start gap-1 w-full rounded-t-md overflow-hidden">
-            <div className='absolute inset-0 bg-white/80'></div>
+            <div className='absolute inset-0 bg-blue-900/80'></div>
             <img 
                src="./assets/images/aguayo.webp" 
                className="absolute inset-0 w-full h-full object-cover opacity-20"
             />
             <div className="h-[100px] md:h-[120px] flex flex-col items-center pt-[2vh] gap-1 relative z-20">
-               <h2 className="text-lg font-semibold text-center text-blue md:text-xl lg:text-2xl max-w-[80%]">
-                  T'ipacu: ✨ Uniendo Corazones y Tradiciones 🫶 
+               <h2 className="text-lg font-semibold text-center text-yellow-500 md:text-xl lg:text-2xl max-w-[80%]">
+                  T’ipacu: ✨ Uniendo Corazones y Tradiciones 🤝
                </h2>
-               <p className="text-sm md:text-base text-blue/90 italic">
-                  Ayni : Donde Cada Mano que Da, Recibe
+               <p className="text-sm md:text-base text-yellow-400 italic">
+                  Ayni: Donde Cada Mano que Da, Recibe
                </p>
             </div> 
             <button 
@@ -71,25 +71,21 @@ const ModalAccounts = () => {
                   En nuestra cultura andina 🦙, el Ayni representa el equilibrio perfecto entre dar y recibir. 
                   Es la sabiduría ancestral que nos enseña que en la reciprocidad encontramos la verdadera riqueza de nuestra comunidad.
                </p>
-               <p className="text-sm md:text-base mb-3 md:mb-4">
-                  Si deseas ser parte de esta hermosa tradición de reciprocidad:
-               </p>
             </article>
 
-            {/* Banco Ganadero */}
-            <article className="flex flex-col gap-2 w-full lg:w-[450px] bg-white/80 p-2 md:p-3 rounded-lg border-l-4 border-[#058E6E]">
+            <article className="flex flex-col gap-2 w-full lg:w-[450px] bg-blue-900/5 p-3 md:p-4 rounded-lg border-l-4 border-[#058E6E]">
                <section className="flex items-center gap-2">
                   <img src="./assets/images/green-arrows-icon.png" alt="" className='h-6'/>
                   <h2 className='font-semibold text-base'>BANCO GANADERO</h2>
                </section>
                <div className="flex flex-col gap-1.5">
                   <div className='flex-wrap'>
-                     <span className='italic'>Titular :</span>
-                     <span className='font-semibold'> Nilda B. Caballero</span>
+                     <span className='italic'>Titular:</span>
+                     <span className='font-semibold ml-2'>Nilda B. Caballero</span>
                   </div>
                   <div className='flex-wrap'>
-                     <span className='italic'>Número de Cuenta :</span>
-                     <span className='font-semibold'> Tu número de cuenta</span>
+                     <span className='italic'>Número de Cuenta:</span>
+                     <span className='font-semibold ml-2'>1-5041816</span>
                   </div>
                </div>
             </article>
@@ -98,11 +94,10 @@ const ModalAccounts = () => {
                <div className="w-36 md:w-48 h-1 bg-gradient-to-r from-[#D52B1E] via-[#F4E400] to-[#058E6E]"></div>
                <div className='text-center max-w-2xl'>
                   <p className='text-sm md:text-base font-medium mb-1.5 md:mb-2'>
-                     ¡Que viva el amor! 💝
+                     ¡Que viva el amor! ❤️
                   </p>
                   <p className='text-sm md:text-base'>
-                     Tu compañía es la bendición más grande. Con humildad y gratitud, 
-                     valoramos cada gesto de apoyo. Gracias por permitirnos compartir 
+                     Tu compañía es la bendición más grande. Gracias por ser parte de este gesto de apoyo y por permitirnos compartir 
                      contigo nuestras tradiciones y este momento especial.
                   </p>
                </div>
@@ -110,10 +105,10 @@ const ModalAccounts = () => {
          </main>
 
          <footer className='h-[5vh] md:h-[6vh] relative overflow-hidden rounded-b-md'>
-            <div className='absolute inset-0 bg-white/80'></div>
+            <div className='absolute inset-0 bg-blue-900/80'></div>
             <img 
                src="./assets/images/aguayo.webp" 
-               className="w-full h-full object-cover opacity-40"
+               className="w-full h-full object-cover opacity-20"
             />
          </footer>
 
