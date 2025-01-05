@@ -102,7 +102,7 @@ const Timeline = () => {
       icon: <Church className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Estaremos en la Iglesia San Martin de Porres esperándolos 💒",
       location: "Ver ubicación de la Parroquia",
-      locationUrl: "https://maps.app.goo.gl/YxY6pFNGvDCZHZYS6"
+      locationUrl: "https://maps.app.goo.gl/9RoxJZ9KR9PGB97dA"
     },
     {
       time: "3:00 PM - 5:30 PM",
@@ -116,7 +116,7 @@ const Timeline = () => {
       icon: <Certificate className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Los esperamos en el Salón de eventos Elianne 2 🎉",
       location: "Ver ubicación del Salón",
-      locationUrl: "https://maps.app.goo.gl/dxDFvGGZBpQZHwqr7"
+      locationUrl: "https://maps.app.goo.gl/fLbBVkszwHn63fHz9"
     },
     {
       time: "6:00 PM",
