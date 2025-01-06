@@ -3,13 +3,18 @@ import FeatureWrapper from '../FeatureWrapper/FeatureWrapper';
 import { 
   Church, 
   Camera, 
-  Certificate, 
-  Confetti, 
-  Wine, 
-  ForkKnife, 
-  MusicNotes, 
-  Cake,
-  MapPin 
+  Wine,
+  HandHeart,
+  Microphone,
+  MusicNotes,
+  PersonSimpleWalk,
+  ForkKnife,
+  Gift,
+  Confetti,
+  Moon,
+  MapPin,
+  Handshake,
+  UsersThree
 } from "@phosphor-icons/react";
 
 const TimelineEvent = ({ time, title, icon, description, location, locationUrl, isLast }) => (
@@ -100,53 +105,83 @@ const Timeline = () => {
       time: "2:00 PM",
       title: "CEREMONIA RELIGIOSA",
       icon: <Church className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Estaremos en la Iglesia San Martin de Porres esperándolos 💒",
+      description: "Ceremonia en la Parroquia San Martín de Porres. Su presencia es muy importante para nosotros 💒",
       location: "Ver ubicación de la Parroquia",
       locationUrl: "https://maps.app.goo.gl/9RoxJZ9KR9PGB97dA"
     },
     {
       time: "3:00 PM - 5:30 PM",
-      title: "SESION DE FOTOS",
+      title: "SESIÓN DE FOTOS",
       icon: <Camera className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Estaremos capturando momentos con ustedes 📸"
+      description: "Tiempo para capturar recuerdos inolvidables. ¡Disfruten de un breve descanso! 📸"
     },
     {
       time: "5:30 PM",
-      title: "BODA CIVIL",
-      icon: <Certificate className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Los esperamos en el Salón de eventos Elianne 2 🎉",
+      title: "RECEPCIÓN Y BIENVENIDA",
+      icon: <UsersThree className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "¡Los esperamos en el Salón de eventos Elianne 2 para dar inicio a la celebración! 🎉",
       location: "Ver ubicación del Salón",
       locationUrl: "https://maps.app.goo.gl/fLbBVkszwHn63fHz9"
     },
     {
       time: "6:00 PM",
-      title: "PROGRESO...",
-      icon: <Confetti className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Estaremos preparando sorpresas ✨"
+      title: "CEREMONIA CIVIL",
+      icon: <Handshake className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Ceremonia civil breve pero significativa. Agradecemos su compañía ✨"
+    },
+    {
+      time: "6:30 PM",
+      title: "BRINDIS DE HONOR",
+      icon: <Wine className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Levantaremos nuestras copas para agradecerles por su amor y apoyo 🥂"
+    },
+    {
+      time: "6:45 PM",
+      title: "PALABRAS DE AGRADECIMIENTO",
+      icon: <Microphone className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Un momento para expresar nuestro agradecimiento a familiares y amigos 💝"
     },
     {
       time: "7:00 PM",
-      title: "PROGRESO...",
-      icon: <Wine className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Seguiremos celebrando juntos 🎊"
+      title: "BAILE DE LOS NOVIOS",
+      icon: <PersonSimpleWalk className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Abriremos la pista con nuestro primer baile como esposos. ¡Únanse a nosotros! 💃"
+    },
+    {
+      time: "7:15 PM",
+      title: "BAILE DEL VALS",
+      icon: <MusicNotes className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Disfrutemos del elegante vals, donde giraremos y celebraremos juntos este hermoso momento 🎵"
+    },
+    {
+      time: "7:30 PM",
+      title: "BAILE DE LA CUECA",
+      icon: <PersonSimpleWalk className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Disfrutemos juntos del tradicional baile de la cueca 🎊"
     },
     {
       time: "8:00 PM",
-      title: "PROGRESO...",
+      title: "CENA",
       icon: <ForkKnife className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Los esperamos para más momentos especiales 🌟"
+      description: "Compartiremos una deliciosa cena y disfrutaremos de momentos especiales juntos 🍽️"
     },
     {
       time: "9:00 PM",
-      title: "PROGRESO...",
-      icon: <MusicNotes className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Continuaremos la celebración con ustedes 💫"
+      title: "T'IPACU",
+      icon: <HandHeart className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Les invitamos a participar en la tradición del T'ipacu, un gesto simbólico que celebra nuestro nuevo comienzo 🙏"
     },
     {
-      time: "10:00 PM",
-      title: "PROGRESO...",
-      icon: <Cake className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Estaremos disfrutando juntos ✨"
+      time: "9:15 PM",
+      title: "FIESTA",
+      icon: <Confetti className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "¡Prepárense para desatar la locura! La pista de baile estará lista, así que a bailar, reír y disfrutar hasta que salga el sol 🎉"
+    },
+    {
+      time: "3:00 AM",
+      title: "CIERRE Y DESPEDIDA",
+      icon: <Moon className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Agradecemos su presencia en este día tan especial. ¡Hasta pronto! ✨"
     }
   ];
 
