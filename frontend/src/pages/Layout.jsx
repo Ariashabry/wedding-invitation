@@ -225,14 +225,14 @@ const Layout = () => {
                   />
                   <div className="flex flex-col items-center">
                      <InfoSection
-                        header={'Nuestra historia'}
+                        header={'Nuestra historia 💑'}
                         subtitle={''}
                         lineColorCode={'border-mustard'}
                      >
-                        Cada amor tiene un inicio especial. Descubre cómo comenzó el nuestro. 🌟
+                        Cada amor tiene un inicio único. Descubre cómo comenzó el nuestro.
                      </InfoSection>
                      <Button
-                        buttonText={'Nuestra historia'}
+                        buttonText={'Ver historia 💫'}
                         colorCode={'bg-mustard'}
                         action={'openHistoryModal'}
                      />
