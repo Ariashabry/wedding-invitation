@@ -107,7 +107,23 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={"Boda Civil y Recepción 17:30"}
-                     subtitle={"📜 🕺💃 Salón de eventos Elianne 2"}
+                     subtitle={
+                        <span>
+                           📜 🕺💃 Salón de eventos Elianne 2 
+                           <a 
+                              href="https://www.tiktok.com/@eliannesalondeeventos/video/7416461640335510790" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-cream underline decoration-1 ml-2 hover:text-mustard transition-colors flex items-center inline-flex animate-pulse"
+                           >
+                              <span>(¿Ver salón?</span>
+                              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                              <span>)</span>
+                           </a>
+                        </span>
+                     }
                      lineColorCode={"border-green"}
                   >
                      Av. Radial 13, Calle 5 Entre 3er y 4to Anillo
