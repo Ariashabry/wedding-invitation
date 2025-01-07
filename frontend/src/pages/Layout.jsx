@@ -94,7 +94,7 @@ const Layout = () => {
                   </InfoSection>
                   <Button
                      buttonText={"🗺️ ¿Cómo llego?"}
-                     colorCode={"bg-green"}
+                     colorCode={'bg-mustard'}
                      url={'church'}
                   />
                </SectionContainerElement>
@@ -130,7 +130,7 @@ const Layout = () => {
                   </InfoSection>
                   <Button
                      buttonText={"🗺️ ¿Cómo llego?"}
-                     colorCode={"bg-green"}
+                     colorCode={'bg-mustard'}
                      url={'salon'}
                   />
                </SectionContainerElement>
@@ -264,7 +264,7 @@ const Layout = () => {
                   />
                   <InfoSection
                      header={'¿Asistiras a nuestra boda?'}
-                     lineColorCode={'border-blue'}
+                     lineColorCode={'border-mustard'}
                   >
                      Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
@@ -321,7 +321,7 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                   />
                   <InfoSection
                      header={'¿Asistiras a nuestra boda?'}
-                     lineColorCode={'border-blue'}
+                     lineColorCode={'border-mustard'}
                      textColorCode={'text-gray-dark'}
                   >Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
