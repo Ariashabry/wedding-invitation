@@ -1,5 +1,6 @@
 import './Countdown.css'
 import React, { Component } from 'react';
+import FeatureWrapper from '../FeatureWrapper/FeatureWrapper';
 
 const AnimatedCard = ({ animation, digit }) => (
 	<div className={`flipCard ${animation}`}>
@@ -62,6 +63,7 @@ class FlipClock extends Component {
 			minutesShuffle: true,
 			seconds: 0,
 			secondsShuffle: true,
+			isWeddingDay: false
 		};
 	}
 
@@ -95,6 +97,11 @@ class FlipClock extends Component {
 		const minutes = Math.floor((difference / (1000 * 60)) % 60);
 		const seconds = Math.floor((difference / 1000) % 60);
 
+		// Verificar si es el día de la boda (solo actualizamos isWeddingDay)
+		if (months === 0 && days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+			this.setState({ isWeddingDay: true });
+		}
+
 		if (months !== this.state.months) {
 			const monthsShuffle = !this.state.monthsShuffle;
 			this.setState({ months, monthsShuffle });
@@ -121,36 +128,53 @@ class FlipClock extends Component {
 		}
 	}
 
-
 	render() {
-		const { months, days, hours, minutes, seconds, monthsShuffle, daysShuffle, hoursShuffle, minutesShuffle, secondsShuffle } = this.state;
+		const { 
+			months, days, hours, minutes, seconds, 
+			monthsShuffle, daysShuffle, hoursShuffle, minutesShuffle, secondsShuffle,
+			isWeddingDay 
+		} = this.state;
 
 		return (
-			<>
-				<h2 className="text-center text-white !text-[20px] mt-2 drop-shadow-lg !lg:text-[24px] font-medium font-poppins">
-					Celebremos nuestra boda juntos este:
-				</h2>	
-				<h1 className="text-center text-white !text-[55px] mt-2 drop-shadow-lg !lg:text-[38px] font-bold font-poppins">
-					<span className="lg:block hidden">25 de Enero 2025</span>
-					<span className="block lg:hidden">01·25·2025</span>
-				</h1>
-				<h5 className='text-xl text-center font-medium w-64 text-white tracking-wide mb-4 lg:text-2xl lg:pb-8'>
-				</h5>
-				<div className={'flipClock'}>
-					<FlipUnitContainer unit={'months'} digit={months} shuffle={monthsShuffle} />
-					<FlipUnitContainer unit={'days'} digit={days} shuffle={daysShuffle} />
-					<FlipUnitContainer unit={'hours'} digit={hours} shuffle={hoursShuffle} />
-					<FlipUnitContainer unit={'minutes'} digit={minutes} shuffle={minutesShuffle} />
-					<FlipUnitContainer unit={'seconds'} digit={seconds} shuffle={secondsShuffle} />
-				</div>
-				<div className='grid grid-rows-1 grid-cols-5 gap-1 text-base w-full md:w-[764px] mt-3 text-center lg:text-xl font-bold text-white'>
-					<div>mes</div>
-					<div>días</div>
-					<div>hrs</div>
-					<div>min</div>
-					<div>seg</div>
-				</div>
-			</>
+			<FeatureWrapper featureKey="LIVE_COUNTDOWN">
+				{isWeddingDay ? (
+					<div className="text-center text-white">
+						<h2 className="!text-[32px] mt-2 drop-shadow-lg !lg:text-[48px] font-bold font-poppins mb-4">
+							¡Hoy es el gran día! 🎉
+						</h2>
+						<p className="text-xl lg:text-2xl font-medium">
+							¡Gracias por ser parte de nuestra historia! ❤️
+						</p>
+					</div>
+				) : (
+					// Contador normal
+					<>
+						<h2 className="text-center text-white !text-[20px] mt-2 drop-shadow-lg !lg:text-[24px] font-medium font-poppins">
+							Celebremos nuestra boda juntos este:
+						</h2>	
+						<h1 className="text-center text-white !text-[55px] mt-2 drop-shadow-lg !lg:text-[38px] font-bold font-poppins">
+							<span className="lg:block hidden">25 de Enero 2025</span>
+							<span className="block lg:hidden">01·25·2025</span>
+						</h1>
+						<h5 className='text-xl text-center font-medium w-64 text-white tracking-wide mb-4 lg:text-2xl lg:pb-8'>
+						</h5>
+						<div className={'flipClock'}>
+							<FlipUnitContainer unit={'months'} digit={months} shuffle={monthsShuffle} />
+							<FlipUnitContainer unit={'days'} digit={days} shuffle={daysShuffle} />
+							<FlipUnitContainer unit={'hours'} digit={hours} shuffle={hoursShuffle} />
+							<FlipUnitContainer unit={'minutes'} digit={minutes} shuffle={minutesShuffle} />
+							<FlipUnitContainer unit={'seconds'} digit={seconds} shuffle={secondsShuffle} />
+						</div>
+						<div className='grid grid-rows-1 grid-cols-5 gap-1 text-base w-full md:w-[764px] mt-3 text-center lg:text-xl font-bold text-white'>
+							<div>mes</div>
+							<div>días</div>
+							<div>hrs</div>
+							<div>min</div>
+							<div>seg</div>
+						</div>
+					</>
+				)}
+			</FeatureWrapper>
 		);
 	}
 }
