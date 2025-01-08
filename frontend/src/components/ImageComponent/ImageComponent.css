@@ -1,60 +1,160 @@
 .loader {
-  width: 60px;
   display: flex;
-  gap: 15px;
-  position: absolute;
-  z-index: 10;
+  gap: 0.5rem;
 }
- 
- .ball {
-   list-style: none;
-   width: 12px;
-   height: 12px;
-   border-radius: 50%;
- }
- 
- .ball:nth-child(1) {
-   animation: bounce-1 4.1s ease-in-out infinite;
- }
- 
- @keyframes bounce-1 {
-  0%{
-    background-color: var(--cream);
+
+.ball {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #FFD700;
+  animation: bounce 0.5s alternate infinite;
+}
+
+.ball:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.ball:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
   }
-   50% {
-     transform: translateY(-8px);
-     width: 6px;
-     height: 6px;
-   }
- }
- 
- .ball:nth-child(2) {
-   animation: bounce-3 2.1s ease-in-out 0.6s alternate-reverse infinite;
- }
- 
- @keyframes bounce-2 {
-  0%{
-    background-color: var(--green) ;
+  to {
+    transform: translateY(-10px);
   }
-   50% {
-     transform: translateY(-4px);
-     width: 6px;
-     height: 6px;
-   }
- }
- 
- .ball:nth-child(3) {
-   animation: bounce-2 2.1s ease-in-out 0.6s alternate infinite;
- }
- 
- @keyframes bounce-3 {
-  0%{
-    background-color: var(--mustard);
+}
+
+.bubble-container {
+  display: flex;
+  gap: 0.8rem;
+  position: relative;
+}
+
+.bubble {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: bubblePop 2.5s ease-out infinite;
+  opacity: 0;
+}
+
+/* Colores del tema con mejor contraste */
+.bubble-cream {
+  background-color: #FFF5E1;
+  box-shadow: 0 0 10px rgba(255, 245, 225, 0.8);
+}
+
+.bubble-blue {
+  background-color: #1E40AF;
+  box-shadow: 0 0 10px rgba(30, 64, 175, 0.8);
+}
+
+.bubble-white {
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.bubble-gold {
+  background-color: #FFD700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+/* Efecto de resplandor para la imagen */
+.image-container {
+  position: relative;
+}
+
+.glow-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, 
+              rgba(255, 255, 255, 0.2) 0%,
+              transparent 70%);
+  animation: pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Posiciones variadas para las burbujas */
+.bubble-group-1 { transform: rotate(-15deg); }
+.bubble-group-2 { transform: rotate(25deg); }
+.bubble-group-3 { transform: rotate(-35deg); }
+
+/* Delays para animaciones */
+.delay-1 { animation-delay: 0.8s; }
+.delay-2 { animation-delay: 1.6s; }
+
+/* Nueva animación de burbujas */
+@keyframes bubblePop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
   }
-   50% {
-     transform: translateY(-4px);
-     width: 6px;
-     height: 6px;
-     transform: scale(1.1);
-   }
- }
+  20% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  80% {
+    transform: scale(1.2) translateY(-10px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.8) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+/* Animación del resplandor */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* Variaciones por grupo */
+.bubble-group-1 .bubble:nth-child(1) { --translate-y: -15px; }
+.bubble-group-1 .bubble:nth-child(2) { --translate-y: -18px; }
+.bubble-group-1 .bubble:nth-child(3) { --translate-y: -20px; }
+
+.bubble-group-2 .bubble:nth-child(1) { --translate-y: -12px; }
+.bubble-group-2 .bubble:nth-child(2) { --translate-y: -15px; }
+
+.bubble-group-3 .bubble:nth-child(1) { --translate-y: -18px; }
+.bubble-group-3 .bubble:nth-child(2) { --translate-y: -15px; }
+.bubble-group-3 .bubble:nth-child(3) { --translate-y: -12px; }
+
+/* Efecto hover en la imagen */
+.image-container:hover .glow-effect {
+  animation: pulseHover 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseHover {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
