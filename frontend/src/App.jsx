@@ -1,5 +1,6 @@
 import Layout from "./pages/Layout"
 import ModalProvider from "./context/ModalProvider"
+import { Analytics } from '@vercel/analytics/react'
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
   return (
       <ModalProvider>
         <Layout/>
+        <Analytics />
       </ModalProvider>
   )
 }
