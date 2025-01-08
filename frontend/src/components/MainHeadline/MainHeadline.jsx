@@ -1,6 +1,6 @@
 const MainHeadline = () => {
    return (
-      <section className="z-50 flex flex-col items-center gap-5 absolute inset-0 -ml-0.125 mx-auto top-[8%] lg:top-[6%] transform rotate-[8deg]">
+      <section className="z-50 flex flex-col items-center gap-5 absolute inset-0 -ml-0.125 mx-auto top-[12%] lg:top-[8%] transform rotate-[8deg]">
          <img src="/assets/images/header-title-mobile.png" alt="" className="w-52 mb-2 lg:w-64" />
          
          <h1 className="text-center text-white text-4xl font-bold drop-shadow-lg lg:text-5xl">

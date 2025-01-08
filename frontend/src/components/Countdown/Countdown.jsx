@@ -76,8 +76,8 @@ class FlipClock extends Component {
 	}
 
 	updateTime() {
-		// Fecha objetivo: 25 de Enero 2025, 14:00 hora de Bolivia (UTC-4)
-		const targetDate = new Date(Date.UTC(2025, 0, 25, 18, 0, 0)); // 14:00 Bolivia = 18:00 UTC
+		// Fecha objetivo: 25 de Enero 2025, 00:00 hora de Bolivia (UTC-4)
+		const targetDate = new Date(Date.UTC(2025, 0, 25, 4, 0, 0)); // 00:00 Bolivia = 04:00 UTC
 		
 		// Fecha actual en Bolivia
 		const currentDate = new Date();
@@ -88,8 +88,8 @@ class FlipClock extends Component {
 		// Diferencia en milisegundos entre las dos fechas, ajustada a hora Bolivia
 		const difference = targetDate - (currentDate.getTime() + totalOffset);
 		
-		// Cálculo corregido de meses y días (incluyendo el día 25)
-		const totalDays = Math.ceil(difference / (1000 * 60 * 60 * 24));
+		// Cálculo corregido de meses y días
+		const totalDays = Math.floor(difference / (1000 * 60 * 60 * 24));
 		const months = Math.floor(totalDays / 30);
 		const days = Math.floor(totalDays % 30);
 		
