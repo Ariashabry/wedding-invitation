@@ -461,19 +461,21 @@ const ModalConfirm = () => {
                   </p>
                </div>
 
-               <div className="flex justify-between items-baseline">
-                  {
-                     sent ?
-                        <p className='text-green italic'>Formulario Enviado!</p> :
-                        <button
-                           onClick={handleSubmit}
-                           type="submit"
-                           disabled={isLoading}
-                           className="mt-4 bg-green text-white py-2 px-6 transition-all duration-200 rounded-md hover:bg-green-dark active:scale-95">
-                           {isLoading ? 'Enviando...' : 'Enviar'}
-                        </button>
-                  }
-
+               <div className="flex justify-center w-full">
+                  {sent ? (
+                     <p className='text-green italic'>Formulario Enviado!</p>
+                  ) : (
+                     <button
+                        onClick={handleSubmit}
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full mt-6 bg-green text-white py-4 px-8 text-lg font-medium 
+                           transition-all duration-200 rounded-md hover:bg-green-dark active:scale-95 
+                           shadow-md md:w-[280px]"
+                     >
+                        {isLoading ? 'Enviando...' : 'Enviar'}
+                     </button>
+                  )}
                </div>
 
             </form>
