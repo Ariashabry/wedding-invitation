@@ -453,8 +453,10 @@ const ModalConfirm = () => {
                <div className="flex flex-col gap-4 mt-6 mb-2">
                   <hr className="border-gray-200" />
                   <p className="text-sm text-gray-600 italic text-center">
-                     Si bien amamos a los niños, el horario nocturno y la naturaleza de la celebración 
-                     nos lleva a organizar una recepción solo para adultos. 
+                     Si bien <span className="font-semibold">amamos a los niños</span>, el 
+                     <span className="font-semibold"> horario nocturno</span> y la 
+                     <span className="font-semibold"> naturaleza de la celebración</span> nos lleva a organizar una 
+                     recepción <span className="font-semibold">solo para adultos</span>. 
                      Agradecemos su comprensión y esperamos compartir esta velada especial con ustedes.
                   </p>
                </div>
