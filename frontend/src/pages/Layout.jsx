@@ -240,7 +240,7 @@ const Layout = () => {
                      alt={"Icono historia"}
                      margin={"disabled"}
                   />
-                  <div className="flex flex-col items-center mt-16 mb-8">
+                  <div className="flex flex-col items-center">
                      <InfoSection
                         header={'Nuestra historia 💑'}
                         subtitle={''}
