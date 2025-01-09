@@ -35,6 +35,8 @@ const ModalConfirm = () => {
    const [arrowBehavior, setArrowBehavior] = useState(false);
    const [optionalInput, setOptionalInput] = useState(true);
    const [partnerNames, setPartnerNames] = useState(['']);
+   const [errors, setErrors] = useState({});
+   const [showToast, setShowToast] = useState(false);
 
    // Función para manejar el cambio en un input
    const handlePartnerNameChange = (index, value) => {
@@ -87,8 +89,36 @@ const ModalConfirm = () => {
 
    console.log(formData);
 
+   const validateForm = () => {
+      const newErrors = {};
+      
+      // Validación de campos requeridos
+      if (!formData.fullName.trim()) {
+         newErrors.fullName = 'El nombre es obligatorio';
+      }
+      
+      if (!formData.phone.trim()) {
+         newErrors.phone = 'El teléfono es obligatorio';
+      }
+      
+      if (!formData.assist) {
+         newErrors.assist = 'Debes confirmar tu asistencia';
+      }
+
+      return newErrors;
+   };
+
    const handleSubmit = (e) => {
       e.preventDefault();
+      
+      const formErrors = validateForm();
+      if (Object.keys(formErrors).length > 0) {
+         setErrors(formErrors);
+         setShowToast(true);
+         setTimeout(() => setShowToast(false), 3000);
+         return;
+      }
+
       setIsLoading(true);
 
       const showConfirmation = (title, text, confirmedText) => {
@@ -163,6 +193,20 @@ const ModalConfirm = () => {
          sm:py-12
          md:w-[640px]
          lg:w-[720px]">
+
+         {/* Toast de errores */}
+         {showToast && Object.keys(errors).length > 0 && (
+            <div className="fixed top-4 right-4 z-50 animate-fade-in">
+               <div className="bg-red bg-opacity-90 text-white px-6 py-4 rounded-lg shadow-lg">
+                  <h4 className="font-semibold mb-2">Por favor completa los campos requeridos:</h4>
+                  <ul className="list-disc list-inside">
+                     {Object.values(errors).map((error, index) => (
+                        <li key={index} className="text-sm">{error}</li>
+                     ))}
+                  </ul>
+               </div>
+            </div>
+         )}
 
          <img
             onClick={() => setConfirmationModal(false)}
