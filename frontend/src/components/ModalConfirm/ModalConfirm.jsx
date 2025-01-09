@@ -29,12 +29,12 @@ const initialFormState = {
 
 const ModalConfirm = () => {
 
-   const { setConfirmationModal, sent, setSent } = useContext(ModalContext);
+   const { setConfirmationModal } = useContext(ModalContext);
    const [formData, setFormData] = useState(initialFormState);
+   const [isLoading, setIsLoading] = useState(false);
    const [arrowBehavior, setArrowBehavior] = useState(false);
    const [optionalInput, setOptionalInput] = useState(true);
    const [partnerNames, setPartnerNames] = useState(['']);
-   const [isLoading, setIsLoading] = useState(false);
 
    // Función para manejar el cambio en un input
    const handlePartnerNameChange = (index, value) => {
@@ -116,17 +116,12 @@ const ModalConfirm = () => {
                      if (result.isConfirmed) {
                         setConfirmationModal(false);
                      }
-                  })
+                  });
                }
             });
          }, 100);
       };
 
-      console.log(formData);
-      // https://back-alexticlla-familia-b86c04df.vercel.app/?vercelToolbarCode=oTba5_erL4c31gB#
-      // https://back-smoky-pi.vercel.app/api/guests
-      // http://localhost:5000/api/guests
-      console.log(BACKEND_URL);
       axios
          .post(`${BACKEND_URL}/api/guests`, formData)
          .then((response) => {
@@ -137,25 +132,30 @@ const ModalConfirm = () => {
                   'Estamos felices de saber que nos acompañarás en este día tan especial.',
                   '🎉 Tu confirmación ha sido enviada con éxito. ¡Nos vemos pronto para celebrar juntos! ❤️✨'
                );
-               setSent(true);
             } else {
                showConfirmation(
                   '¡Te vamos a extrañar!',
-                  'Lamentamos que no puedas acompañarnos en este día tan especial. ❤️ Sabemos que estarás con nosotros en pensamiento y corazón. ¡Gracias por hacérnoslo saber! ✨',
+                  'Lamentamos que no puedas acompañarnos en este día tan especial. ❤️',
                   'Formulario enviado con éxito!'
                );
-               setSent(true);
             }
          })
          .catch((error) => {
             console.error('Error:', error);
-            showConfirmation(
-               'Error al enviar el formulario!',
-               'Algo salió mal.',
-               'El formulario no se ha enviado'
-            );
+            Swal.fire({
+               icon: 'error',
+               title: 'Error',
+               text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.',
+               background: '#EAE8E4',
+               customClass: {
+                  confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+               },
+               buttonsStyling: false
+            });
+         })
+         .finally(() => {
+            setIsLoading(false);
          });
-
    };
 
    return (
@@ -460,20 +460,16 @@ const ModalConfirm = () => {
                </div>
 
                <div className="flex justify-center w-full">
-                  {sent ? (
-                     <p className='text-green italic'>Formulario Enviado!</p>
-                  ) : (
-                     <button
-                        onClick={handleSubmit}
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full mt-6 bg-green text-white py-4 px-8 text-lg font-medium 
-                           transition-all duration-200 rounded-md hover:bg-green-dark active:scale-95 
-                           shadow-md md:w-[280px]"
-                     >
-                        {isLoading ? 'Enviando...' : 'Enviar'}
-                     </button>
-                  )}
+                  <button
+                     onClick={handleSubmit}
+                     type="submit"
+                     disabled={isLoading}
+                     className={`w-full mt-6 bg-green text-white py-4 px-8 text-lg font-medium 
+                        transition-all duration-200 rounded-md hover:bg-green-dark active:scale-95 
+                        shadow-md md:w-[280px] ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                     {isLoading ? 'Enviando...' : 'Enviar'}
+                  </button>
                </div>
 
             </form>
