@@ -175,8 +175,10 @@ const ModalConfirm = () => {
 
             <section className="flex flex-col mb-6">
                <span className="text-2xl font-medium mb-4">¿Asistiras a nuestra boda?</span>
-               <span className="text-base font-light ">Hay que enviar un solo formulario por pareja, grupo familiar o individual, si te llegó a ti es porque es tu función 😉
-                  <br></br> ¡Esperamos que nos acompañes!
+               <span className="text-base font-light">
+                  Por favor, completa un formulario por familia o invitado individual.
+                  <br></br>
+                  ¡Nos encantaría contar con tu presencia! 
                </span>
                <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>(*)</span> son obligatorios )</span>
             </section>
@@ -335,57 +337,6 @@ const ModalConfirm = () => {
                   </span>
                </label>
 
-               {/* Childrens section ---------------------- */}
-               <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='partners_name' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-72">
-                     <div className="section-header">
-                        <h3>
-                           Niños 👶
-                        </h3>
-                        <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180'}`} fontSize='medium' />
-                     </div>
-                     <h3 className="text-sm font-medium mb-4">Por su seguridad y comodidad, recomendamos considerar si es adecuado que los pequeños asistan, ya que habrá bebidas alcohólicas. Si deciden traerlos, asegúrense de incluirlos en la lista. 👶🍷✨</h3>
-                     <div className="section-label-text">
-                        <div className='flex gap-4'>
-                           <label htmlFor="childrensConfirm" className='flex gap-2 cursor-pointer'>Si
-                              <input
-                                 type="radio"
-                                 name="childrens"
-                                 id="childrensConfirm"
-                                 value={true}
-                                 onClick={handleChange}
-                                 className='section-input-radio'
-                              />
-                           </label>
-                           <label htmlFor="childrensNotConfirm" className='flex gap-2 cursor-pointer'>No
-                              <input
-                                 type="radio"
-                                 name="childrens"
-                                 id="childrensNotConfirm"
-                                 value={false}
-                                 onClick={handleChange}
-                                 className='section-input-radio'
-                              />
-                           </label>
-                        </div>
-                        <label className='flex flex-col mt-2'>
-                           <input
-                              type="number"
-                              name="childrensQuantity"
-                              placeholder="Ingresá cantidad de niños"
-                              value={formData.childrensQuantity}
-                              onChange={handleChange}
-                              className={`section-input-text ${formData.childrens !== 'false' ? 'visible section-input-text' : 'hidden'}`}
-                              disabled={optionalInput}
-                           />
-                        </label>
-                     </div>
-                  </span>
-               </label>
-
-               
                {/* Assist church section ---------------------- */}
                <label>
                   <input className="peer/showLabel absolute scale-0 unselectable section-input-radio hidden-checkbox" type="checkbox" name='assist_church' />
@@ -498,6 +449,15 @@ const ModalConfirm = () => {
                      </div>
                   </span>
                </label> */}
+
+               <div className="flex flex-col gap-4 mt-6 mb-2">
+                  <hr className="border-gray-200" />
+                  <p className="text-sm text-gray-600 italic text-center">
+                     Si bien amamos a los niños, el horario nocturno y la naturaleza de la celebración 
+                     nos lleva a organizar una recepción solo para adultos. 
+                     Agradecemos su comprensión y esperamos compartir esta velada especial con ustedes.
+                  </p>
+               </div>
 
                <div className="flex justify-between items-baseline">
                   {
