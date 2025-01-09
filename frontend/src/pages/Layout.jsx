@@ -27,7 +27,7 @@ import Timeline from '../components/Timeline/Timeline';
 
 const Layout = () => {
 
-   const { modal, confirmationModal, weatherModal, sent, isHistoryModalOpen } = useContext(ModalContext);
+   const { modal, confirmationModal, weatherModal, isHistoryModalOpen } = useContext(ModalContext);
 
    return (
       <div className={` relative flex flex-col items-center overflow-hidden
@@ -270,7 +270,6 @@ const Layout = () => {
                   </InfoSection>
                   <Button
                      buttonText={'Confirmar 📝'}
-
                      colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
                   />
@@ -326,8 +325,7 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                   >Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
                   </InfoSection>
                   <Button
-                     buttonText={sent ? 'Formulario enviado' : 'Confirmar 📝'}
-                     disabled={sent}
+                     buttonText={'Confirmar 📝'}
                      colorCode={'bg-mustard'}
                      action={'openConfirmationModal'}
                   />

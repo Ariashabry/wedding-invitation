@@ -29,12 +29,14 @@ const initialFormState = {
 
 const ModalConfirm = () => {
 
-   const { setConfirmationModal, sent, setSent } = useContext(ModalContext);
+   const { setConfirmationModal } = useContext(ModalContext);
    const [formData, setFormData] = useState(initialFormState);
+   const [isLoading, setIsLoading] = useState(false);
    const [arrowBehavior, setArrowBehavior] = useState(false);
    const [optionalInput, setOptionalInput] = useState(true);
    const [partnerNames, setPartnerNames] = useState(['']);
-   const [isLoading, setIsLoading] = useState(false);
+   const [errors, setErrors] = useState({});
+   const [showToast, setShowToast] = useState(false);
 
    // Función para manejar el cambio en un input
    const handlePartnerNameChange = (index, value) => {
@@ -87,8 +89,36 @@ const ModalConfirm = () => {
 
    console.log(formData);
 
+   const validateForm = () => {
+      const newErrors = {};
+      
+      // Validación de campos requeridos
+      if (!formData.fullName.trim()) {
+         newErrors.fullName = 'El nombre es obligatorio';
+      }
+      
+      if (!formData.phone.trim()) {
+         newErrors.phone = 'El teléfono es obligatorio';
+      }
+      
+      if (!formData.assist) {
+         newErrors.assist = 'Debes confirmar tu asistencia';
+      }
+
+      return newErrors;
+   };
+
    const handleSubmit = (e) => {
       e.preventDefault();
+      
+      const formErrors = validateForm();
+      if (Object.keys(formErrors).length > 0) {
+         setErrors(formErrors);
+         setShowToast(true);
+         setTimeout(() => setShowToast(false), 3000);
+         return;
+      }
+
       setIsLoading(true);
 
       const showConfirmation = (title, text, confirmedText) => {
@@ -116,17 +146,12 @@ const ModalConfirm = () => {
                      if (result.isConfirmed) {
                         setConfirmationModal(false);
                      }
-                  })
+                  });
                }
             });
          }, 100);
       };
 
-      console.log(formData);
-      // https://back-alexticlla-familia-b86c04df.vercel.app/?vercelToolbarCode=oTba5_erL4c31gB#
-      // https://back-smoky-pi.vercel.app/api/guests
-      // http://localhost:5000/api/guests
-      console.log(BACKEND_URL);
       axios
          .post(`${BACKEND_URL}/api/guests`, formData)
          .then((response) => {
@@ -137,25 +162,30 @@ const ModalConfirm = () => {
                   'Estamos felices de saber que nos acompañarás en este día tan especial.',
                   '🎉 Tu confirmación ha sido enviada con éxito. ¡Nos vemos pronto para celebrar juntos! ❤️✨'
                );
-               setSent(true);
             } else {
                showConfirmation(
                   '¡Te vamos a extrañar!',
-                  'Lamentamos que no puedas acompañarnos en este día tan especial. ❤️ Sabemos que estarás con nosotros en pensamiento y corazón. ¡Gracias por hacérnoslo saber! ✨',
+                  'Lamentamos que no puedas acompañarnos en este día tan especial. ❤️',
                   'Formulario enviado con éxito!'
                );
-               setSent(true);
             }
          })
          .catch((error) => {
             console.error('Error:', error);
-            showConfirmation(
-               'Error al enviar el formulario!',
-               'Algo salió mal.',
-               'El formulario no se ha enviado'
-            );
+            Swal.fire({
+               icon: 'error',
+               title: 'Error',
+               text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.',
+               background: '#EAE8E4',
+               customClass: {
+                  confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+               },
+               buttonsStyling: false
+            });
+         })
+         .finally(() => {
+            setIsLoading(false);
          });
-
    };
 
    return (
@@ -163,6 +193,20 @@ const ModalConfirm = () => {
          sm:py-12
          md:w-[640px]
          lg:w-[720px]">
+
+         {/* Toast de errores */}
+         {showToast && Object.keys(errors).length > 0 && (
+            <div className="fixed top-4 right-4 z-50 animate-fade-in">
+               <div className="bg-red bg-opacity-90 text-white px-6 py-4 rounded-lg shadow-lg">
+                  <h4 className="font-semibold mb-2">Por favor completa los campos requeridos:</h4>
+                  <ul className="list-disc list-inside">
+                     {Object.values(errors).map((error, index) => (
+                        <li key={index} className="text-sm">{error}</li>
+                     ))}
+                  </ul>
+               </div>
+            </div>
+         )}
 
          <img
             onClick={() => setConfirmationModal(false)}
@@ -286,7 +330,6 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Acompañante/s 🧑‍🤝‍🧑
-                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180'}`} fontSize='medium' />
                      </div>
@@ -345,7 +388,6 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Iglesia 💒
-                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${arrowBehavior.checked && arrowBehavior.name === 'assist_church' && 'rotate-180'}`} fontSize='medium' />
                      </div>
@@ -461,19 +503,17 @@ const ModalConfirm = () => {
                   </p>
                </div>
 
-               <div className="flex justify-between items-baseline">
-                  {
-                     sent ?
-                        <p className='text-green italic'>Formulario Enviado!</p> :
-                        <button
-                           onClick={handleSubmit}
-                           type="submit"
-                           disabled={isLoading}
-                           className="mt-4 bg-green text-white py-2 px-6 transition-all duration-200 rounded-md hover:bg-green-dark active:scale-95">
-                           {isLoading ? 'Enviando...' : 'Enviar'}
-                        </button>
-                  }
-
+               <div className="flex justify-center w-full">
+                  <button
+                     onClick={handleSubmit}
+                     type="submit"
+                     disabled={isLoading}
+                     className={`w-full mt-6 bg-green text-white py-4 px-8 text-lg font-medium 
+                        transition-all duration-200 rounded-md hover:bg-green-dark active:scale-95 
+                        shadow-md md:w-[280px] ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                     {isLoading ? 'Enviando...' : 'Enviar'}
+                  </button>
                </div>
 
             </form>
