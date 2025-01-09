@@ -1,11 +1,25 @@
 import './Button.css'
 import AnimatedElement from "../AnimatedElement/AnimatedElement"
 import { ModalContext } from "../../context/ModalContext"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 
 const Button = ( { buttonText, colorCode, url, action, disabled } ) => {
    
    const { setModal, setConfirmationModal, setWeatherModal, sent, setHistoryModal } = useContext(ModalContext);
+
+   useEffect(() => {
+      // Manejar el hash al cargar y cuando cambie
+      const handleHash = () => {
+         if (window.location.hash === '#confirmar') {
+            setConfirmationModal(true);
+         }
+      };
+
+      handleHash(); // Verificar hash inicial
+      window.addEventListener('hashchange', handleHash);
+
+      return () => window.removeEventListener('hashchange', handleHash);
+   }, [setConfirmationModal]);
 
    const handleForm = () => {
       switch(action) {
@@ -17,6 +31,7 @@ const Button = ( { buttonText, colorCode, url, action, disabled } ) => {
             break;
          case 'openConfirmationModal':
             setConfirmationModal(true);
+            window.location.hash = 'confirmar'; // Añadir hash al abrir el modal
             break;
          case 'openInfoModal':
             setModal(true);
