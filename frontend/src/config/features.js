@@ -18,5 +18,9 @@ export const FEATURES = {
   TIMELINE: {
     enabled: false,
     version: '1.0.0'
+  },
+  CEREMONY_LOCATIONS: {
+    enabled: true,
+    version: '1.0.0'
   }
 }; 
