@@ -11,7 +11,7 @@ const ModalWeather = () => {
    const { setWeatherModal } = useContext(ModalContext);
 
    const handleWeather = (location = 'Santa Cruz de la Sierra') => {
-      axios.get(`http://api.weatherapi.com/v1/current.json`, {
+      axios.get(`https://api.weatherapi.com/v1/current.json`, {
          params: {
             key: import.meta.env.VITE_WEATHER_API_KEY,
             q: location,
