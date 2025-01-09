@@ -286,7 +286,6 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Acompañante/s 🧑‍🤝‍🧑
-                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180'}`} fontSize='medium' />
                      </div>
@@ -345,7 +344,6 @@ const ModalConfirm = () => {
                      <div className="section-header">
                         <h3>
                            Iglesia 💒
-                           <span className='section-required text-red'>(*)</span>
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${arrowBehavior.checked && arrowBehavior.name === 'assist_church' && 'rotate-180'}`} fontSize='medium' />
                      </div>
