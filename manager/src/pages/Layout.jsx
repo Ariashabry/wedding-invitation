@@ -46,11 +46,13 @@ const Layout = () => {
    console.log(executed);
 
    const handleData = () => {
+      const apiUrl = import.meta.env.VITE_BACKEND_URL;
+      console.log('Attempting to fetch from:', `${apiUrl}/api/guests`); // Para debugging
+
       axios
-         .get('https://backend-lake-nu.vercel.app/api/guests')
+         .get(`${apiUrl}/api/guests`)
          .then((response) => {
-            console.log('Response:----------->', response.data);
-            console.log('Response type:----------->', typeof response.data );
+            console.log('Response:', response.data);
             setFullData(response.data);
          })
          .catch((error) => {
