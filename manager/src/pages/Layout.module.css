@@ -1,0 +1,30 @@
+.layout {
+    @apply min-h-screen bg-gray-50 flex;
+}
+
+.content {
+    @apply flex-1 transition-all duration-300 ease-in-out;
+}
+
+.contentShifted {
+    @apply lg:ml-64;
+}
+
+.main {
+    @apply flex-1 p-4;
+}
+
+.mainContent {
+    @apply max-w-7xl mx-auto;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 1024px) {
+    .content {
+        @apply pt-16; /* Espacio para el botón de menú */
+    }
+
+    .main {
+        @apply p-2 sm:p-4;
+    }
+} 

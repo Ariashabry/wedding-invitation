@@ -1,0 +1,78 @@
+.sidebar {
+    @apply fixed top-0 left-0 h-full bg-white shadow-lg z-40
+    transition-all duration-300 ease-in-out;
+    width: 0;
+    overflow: hidden;
+}
+
+.sidebarOpen {
+    @apply w-64;
+}
+
+.sidebarContent {
+    @apply h-full flex flex-col p-4 min-w-[256px];
+}
+
+.logo {
+    @apply text-xl font-bold text-gray-800 mb-8 px-4;
+}
+
+.nav {
+    @apply space-y-2;
+}
+
+.navLink {
+    @apply block px-4 py-2 rounded-lg text-gray-600 
+    hover:bg-gray-50 transition-colors duration-200;
+}
+
+.navLinkActive {
+    @apply bg-blue-50 text-blue-600 font-medium;
+}
+
+/* Botón de menú móvil */
+.mobileMenuButton {
+    @apply fixed top-4 left-4 z-50 
+    px-3 py-1.5 rounded-lg 
+    bg-white shadow-md
+    text-sm font-medium text-gray-700
+    hover:bg-gray-50 
+    focus:outline-none focus:ring-2 focus:ring-blue-500
+    lg:hidden;
+}
+
+/* Overlay para móvil */
+.overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden;
+}
+
+/* Ajustes para escritorio */
+@media (min-width: 1024px) {
+    .sidebar {
+        width: 256px;
+    }
+
+    .mobileMenuButton,
+    .overlay {
+        @apply hidden;
+    }
+}
+
+/* Ajustes para móviles pequeños */
+@media (max-width: 360px) {
+    .sidebarOpen {
+        width: 240px;
+    }
+
+    .sidebarContent {
+        @apply min-w-[240px];
+    }
+
+    .logo {
+        @apply text-lg mb-6;
+    }
+
+    .navLink {
+        @apply text-sm;
+    }
+}
