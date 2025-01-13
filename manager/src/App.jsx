@@ -1,11 +1,13 @@
-import './App.css'
-import Layout from './pages/Layout'
+import { GuestsProvider } from './context/GuestsContext';
+import Layout from './pages/Layout';
+import './App.css';
 
 function App() {
-
   return (
-    <Layout/>
-  )
+    <GuestsProvider>
+      <Layout />
+    </GuestsProvider>
+  );
 }
 
-export default App
+export default App;

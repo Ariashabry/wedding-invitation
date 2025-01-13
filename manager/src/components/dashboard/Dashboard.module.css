@@ -1,0 +1,7 @@
+.dashboard {
+    @apply space-y-4;
+}
+
+.title {
+    @apply text-2xl font-bold mb-4;
+} 

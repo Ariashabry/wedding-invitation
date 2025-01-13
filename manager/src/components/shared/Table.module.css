@@ -1,0 +1,52 @@
+.tableCard {
+    @apply relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md;
+}
+
+.tableHeader {
+    @apply relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-blue-500/40 shadow-lg -mt-6 mb-8 p-6;
+}
+
+.tableTitle {
+    @apply block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white;
+}
+
+.tableContainer {
+    @apply p-6 px-0 pt-0 pb-2;
+}
+
+.table {
+    @apply w-full min-w-[640px] table-auto;
+}
+
+.tableHeaderCell {
+    @apply border-b border-gray-200 py-3 px-6 text-left;
+}
+
+.tableHeaderText {
+    @apply block antialiased font-sans text-[11px] font-bold uppercase text-gray-400;
+}
+
+.tableCell {
+    @apply py-3 px-5 border-b border-gray-200;
+}
+
+.tableCellText {
+    @apply block antialiased font-sans text-xs font-semibold text-gray-600;
+}
+
+.tableFooter {
+    @apply px-6 py-4 border-t border-gray-200 mt-4;
+}
+
+.footerText {
+    @apply text-sm font-semibold text-gray-900;
+}
+
+/* Agregar colores alternados para las filas */
+.table tbody tr:nth-child(even) {
+    @apply bg-gray-50;
+}
+
+.table tbody tr:hover {
+    @apply bg-gray-100 transition-colors duration-200;
+} 
