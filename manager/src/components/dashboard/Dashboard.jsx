@@ -1,11 +1,12 @@
-import styles from './Dashboard.module.css';
 import GuestStats from './GuestStats';
 import GuestTables from './GuestTables';
 
 const Dashboard = () => {
     return (
-        <div className={styles.dashboard}>
-            <h2 className={styles.title}>Dashboard</h2>
+        <div className="p-6">
+            <div className="mb-8">
+                <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+            </div>
             <GuestStats />
             <GuestTables />
         </div>

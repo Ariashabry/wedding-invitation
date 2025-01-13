@@ -1,0 +1,87 @@
+.managementWrapper {
+    @apply bg-white rounded-xl shadow-sm overflow-hidden;
+}
+
+.header {
+    @apply bg-blue-500 text-white p-3 sm:p-4 md:p-6;
+}
+
+.title {
+    @apply text-base sm:text-lg md:text-xl font-medium;
+}
+
+.subtitle {
+    @apply text-xs sm:text-sm text-blue-100 mt-1;
+}
+
+.form {
+    @apply p-3 sm:p-4 md:p-6;
+}
+
+.formGrid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6;
+}
+
+.formGroup {
+    @apply space-y-1 sm:space-y-2;
+}
+
+.label {
+    @apply block text-xs sm:text-sm font-medium text-gray-700;
+}
+
+.input {
+    @apply w-full px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg 
+    border border-gray-300
+    text-xs sm:text-sm
+    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+    transition-all duration-200;
+}
+
+.radioGroup {
+    @apply flex flex-wrap gap-3 sm:gap-4;
+}
+
+.radioLabel {
+    @apply flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-600;
+}
+
+.radio {
+    @apply w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 border-gray-300 focus:ring-blue-500;
+}
+
+.formActions {
+    @apply mt-4 sm:mt-6 flex flex-col sm:flex-row justify-end gap-2 sm:gap-3;
+}
+
+.submitButton {
+    @apply w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 
+    bg-blue-500 text-white rounded-lg
+    text-xs sm:text-sm font-medium
+    hover:bg-blue-600 focus:outline-none focus:ring-2 
+    focus:ring-blue-500 focus:ring-offset-2
+    transition-colors duration-200;
+}
+
+/* Ajustes específicos para móviles pequeños */
+@media (max-width: 360px) {
+    .header {
+        @apply p-2;
+    }
+    
+    .title {
+        @apply text-sm;
+    }
+    
+    .form {
+        @apply p-2;
+    }
+    
+    .formGrid {
+        @apply gap-2;
+    }
+    
+    .input, .submitButton {
+        @apply text-xs py-1;
+    }
+} 
