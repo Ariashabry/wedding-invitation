@@ -11,15 +11,31 @@
 }
 
 .tableContainer {
-    @apply p-6 px-0 pt-0 pb-2;
+    @apply p-6 px-0 pt-0 pb-2 overflow-x-auto;
+    /* Estilizar la barra de scroll */
+    scrollbar-width: thin;
+    scrollbar-color: #94a3b8 #e2e8f0;
+}
+
+/* Estilos para WebKit (Chrome, Safari, etc.) */
+.tableContainer::-webkit-scrollbar {
+    @apply h-1.5;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full hover:bg-gray-400;
 }
 
 .table {
-    @apply w-full min-w-[640px] table-auto;
+    @apply w-full table-auto;
 }
 
 .tableHeaderCell {
-    @apply border-b border-gray-200 py-3 px-6 text-left;
+    @apply border-b border-gray-200 py-3 px-4 text-left whitespace-nowrap;
 }
 
 .tableHeaderText {
@@ -27,7 +43,7 @@
 }
 
 .tableCell {
-    @apply py-3 px-5 border-b border-gray-200;
+    @apply py-3 px-4 border-b border-gray-200 whitespace-nowrap;
 }
 
 .tableCellText {
@@ -35,18 +51,31 @@
 }
 
 .tableFooter {
-    @apply px-6 py-4 border-t border-gray-200 mt-4;
+    @apply px-4 py-4 border-t border-gray-200 mt-4;
 }
 
 .footerText {
-    @apply text-sm font-semibold text-gray-900;
+    @apply text-sm font-semibold text-gray-900 break-words;
 }
 
-/* Agregar colores alternados para las filas */
 .table tbody tr:nth-child(even) {
     @apply bg-gray-50;
 }
 
 .table tbody tr:hover {
     @apply bg-gray-100 transition-colors duration-200;
+}
+
+@media (max-width: 640px) {
+    .tableContainer {
+        @apply mx-2;
+    }
+    
+    .tableCell, .tableHeaderCell {
+        @apply px-2;
+    }
+    
+    .footerText {
+        @apply text-xs;
+    }
 } 

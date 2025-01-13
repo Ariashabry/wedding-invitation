@@ -1,6 +1,23 @@
+import { useEffect, useRef } from 'react';
 import styles from './Table.module.css';
 
 const Table = ({ columns, data, title, footer }) => {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const checkScroll = () => {
+            const container = containerRef.current;
+            if (container) {
+                const hasScroll = container.scrollWidth > container.clientWidth;
+                container.setAttribute('data-has-scroll', hasScroll);
+            }
+        };
+
+        checkScroll();
+        window.addEventListener('resize', checkScroll);
+        return () => window.removeEventListener('resize', checkScroll);
+    }, [data]);
+
     return (
         <div className={styles.tableCard}>
             {title && (
@@ -11,7 +28,7 @@ const Table = ({ columns, data, title, footer }) => {
                 </div>
             )}
             
-            <div className={styles.tableContainer}>
+            <div ref={containerRef} className={styles.tableContainer}>
                 <table className={styles.table}>
                     <thead>
                         <tr>
