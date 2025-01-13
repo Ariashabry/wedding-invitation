@@ -22,17 +22,25 @@ const GuestTables = () => {
         {
             header: '#',
             key: 'index',
-            render: (row, index) => index + 1
+            render: (row, index) => (
+                <span className={styles.cellText}>{index + 1}</span>
+            )
         },
         { 
             header: 'Nombre', 
             key: 'fullName',
-            render: (row) => capitalizeWords(row.fullName)
+            render: (row) => (
+                <span className={styles.cellText}>{capitalizeWords(row.fullName)}</span>
+            )
         },
         { 
             header: 'Asistencia Iglesia', 
             key: 'assistChurch',
-            render: (row) => row.assistChurch ? 'Sí' : 'No'
+            render: (row) => (
+                <span className={`${styles.cellText} ${row.assistChurch ? styles.confirmed : styles.notAttending}`}>
+                    {row.assistChurch ? 'Sí' : 'No'}
+                </span>
+            )
         },
         {
             header: 'Acompañantes',
@@ -41,7 +49,7 @@ const GuestTables = () => {
                 let total = 0;
                 if (row.partner) total += row.partnersName?.length || 0;
                 if (row.childrens) total += row.childrensQuantity || 0;
-                return total;
+                return <span className={styles.cellText}>{total}</span>;
             }
         }
     ];
@@ -50,17 +58,25 @@ const GuestTables = () => {
         {
             header: '#',
             key: 'index',
-            render: (row, index) => index + 1
+            render: (row, index) => (
+                <span className={styles.cellText}>{index + 1}</span>
+            )
         },
         { 
             header: 'Nombre', 
             key: 'fullName',
-            render: (row) => capitalizeWords(row.fullName)
+            render: (row) => (
+                <span className={styles.cellText}>{capitalizeWords(row.fullName)}</span>
+            )
         },
         { 
             header: 'Asistencia Boda', 
             key: 'assist',
-            render: (row) => row.assist ? 'Sí' : 'No'
+            render: (row) => (
+                <span className={`${styles.cellText} ${row.assist ? styles.confirmed : styles.notAttending}`}>
+                    {row.assist ? 'Sí' : 'No'}
+                </span>
+            )
         },
         {
             header: 'Acompañantes',
@@ -70,56 +86,54 @@ const GuestTables = () => {
                 if (row.partner && row.partnersName?.length > 0) {
                     companions.push(...row.partnersName.map(name => capitalizeWords(name)));
                 }
-                return companions.length > 0 ? companions.join(', ') : '-';
+                return (
+                    <span className={styles.cellText}>
+                        {companions.length > 0 ? companions.join(', ') : '-'}
+                    </span>
+                );
             }
         },
         {
             header: 'Niños',
             key: 'children',
-            render: (row) => {
-                return row.childrens ? row.childrensQuantity : '-';
-            }
+            render: (row) => (
+                <span className={styles.cellText}>
+                    {row.childrens ? row.childrensQuantity : '-'}
+                </span>
+            )
         },
         {
             header: 'Mensaje',
             key: 'message',
-            render: (row) => row.message || '-'
+            render: (row) => (
+                <span className={styles.cellText}>
+                    {row.message || '-'}
+                </span>
+            )
         }
     ];
 
     const churchData = guests.filter(g => g.assistChurch);
-    const totalChurchGuests = churchData.reduce((acc, guest) => {
-        let total = 1; // Count the guest themselves
-        if (guest.partner) total += guest.partnersName?.length || 0;
-        if (guest.childrens) total += guest.childrensQuantity || 0;
-        return acc + total;
-    }, 0);
-
     const weddingData = guests.filter(g => g.assist);
-    const totalWeddingAdults = weddingData.reduce((acc, guest) => {
-        let total = 1; // Count the guest themselves
-        if (guest.partner) total += guest.partnersName?.length || 0;
-        return acc + total;
-    }, 0);
-
-    const totalWeddingChildren = weddingData.reduce((acc, guest) => {
-        return acc + (guest.childrens ? guest.childrensQuantity : 0);
-    }, 0);
 
     return (
         <div className={styles.tablesGrid}>
-            <Table 
-                title="Asistencia a Iglesia" 
-                columns={churchColumns} 
-                data={churchData} 
-                footer={`Total Asistentes: ${totalChurchGuests}`}
-            />
-            <Table 
-                title="Asistencia a Boda" 
-                columns={weddingColumns} 
-                data={weddingData} 
-                footer={`Total Adultos: ${totalWeddingAdults} | Total Niños: ${totalWeddingChildren} | Total General: ${totalWeddingAdults + totalWeddingChildren}`}
-            />
+            <div className={styles.tableWrapper}>
+                <Table 
+                    title="Asistencia a Iglesia" 
+                    columns={churchColumns} 
+                    data={churchData} 
+                    footer={`Total Asistentes: ${churchData.length}`}
+                />
+            </div>
+            <div className={styles.tableWrapper}>
+                <Table 
+                    title="Asistencia a Boda" 
+                    columns={weddingColumns} 
+                    data={weddingData} 
+                    footer={`Total Asistentes: ${weddingData.length}`}
+                />
+            </div>
         </div>
     );
 };

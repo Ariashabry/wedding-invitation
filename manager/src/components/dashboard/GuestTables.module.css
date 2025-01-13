@@ -1,3 +1,37 @@
 .tablesGrid {
     @apply grid grid-cols-1 xl:grid-cols-2 gap-6 mt-8;
+}
+
+.tableWrapper {
+    @apply bg-white rounded-xl shadow-sm overflow-hidden;
+}
+
+.cellText {
+    @apply text-gray-700 text-sm font-medium;
+}
+
+.confirmed {
+    @apply text-green-600;
+}
+
+.notAttending {
+    @apply text-red-600;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 640px) {
+    .cellText {
+        @apply text-xs;
+    }
+    
+    .tablesGrid {
+        @apply gap-4 mt-4;
+    }
+}
+
+/* Ajustes para tablets */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .cellText {
+        @apply text-sm;
+    }
 } 
