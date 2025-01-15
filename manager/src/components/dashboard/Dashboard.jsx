@@ -10,7 +10,7 @@ const Dashboard = () => {
                 subtitle="Gestión de invitados y estadísticas"
             />
             <div className="px-6">
-                <div className="max-w-5xl mx-auto">
+                <div className="max-w-7xl mx-auto">
                     <GuestStats />
                     <GuestTables />
                 </div>

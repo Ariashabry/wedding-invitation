@@ -1,9 +1,13 @@
 .container {
-    @apply min-h-screen bg-gray-50;
+    @apply min-h-screen bg-white w-full;
 }
 
 .content {
-    @apply max-w-7xl mx-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6;
+    @apply px-6;
+}
+
+.mainContent {
+    @apply max-w-7xl mx-auto;
 }
 
 .header {

@@ -1,15 +1,22 @@
 .header {
-    @apply bg-white border-b border-gray-200 px-6 py-4 mb-6;
+    @apply bg-white border-b border-gray-200;
 }
 
 .titleContainer {
-    @apply max-w-5xl mx-auto flex flex-col items-center text-center;
+    @apply max-w-7xl mx-auto px-6 py-4;
+    @apply text-center sm:text-left;
 }
 
 .title {
-    @apply text-2xl font-bold text-gray-800;
+    @apply text-xl sm:text-2xl font-semibold text-gray-900;
 }
 
 .subtitle {
-    @apply mt-1 text-sm text-gray-500;
+    @apply text-sm text-gray-500;
+}
+
+@media (max-width: 640px) {
+    .titleContainer {
+        @apply mt-2;
+    }
 } 
