@@ -1,35 +1,23 @@
-.statsGrid {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6;
+.statsContainer {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6;
 }
 
-.card {
-    @apply relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md;
+.statCard {
+    @apply flex items-center bg-white rounded-lg p-4 shadow-sm;
 }
 
-.cardIcon {
-    @apply bg-clip-border mx-4 rounded-xl overflow-hidden text-white shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center;
+.icon {
+    @apply text-2xl mr-3;
 }
 
-.blueGradient {
-    @apply bg-gradient-to-tr from-blue-600 to-blue-400 shadow-blue-500/40;
+.statInfo {
+    @apply flex flex-col;
 }
 
-.pinkGradient {
-    @apply bg-gradient-to-tr from-pink-600 to-pink-400 shadow-pink-500/40;
+.label {
+    @apply text-sm text-gray-500;
 }
 
-.greenGradient {
-    @apply bg-gradient-to-tr from-green-600 to-green-400 shadow-green-500/40;
-}
-
-.cardContent {
-    @apply p-4 text-right;
-}
-
-.cardLabel {
-    @apply block antialiased font-sans text-sm leading-normal font-normal text-gray-600;
-}
-
-.cardValue {
-    @apply block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-gray-900;
+.value {
+    @apply text-xl font-bold text-gray-900;
 } 

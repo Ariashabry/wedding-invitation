@@ -1,14 +1,20 @@
+import Header from '../layout/Header';
 import GuestStats from './GuestStats';
 import GuestTables from './GuestTables';
 
 const Dashboard = () => {
     return (
-        <div className="p-6">
-            <div className="mb-8">
-                <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+        <div>
+            <Header 
+                title="Dashboard" 
+                subtitle="Gestión de invitados y estadísticas"
+            />
+            <div className="px-6">
+                <div className="max-w-7xl mx-auto">
+                    <GuestStats />
+                    <GuestTables />
+                </div>
             </div>
-            <GuestStats />
-            <GuestTables />
         </div>
     );
 };

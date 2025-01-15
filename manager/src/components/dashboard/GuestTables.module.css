@@ -1,21 +1,25 @@
 .tablesGrid {
-    @apply grid grid-cols-1 xl:grid-cols-2 gap-6 mt-8;
+    @apply grid grid-cols-1 2xl:grid-cols-2 gap-6;
 }
 
 .tableWrapper {
-    @apply bg-white rounded-xl shadow-sm overflow-hidden;
+    @apply bg-white rounded-lg overflow-x-auto;
+}
+
+.table {
+    @apply w-full min-w-full table-fixed;
 }
 
 .cellText {
-    @apply text-gray-700 text-sm font-medium;
+    @apply text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis;
 }
 
 .confirmed {
-    @apply text-green-600;
+    @apply text-green-600 font-medium;
 }
 
 .notAttending {
-    @apply text-red-600;
+    @apply text-red-600 font-medium;
 }
 
 /* Ajustes para móviles */

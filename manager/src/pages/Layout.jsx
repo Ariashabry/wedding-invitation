@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/layout/Sidebar';
-import Navbar from '../components/layout/Navbar';
 import styles from './Layout.module.css';
 
 const Layout = () => {
@@ -10,12 +9,9 @@ const Layout = () => {
     return (
         <div className={styles.layout}>
             <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-            <div className={`${styles.content} ${isSidebarOpen ? styles.contentShifted : ''}`}>
-                <Navbar />
+            <div className={styles.content}>
                 <main className={styles.main}>
-                    <div className={styles.mainContent}>
-                        <Outlet />
-                    </div>
+                    <Outlet />
                 </main>
             </div>
         </div>
