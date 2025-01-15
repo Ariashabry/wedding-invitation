@@ -15,6 +15,19 @@ const capitalizeWords = (str) => {
 const GuestTables = () => {
     const { guests, loading, error } = useGuestsContext();
 
+    // Función para calcular totales incluyendo acompañantes
+    const calculateTotalWithCompanions = (data) => {
+        return data.reduce((total, guest) => {
+            // Contamos al invitado principal
+            let count = 1;
+            // Sumamos los acompañantes si existen
+            if (guest.partnersName && Array.isArray(guest.partnersName)) {
+                count += guest.partnersName.length;
+            }
+            return total + count;
+        }, 0);
+    };
+
     if (loading) return <LoadingSpinner />;
     if (error) return <ErrorMessage message={error} />;
 
@@ -116,6 +129,9 @@ const GuestTables = () => {
     const churchData = guests.filter(g => g.assistChurch);
     const weddingData = guests.filter(g => g.assist);
 
+    const churchTotal = calculateTotalWithCompanions(churchData);
+    const weddingTotal = calculateTotalWithCompanions(weddingData);
+
     return (
         <div className={styles.tablesGrid}>
             <div className={styles.tableWrapper}>
@@ -123,7 +139,7 @@ const GuestTables = () => {
                     title="Asistencia a Iglesia" 
                     columns={churchColumns} 
                     data={churchData} 
-                    footer={`Total Asistentes: ${churchData.length}`}
+                    footer={`Total con acompañantes: ${churchTotal}`}
                 />
             </div>
             <div className={styles.tableWrapper}>
@@ -131,7 +147,7 @@ const GuestTables = () => {
                     title="Asistencia a Boda" 
                     columns={weddingColumns} 
                     data={weddingData} 
-                    footer={`Total Asistentes: ${weddingData.length}`}
+                    footer={`Total con acompañantes: ${weddingTotal}`}
                 />
             </div>
         </div>
