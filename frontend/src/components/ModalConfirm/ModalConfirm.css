@@ -203,3 +203,53 @@
       left: 1rem;
    }
 }
+
+.phoneInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.phonePrefix {
+    position: absolute;
+    left: 1rem;
+    color: #4B5563;
+    font-weight: 500;
+}
+
+/* Modificar el input del teléfono directamente */
+input[name="phone"] {
+    flex: 1; /* Tomar el espacio restante */
+    padding-left: 1rem !important; /* Resetear el padding */
+}
+
+.countryCodeSelect {
+    position: relative;
+    padding: 0.5rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 0.4rem;
+    background-color: white;
+    color: #4B5563;
+    font-weight: 500;
+    cursor: pointer;
+    width: 7rem;
+    height: 44px;
+    text-align: center;
+}
+
+.countryCodeSelect:focus {
+    outline: none;
+    border-color: var(--mustard);
+}
+
+/* Estilo para las opciones del select */
+.countryCodeSelect option {
+    background-color: white;
+    color: #4B5563;
+    padding: 8px;
+    text-align: center;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
