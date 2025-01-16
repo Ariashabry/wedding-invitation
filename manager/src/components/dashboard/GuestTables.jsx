@@ -127,13 +127,53 @@ const GuestTables = () => {
     ];
 
     const churchData = guests.filter(g => g.assistChurch);
-    const weddingData = guests.filter(g => g.assist);
+    const weddingData = guests.filter(g => g.assist === true);
+    const notAttendingData = guests.filter(g => g.assist === false);
 
     const churchTotal = calculateTotalWithCompanions(churchData);
     const weddingTotal = calculateTotalWithCompanions(weddingData);
 
     return (
         <div className={styles.tablesGrid}>
+            <div className={styles.tableWrapper}>
+                <Table 
+                    title="No Asistirán a la Boda" 
+                    columns={[
+                        {
+                            header: '#',
+                            key: 'index',
+                            render: (row, index) => (
+                                <span className={styles.cellText}>{index + 1}</span>
+                            )
+                        },
+                        { 
+                            header: 'Nombre', 
+                            key: 'fullName',
+                            render: (row) => (
+                                <span className={styles.cellText}>{capitalizeWords(row.fullName)}</span>
+                            )
+                        },
+                        {
+                            header: 'Teléfono',
+                            key: 'phone',
+                            render: (row) => (
+                                <span className={styles.cellText}>{row.phone || '-'}</span>
+                            )
+                        },
+                        {
+                            header: 'Mensaje',
+                            key: 'message',
+                            render: (row) => (
+                                <span className={styles.cellText}>
+                                    {row.message || '-'}
+                                </span>
+                            )
+                        }
+                    ]} 
+                    data={notAttendingData} 
+                    footer={`Total: ${notAttendingData.length} personas`}
+                />
+            </div>
             <div className={styles.tableWrapper}>
                 <Table 
                     title="Asistencia a Iglesia" 
