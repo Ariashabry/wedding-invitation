@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './GuestManagement.module.css';
 import { createGuest } from '../../services/api';
-import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 import { useGuestsContext } from '../../context/GuestsContext';
 
 const GuestManagement = () => {
@@ -19,6 +19,22 @@ const GuestManagement = () => {
         phone: '',
         partnersName: []
     });
+
+    const showAlert = (type, message) => {
+        Swal.fire({
+            icon: type,
+            text: message,
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+    };
 
     const handleSubmit = async (e) => {
         if (e) e.preventDefault();
@@ -44,8 +60,7 @@ const GuestManagement = () => {
 
         // Verificar si hay errores
         if (newErrors.fullName || newErrors.phone || newErrors.partnersName.some(error => error)) {
-            // Mostrar mensaje de error general
-            toast.error('Por favor complete todos los campos requeridos');
+            showAlert('error', 'Por favor complete correctamente todos los campos requeridos');
             return;
         }
 
@@ -75,14 +90,14 @@ const GuestManagement = () => {
                 partnersName: []
             });
             
-            toast.success('¡Invitado guardado exitosamente!');
+            showAlert('success', '¡Invitado guardado exitosamente!');
             
             // Forzar la actualización de la lista
             await fetchGuests();
 
         } catch (err) {
             console.error('Error:', err);
-            toast.error('Error al guardar el invitado');
+            showAlert('error', 'Error al guardar el invitado');
         } finally {
             setIsLoading(false);
         }
