@@ -10,6 +10,8 @@ const GuestsPage = () => {
     const { guests, loading, error } = useGuestsContext();
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
+    const [churchFilter, setChurchFilter] = useState('all');
+    const [weddingFilter, setWeddingFilter] = useState('all');
 
     // Función para capitalizar palabras en formato título
     const capitalizeWords = (str) => {
@@ -31,12 +33,19 @@ const GuestsPage = () => {
             const matchesSearch = fullNameLower.includes(searchTermLower) || 
                                 partnersLower.some(name => name.includes(searchTermLower));
 
-            const matchesStatus = statusFilter === 'all' ? true :
-                statusFilter === 'confirmed' ? (guest.assist === true || guest.assistChurch === true) :
-                statusFilter === 'pending' ? (guest.assist === null || guest.assistChurch === null) :
-                (guest.assist === false || guest.assistChurch === false);
+            // Filtro para iglesia
+            const matchesChurch = churchFilter === 'all' ? true :
+                churchFilter === 'confirmed' ? guest.assistChurch === true :
+                churchFilter === 'pending' ? guest.assistChurch === null :
+                guest.assistChurch === false;
+
+            // Filtro para boda
+            const matchesWedding = weddingFilter === 'all' ? true :
+                weddingFilter === 'confirmed' ? guest.assist === true :
+                weddingFilter === 'pending' ? guest.assist === null :
+                guest.assist === false;
             
-            return matchesSearch && matchesStatus;
+            return matchesSearch && matchesChurch && matchesWedding;
         })
         .sort((a, b) => b.id - a.id); // Ordenar de mayor a menor
 
@@ -99,6 +108,37 @@ const GuestsPage = () => {
         }
     ];
 
+    const handleExportCSV = () => {
+        // Preparar los datos para el CSV
+        const csvData = filteredGuests.map((guest, index) => ({
+            'Número': filteredGuests.length - index,
+            'Nombre': capitalizeWords(guest.fullName),
+            'Teléfono': guest.phone || '',
+            'Acompañantes': (guest.partnersName || []).map(name => capitalizeWords(name)).join(', ') || '-',
+            'Iglesia': guest.assistChurch === null ? 'Pendiente' : 
+                      guest.assistChurch ? 'Confirmado' : 'No Asiste',
+            'Boda': guest.assist === null ? 'Pendiente' : 
+                    guest.assist ? 'Confirmado' : 'No Asiste'
+        }));
+
+        // Convertir a CSV
+        const headers = Object.keys(csvData[0]);
+        const csvContent = [
+            headers.join(','),
+            ...csvData.map(row => headers.map(header => `"${row[header]}"`).join(','))
+        ].join('\n');
+
+        // Crear y descargar el archivo
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'lista_invitados.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (loading) {
         return (
             <div className={styles.loading}>
@@ -141,12 +181,23 @@ const GuestsPage = () => {
                         <GuestFilters 
                             searchTerm={searchTerm}
                             setSearchTerm={setSearchTerm}
-                            statusFilter={statusFilter}
-                            setStatusFilter={setStatusFilter}
+                            churchFilter={churchFilter}
+                            setChurchFilter={setChurchFilter}
+                            weddingFilter={weddingFilter}
+                            setWeddingFilter={setWeddingFilter}
                         />
                     </div>
 
                     <div className={styles.tableSection}>
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-lg font-semibold">Lista de Invitados</h2>
+                            <button
+                                onClick={handleExportCSV}
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm flex items-center"
+                            >
+                                <span>Exportar CSV</span>
+                            </button>
+                        </div>
                         <Table 
                             title="Lista de Invitados"
                             columns={columns}
