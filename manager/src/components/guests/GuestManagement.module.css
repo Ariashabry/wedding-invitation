@@ -165,3 +165,7 @@
     @apply text-red-500 ml-1;
 }
 
+.noPartnersMessage {
+    @apply text-gray-500 text-sm mt-2 mb-4 italic;
+}
+

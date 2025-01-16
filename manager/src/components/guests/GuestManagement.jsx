@@ -39,6 +39,19 @@ const GuestManagement = () => {
     const handleSubmit = async (e) => {
         if (e) e.preventDefault();
 
+        // Validar si hay campos de acompañantes vacíos
+        if (formData.partnersName.length > 0 && formData.partnersName.some(partner => !partner.trim())) {
+            Swal.fire({
+                icon: 'warning',
+                text: 'Por favor complete los nombres de los acompañantes o elimine los campos vacíos',
+                toast: true,
+                position: 'top-end',
+                timer: 3000,
+                showConfirmButton: false
+            });
+            return;
+        }
+
         // Validar todos los campos y actualizar errores
         const newErrors = {
             fullName: validateName(formData.fullName),
@@ -60,7 +73,14 @@ const GuestManagement = () => {
 
         // Verificar si hay errores
         if (newErrors.fullName || newErrors.phone || newErrors.partnersName.some(error => error)) {
-            showAlert('error', 'Por favor complete correctamente todos los campos requeridos');
+            Swal.fire({
+                icon: 'error',
+                text: 'Por favor complete correctamente todos los campos requeridos',
+                toast: true,
+                position: 'top-end',
+                timer: 3000,
+                showConfirmButton: false
+            });
             return;
         }
 
@@ -121,8 +141,9 @@ const GuestManagement = () => {
     };
 
     const handlePartnerChange = (index, value) => {
+        const capitalizedName = capitalizeWords(value);
         const newPartners = [...formData.partnersName];
-        newPartners[index] = value;
+        newPartners[index] = capitalizedName;
         setFormData({
             ...formData,
             partnersName: newPartners
@@ -360,6 +381,11 @@ const GuestManagement = () => {
                                 </div>
                                 
                                 <div className={styles.partnersContainer}>
+                                    {formData.partnersName.length === 0 && (
+                                        <p className={styles.noPartnersMessage}>
+                                            No hay acompañantes agregados
+                                        </p>
+                                    )}
                                     {formData.partnersName.map((partner, index) => (
                                         <div key={index} className={styles.partnerInputGroup}>
                                             <input
