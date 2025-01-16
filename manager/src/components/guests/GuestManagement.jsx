@@ -77,7 +77,7 @@ const GuestManagement = () => {
             
             toast.success('¡Invitado guardado exitosamente!');
             
-            // Actualizar la lista de invitados
+            // Forzar la actualización de la lista
             await fetchGuests();
 
         } catch (err) {
