@@ -293,16 +293,47 @@ const ModalConfirm = () => {
          })
          .catch((error) => {
             console.error('Error:', error);
-            Swal.fire({
-               icon: 'error',
-               title: 'Error',
-               text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.',
-               background: '#EAE8E4',
-               customClass: {
-                  confirmButton: 'btn-alert bg-green hover:bg-green-dark'
-               },
-               buttonsStyling: false
-            });
+            // Verificar si es error de usuario duplicado
+            if (error.response?.data?.error === "Ya existe un invitado con el mismo nombre completo") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Usuario ya registrado',
+                    html: `
+                        <div class="text-center">
+                            <p class="mb-4">Ya existe un registro con el nombre "${formData.fullName}".</p>
+                            <p class="text-sm text-gray-600">
+                                Si necesitas modificar tu confirmación, por favor contacta con nosotros:
+                                <br/>
+                                <a 
+                                    href="https://wa.me/59176327232?text=Hola%20Alcides,%20necesito%20modificar%20mi%20confirmación%20de%20la%20boda" 
+                                    class="font-bold text-[#25D366] hover:text-[#128C7E]"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    76327232 📱
+                                </a>
+                            </p>
+                        </div>
+                    `,
+                    background: '#EAE8E4',
+                    customClass: {
+                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+                    },
+                    buttonsStyling: false
+                });
+            } else {
+                // Mostrar error genérico para otros casos
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.',
+                    background: '#EAE8E4',
+                    customClass: {
+                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+                    },
+                    buttonsStyling: false
+                });
+            }
          })
          .finally(() => {
             setIsLoading(false);
