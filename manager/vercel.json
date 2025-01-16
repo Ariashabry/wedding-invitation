@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/guests",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/[^.]+",
+      "dest": "/index.html",
+      "status": 200
+    }
+  ]
+} 
