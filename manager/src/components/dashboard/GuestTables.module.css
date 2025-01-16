@@ -1,9 +1,10 @@
 .tablesGrid {
-    @apply grid grid-cols-1 2xl:grid-cols-2 gap-6;
+    @apply grid grid-cols-1 gap-6;
 }
 
 .tableWrapper {
-    @apply bg-white rounded-lg overflow-x-auto;
+    @apply bg-white rounded-lg overflow-x-auto mb-6;
+    width: 100%;
 }
 
 .table {
