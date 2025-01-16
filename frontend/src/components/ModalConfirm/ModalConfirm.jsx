@@ -332,7 +332,12 @@ const ModalConfirm = () => {
                   <br></br>
                   ¡Nos encantaría contar con tu presencia! 
                </span>
-               <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>(*)</span> son obligatorios )</span>
+               <div className="flex items-center gap-2 mt-4 bg-blue-50 p-3 rounded-lg">
+                  <span className="text-blue-600">💡</span>
+                  <span className="text-sm text-blue-700">
+                     Tip: Haz clic en cada sección para completar tus datos
+                  </span>
+               </div>
             </section>
 
             <form onClick={handleArrowBehavior} className="mt-4 flex flex-col gap-4 text-left">
