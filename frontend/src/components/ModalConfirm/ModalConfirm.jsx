@@ -9,18 +9,29 @@ import Swal from 'sweetalert2'
 import { convertLength } from '@mui/material/styles/cssUtils';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend-lake-nu.vercel.app';
 
-
-
+const countryCodes = [
+    { code: '+591', country: 'Bolivia', iso: 'BO', minLength: 8, maxLength: 8 },
+    { code: '+51', country: 'Perú', iso: 'PE', minLength: 9, maxLength: 9 },
+    { code: '+56', country: 'Chile', iso: 'CL', minLength: 9, maxLength: 9 },
+    { code: '+54', country: 'Argentina', iso: 'AR', minLength: 10, maxLength: 10 },
+    { code: '+55', country: 'Brasil', iso: 'BR', minLength: 10, maxLength: 11 },
+    { code: '+593', country: 'Ecuador', iso: 'EC', minLength: 9, maxLength: 10 },
+    { code: '+595', country: 'Paraguay', iso: 'PY', minLength: 9, maxLength: 9 },
+    { code: '+598', country: 'Uruguay', iso: 'UY', minLength: 8, maxLength: 9 },
+    { code: '+57', country: 'Colombia', iso: 'CO', minLength: 10, maxLength: 10 },
+    { code: '+34', country: 'España', iso: 'ES', minLength: 9, maxLength: 9 },
+    { code: '+1', country: 'Estados Unidos', iso: 'US', minLength: 10, maxLength: 10 }
+];
 
 const initialFormState = {
    fullName: '',
    phone: '',
-   assist: '',
+   assist: 'true',
    partner: 'false',
    partnersName: [],
    childrens: 'false',
    childrensQuantity: 0,
-   assistChurch: false,
+   assistChurch: 'true',
    // dietaryRestrictions: 'false',
    // dietaryRestrictionsIndications: '',
    // otherFoodPreference: '',
@@ -37,15 +48,57 @@ const ModalConfirm = () => {
    const [partnerNames, setPartnerNames] = useState(['']);
    const [errors, setErrors] = useState({});
    const [showToast, setShowToast] = useState(false);
+   const [selectedCountryCode, setSelectedCountryCode] = useState('+591');
+
+   // Función para capitalizar nombres
+   const capitalizeWords = (str) => {
+      if (!str) return '';
+      return str
+         .split(' ')
+         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+         .join(' ');
+   };
+
+   // Validación de nombre
+   const validateName = (name) => {
+      if (!name.trim()) {
+         return 'El nombre es obligatorio';
+      }
+      if (name.trim().length < 3) {
+         return 'El nombre debe tener al menos 3 caracteres';
+      }
+      if (!/^[A-Za-zÀ-ÿ\u00f1\u00d1 ]+$/.test(name.trim())) {
+         return 'El nombre solo debe contener letras';
+      }
+      return '';
+   };
+
+   // Función para validar caracteres permitidos en nombres
+   const isValidNameChar = (char) => {
+      return /^[A-Za-zÀ-ÿ\u00f1\u00d1\s]$/.test(char);
+   };
+
+   // Función para limpiar y formatear el nombre
+   const formatName = (value) => {
+      // Eliminar caracteres no permitidos y espacios múltiples
+      const cleanedValue = value
+         .split('')
+         .filter(char => isValidNameChar(char))
+         .join('')
+         .replace(/\s+/g, ' ');
+      
+      return capitalizeWords(cleanedValue);
+   };
 
    // Función para manejar el cambio en un input
    const handlePartnerNameChange = (index, value) => {
+      const formattedName = formatName(value);
       const updatedNames = [...partnerNames];
-      updatedNames[index] = value;
+      updatedNames[index] = formattedName;
       setPartnerNames(updatedNames);
       setFormData(prevData => ({
          ...prevData,
-         partnersName: updatedNames, // Actualizamos el estado formData con los nombres de los acompañantes
+         partnersName: updatedNames,
       }));
    };
 
@@ -68,15 +121,73 @@ const ModalConfirm = () => {
       }));
    };
 
+   // Validación para el teléfono
+   const validatePhone = (phone) => {
+      if (!phone.trim()) {
+         return 'El teléfono es obligatorio';
+      }
+
+      // Encontrar el país seleccionado
+      const selectedCountry = countryCodes.find(country => country.code === selectedCountryCode);
+      
+      if (phone.length < selectedCountry.minLength || phone.length > selectedCountry.maxLength) {
+         if (selectedCountry.minLength === selectedCountry.maxLength) {
+            return `El teléfono debe tener ${selectedCountry.minLength} dígitos para ${selectedCountry.country}`;
+         }
+         return `El teléfono debe tener entre ${selectedCountry.minLength} y ${selectedCountry.maxLength} dígitos para ${selectedCountry.country}`;
+      }
+      
+      return '';
+   };
+
+   // Función para formatear el teléfono
+   const formatPhone = (value) => {
+      const selectedCountry = countryCodes.find(country => country.code === selectedCountryCode);
+      const numbersOnly = value.replace(/\D/g, '');
+      return numbersOnly.slice(0, selectedCountry.maxLength);
+   };
+
    const handleChange = (e) => {
       const { name, type, value, checked } = e.target;
-      if (type === "radio") {
+      
+      if (name === 'fullName') {
+         const formattedName = formatName(value);
+         const nameError = validateName(formattedName);
+         
+         setErrors(prev => ({
+            ...prev,
+            fullName: nameError
+         }));
+         
+         setFormData(prevData => ({
+            ...prevData,
+            fullName: formattedName
+         }));
+      } else if (name === 'phone') {
+         const formattedPhone = formatPhone(value);
+         const phoneError = validatePhone(formattedPhone);
+         
+         setErrors(prev => ({
+            ...prev,
+            phone: phoneError
+         }));
+         
+         setFormData(prevData => ({
+            ...prevData,
+            phone: formattedPhone
+         }));
+      } else if (type === "radio") {
          value === "false" ? setOptionalInput(true) : setOptionalInput(false);
+         setFormData(prevData => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value,
+         }));
+      } else {
+         setFormData(prevData => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value,
+         }));
       }
-      setFormData(prevData => ({
-         ...prevData,
-         [name]: type === 'checkbox' ? checked : value,
-      }));
    };
 
 
@@ -121,67 +232,108 @@ const ModalConfirm = () => {
 
       setIsLoading(true);
 
+      // Crear una copia del formData con el teléfono completo
+      const formDataToSend = {
+         ...formData,
+         phone: `${selectedCountryCode}${formData.phone}`.replace(/\D/g, '') // Eliminar caracteres no numéricos
+      };
+
       const showConfirmation = (title, text, confirmedText) => {
          setTimeout(() => {
             Swal.fire({
-               confirmButtonText: 'Siguiente',
                title: title,
-               text: text,
+               html: `
+                  <div class="text-center">
+                     <div class="text-4xl mb-4">🎉</div>
+                     <h2 class="text-xl font-bold mb-4">${text}</h2>
+                     <p class="text-gray-600">${confirmedText}</p>
+                  </div>
+               `,
                background: '#EAE8E4',
+               confirmButtonText: 'Cerrar',
                customClass: {
-                  confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+                  confirmButton: 'btn-alert bg-green hover:bg-green-dark',
+                  popup: 'rounded-lg p-6'
                },
-               buttonsStyling: false
+               buttonsStyling: false,
+               showClass: {
+                  popup: 'animate__animated animate__fadeInDown'
+               },
+               hideClass: {
+                  popup: 'animate__animated animate__fadeOutUp'
+               }
             }).then((result) => {
                if (result.isConfirmed) {
-                  Swal.fire({
-                     confirmButtonText: 'Cerrar',
-                     text: confirmedText,
-                     background: '#EAE8E4',
-                     customClass: {
-                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
-                     },
-                     buttonsStyling: false
-                  }).then((result) => {
-                     if (result.isConfirmed) {
-                        setConfirmationModal(false);
-                     }
-                  });
+                  setConfirmationModal(false);
                }
             });
          }, 100);
       };
 
       axios
-         .post(`${BACKEND_URL}/api/guests`, formData)
+         .post(`${BACKEND_URL}/api/guests`, formDataToSend)
          .then((response) => {
             console.log('Response:', response.data);
             if (formData.assist !== "false") {
                showConfirmation(
                   '¡Gracias por Confirmar!',
-                  'Estamos felices de saber que nos acompañarás en este día tan especial.',
-                  '🎉 Tu confirmación ha sido enviada con éxito. ¡Nos vemos pronto para celebrar juntos! ❤️✨'
+                  `¡${formData.fullName}!`,
+                  `Estamos muy felices de que nos acompañes en este día tan especial.<br><br>
+                  ¡Te esperamos para celebrar juntos! ❤️✨<br>
+                  <span class="font-bold">No olvides la fecha: 25 de Enero</span>`
                );
             } else {
                showConfirmation(
                   '¡Te vamos a extrañar!',
-                  'Lamentamos que no puedas acompañarnos en este día tan especial. ❤️',
-                  'Formulario enviado con éxito!'
+                  `¡${formData.fullName}!`,
+                  `Lamentamos que no puedas acompañarnos.<br>
+                  Gracias por tomarte el tiempo de confirmarnos ❤️`
                );
             }
          })
          .catch((error) => {
             console.error('Error:', error);
-            Swal.fire({
-               icon: 'error',
-               title: 'Error',
-               text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.',
-               background: '#EAE8E4',
-               customClass: {
-                  confirmButton: 'btn-alert bg-green hover:bg-green-dark'
-               },
-               buttonsStyling: false
-            });
+            // Verificar si es error de usuario duplicado
+            if (error.response?.data?.error === "Ya existe un invitado con el mismo nombre completo") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Usuario ya registrado',
+                    html: `
+                        <div class="text-center">
+                            <p class="mb-4">Ya existe un registro con el nombre "${formData.fullName}".</p>
+                            <p class="text-sm text-gray-600">
+                                Si necesitas modificar tu confirmación, por favor contacta con nosotros:
+                                <br/>
+                                <a 
+                                    href="https://wa.me/59176327232?text=Hola%20Alcides,%20necesito%20modificar%20mi%20confirmación%20de%20la%20boda" 
+                                    class="font-bold text-[#25D366] hover:text-[#128C7E]"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    76327232 📱
+                                </a>
+                            </p>
+                        </div>
+                    `,
+                    background: '#EAE8E4',
+                    customClass: {
+                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+                    },
+                    buttonsStyling: false
+                });
+            } else {
+                // Mostrar error genérico para otros casos
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.',
+                    background: '#EAE8E4',
+                    customClass: {
+                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+                    },
+                    buttonsStyling: false
+                });
+            }
          })
          .finally(() => {
             setIsLoading(false);
@@ -224,7 +376,12 @@ const ModalConfirm = () => {
                   <br></br>
                   ¡Nos encantaría contar con tu presencia! 
                </span>
-               <span className="text-sm font-light italic mt-2">( Los campos con <span className='text-red'>(*)</span> son obligatorios )</span>
+               <div className="flex items-center gap-2 mt-4 bg-blue-50 p-3 rounded-lg">
+                  <span className="text-blue-600">💡</span>
+                  <span className="text-sm text-blue-700">
+                     Tip: Haz clic en cada sección para completar tus datos
+                  </span>
+               </div>
             </section>
 
             <form onClick={handleArrowBehavior} className="mt-4 flex flex-col gap-4 text-left">
@@ -247,11 +404,17 @@ const ModalConfirm = () => {
                               required
                               type="text"
                               name="fullName"
-                              placeholder="Ingresá tu nombre y apellido"
+                              placeholder="Ej: Juan Pérez Mamani"
                               value={formData.fullName}
                               onChange={handleChange}
-                              className="section-input-text"
+                              className={`section-input-text ${errors.fullName ? 'border-red-500' : ''}`}
+                              title="Solo se permiten letras y espacios"
                            />
+                           {errors.fullName && (
+                              <span className="text-red-500 text-xs mt-1">
+                                 {errors.fullName}
+                              </span>
+                           )}
                         </label>
                      </div>
                   </span>
@@ -272,15 +435,35 @@ const ModalConfirm = () => {
                      <h3 className="text-sm font-medium mb-4">Dejanos un número de teléfono para poder contactarte por cualquier cosa.</h3>
                      <div className="flex flex-col pb-6 gap-2">
                         <label>
-                           <input
-                              required
-                              type="text"
-                              name="phone"
-                              placeholder="Ingresá tu teléfono"
-                              value={formData.phone}
-                              onChange={handleChange}
-                              className="section-input-text"
-                           />
+                           <div className="phoneInputWrapper">
+                              <select 
+                                 value={selectedCountryCode}
+                                 onChange={(e) => setSelectedCountryCode(e.target.value)}
+                                 className="countryCodeSelect"
+                                 title="Código de país"
+                              >
+                                 {countryCodes.map(({ code, country, iso }) => (
+                                    <option key={code} value={code} title={country}>
+                                       {iso} {code}
+                                    </option>
+                                 ))}
+                              </select>
+                              <input
+                                 required
+                                 type="tel"
+                                 name="phone"
+                                 placeholder="Ej: 70707070"
+                                 value={formData.phone}
+                                 onChange={handleChange}
+                                 className={`section-input-text ${errors.phone ? 'border-red-500' : ''}`}
+                                 title="Ingresa un número de teléfono válido"
+                              />
+                           </div>
+                           {errors.phone && (
+                              <span className="text-red-500 text-xs mt-1">
+                                 {errors.phone}
+                              </span>
+                           )}
                         </label>
                      </div>
                   </span>
@@ -307,6 +490,7 @@ const ModalConfirm = () => {
                               value={true}
                               onChange={handleChange}
                               className="section-input-radio"
+                              defaultChecked
                            />ASISTIRÉ 🚀
                         </label>
                         <label className="section-label-radio">
@@ -326,14 +510,17 @@ const ModalConfirm = () => {
                <label>
                   <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='partners_name' />
                   <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-fit">
+                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-fit">
                      <div className="section-header">
                         <h3>
-                           Acompañante/s 🧑‍🤝‍🧑
+                           Acompañante 🧑‍🤝‍🧑
                         </h3>
                         <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180'}`} fontSize='medium' />
                      </div>
-                     <h3 className="text-sm font-medium mb-4">¿Fuiste invitado con alguien? Necesitamos su nombre y apellido para la lista. (Los niños van aparte).</h3>
+                     <h3 className="text-sm font-medium mb-4">
+                        <span className="font-bold">¿Fuiste invitado con alguien? </span>
+                        Necesitamos su nombre y apellido para la lista.
+                     </h3>
                      <div className="section-label-text">
                         <div className='flex gap-4'>
                            <label htmlFor="partnerConfirm" className='flex gap-2 cursor-pointer'>Si
@@ -343,7 +530,8 @@ const ModalConfirm = () => {
                                  id="partnerConfirm"
                                  value={true}
                                  onClick={handleChange}
-                                 className='section-input-radio' />
+                                 className='section-input-radio'
+                              />
                            </label>
                            <label htmlFor="partnerNotConfirm" className='flex gap-2 cursor-pointer'>No
                               <input
@@ -352,7 +540,9 @@ const ModalConfirm = () => {
                                  id="partnerNotConfirm"
                                  value={false}
                                  onClick={handleChange}
-                                 className='section-input-radio' />
+                                 className='section-input-radio'
+                                 defaultChecked
+                              />
                            </label>
                         </div>
                         <div className={`${formData.partner !== 'false' ? 'visible' : 'hidden'}`}>
@@ -399,7 +589,8 @@ const ModalConfirm = () => {
                               value={true}
                               onChange={handleChange}
                               className="section-input-radio"
-                           />Sí, 14 h estoy en la iglesia. 💒
+                              defaultChecked
+                           />Sí, 14:00 PM estaré presente en la Iglesia San Martín 💒
                         </label>
                         <label className="section-label-radio">
                            <input
@@ -408,7 +599,7 @@ const ModalConfirm = () => {
                               value={false}
                               onChange={handleChange}
                               className="section-input-radio"
-                           />No, 17:30 h estoy en el salón. 🙌🏼
+                           />No, 17:30 PM estaré en el salón 🙌🏼
                         </label>
                      </div>
                   </span>
@@ -499,7 +690,15 @@ const ModalConfirm = () => {
                      <span className="font-semibold"> horario nocturno</span> y la 
                      <span className="font-semibold"> naturaleza de la celebración</span> nos lleva a organizar una 
                      recepción <span className="font-semibold">solo para adultos</span>. 
-                     Agradecemos su comprensión y esperamos compartir esta velada especial con ustedes.
+                     Para confirmar la asistencia de niños, por favor contacta con Alcides al{' '}
+                     <a 
+                        href="https://wa.me/59176327232?text=Hola%20Alcides,%20quisiera%20consultar%20sobre%20la%20asistencia%20de%20niños%20a%20la%20boda" 
+                        className="font-bold text-[#25D366] hover:text-[#128C7E]"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                     >
+                        76327232 <span className="text-xs">📱</span>
+                     </a>.
                   </p>
                </div>
 

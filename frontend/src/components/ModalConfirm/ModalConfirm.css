@@ -13,6 +13,7 @@
   height: 8px;
   background-color: var(--mustard);
   border-radius: 10px 10px 0 0;
+  transition: all 0.3s ease;
 }
 
 .section-header {
@@ -23,6 +24,13 @@
   gap: 4px;
   font-weight: bold;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.section-header:hover {
+  background-color: #f8f9fa;
+  padding-left: 8px;
+  border-radius: 4px;
 }
 
 .section-required {
@@ -74,6 +82,8 @@
   outline-offset: 2px;
   box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   --tw-ring-color: var(--mustard);
+  transform: scale(1.01);
+  transition: transform 0.2s ease;
 }
 
 .section-input-radio {
@@ -202,4 +212,66 @@
       right: 1rem;
       left: 1rem;
    }
+}
+
+.phoneInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.phonePrefix {
+    position: absolute;
+    left: 1rem;
+    color: #4B5563;
+    font-weight: 500;
+}
+
+/* Modificar el input del teléfono directamente */
+input[name="phone"] {
+    flex: 1; /* Tomar el espacio restante */
+    padding-left: 1rem !important; /* Resetear el padding */
+}
+
+.countryCodeSelect {
+    position: relative;
+    padding: 0.5rem;
+    border: 1px solid var(--gray-light);
+    border-radius: 0.4rem;
+    background-color: white;
+    color: #4B5563;
+    font-weight: 500;
+    cursor: pointer;
+    width: 7rem;
+    height: 44px;
+    text-align: center;
+}
+
+.countryCodeSelect:focus {
+    outline: none;
+    border-color: var(--mustard);
+}
+
+/* Estilo para las opciones del select */
+.countryCodeSelect option {
+    background-color: white;
+    color: #4B5563;
+    padding: 8px;
+    text-align: center;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
+
+label:hover .section-line {
+    transform: scaleY(1.5);
+}
+
+.section-header h3 {
+    transition: transform 0.2s ease;
+}
+
+.section-header:hover h3 {
+    transform: translateX(4px);
 }
