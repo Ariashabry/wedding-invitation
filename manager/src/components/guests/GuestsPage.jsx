@@ -11,6 +11,15 @@ const GuestsPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
 
+    // Función para capitalizar palabras en formato título
+    const capitalizeWords = (str) => {
+        if (!str) return '';
+        return str
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+    };
+
     const columns = [
         { 
             header: '#',
@@ -21,7 +30,8 @@ const GuestsPage = () => {
         { 
             header: 'Nombre',
             key: 'fullName',
-            className: styles.nameColumn
+            className: styles.nameColumn,
+            render: (row) => capitalizeWords(row.fullName)
         },
         { 
             header: 'Teléfono',
@@ -34,7 +44,7 @@ const GuestsPage = () => {
             className: styles.companionsColumn,
             render: (row) => {
                 const companions = row.partnersName || [];
-                return companions.join(', ') || '-';
+                return companions.map(name => capitalizeWords(name)).join(', ') || '-';
             }
         },
         { 
