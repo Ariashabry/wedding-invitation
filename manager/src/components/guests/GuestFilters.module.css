@@ -1,99 +1,31 @@
 .filtersContainer {
-    @apply w-full flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between;
-    max-width: 100%;
+    @apply flex flex-col sm:flex-row justify-between gap-4 mt-6;
 }
 
 .searchWrapper {
-    @apply w-full sm:flex-1 sm:max-w-md;
+    @apply flex-1;
 }
 
 .searchContainer {
-    @apply relative flex items-center;
+    @apply relative flex items-center max-w-md;
 }
 
 .searchIcon {
     @apply absolute left-3 text-gray-400;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
 .searchInput {
-    @apply w-full rounded-lg bg-white 
-    border border-gray-200 
-    text-sm text-gray-700
-    placeholder-gray-400
-    focus:ring-2 focus:ring-blue-500 focus:border-transparent
-    transition-all duration-200;
-    padding: 8px 32px 8px 36px;
-    height: 36px;
+    @apply w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
 }
 
 .clearButton {
-    @apply absolute right-3 p-0.5 rounded-full
-    text-gray-400 hover:text-gray-600 hover:bg-gray-100
-    focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500;
-    top: 50%;
-    transform: translateY(-50%);
+    @apply absolute right-3 text-gray-400 hover:text-gray-600;
 }
 
 .filterWrapper {
-    @apply w-full sm:w-auto;
-    min-width: 120px;
+    @apply w-full sm:w-48;
 }
 
 .statusSelect {
-    @apply w-full rounded-lg bg-white
-    border border-gray-200
-    text-sm text-gray-700
-    focus:ring-2 focus:ring-blue-500 focus:border-transparent
-    cursor-pointer transition-all duration-200;
-    padding: 8px 32px 8px 12px;
-    height: 36px;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 8px center;
-    background-repeat: no-repeat;
-    background-size: 16px 16px;
-}
-
-/* Ajustes específicos para móvil pequeño */
-@media (max-width: 360px) {
-    .searchInput,
-    .statusSelect {
-        height: 32px;
-        font-size: 12px;
-    }
-
-    .searchIcon {
-        width: 14px;
-        height: 14px;
-    }
-}
-
-/* Ajustes para móvil mediano */
-@media (min-width: 361px) and (max-width: 375px) {
-    .searchInput,
-    .statusSelect {
-        height: 34px;
-        font-size: 13px;
-    }
-}
-
-/* Ajustes para móvil grande */
-@media (min-width: 376px) and (max-width: 640px) {
-    .filtersContainer {
-        @apply gap-3;
-    }
-}
-
-/* Hover states */
-.searchInput:hover,
-.statusSelect:hover {
-    @apply border-gray-300 bg-gray-50;
-}
-
-/* Focus states */
-.searchInput:focus,
-.statusSelect:focus {
-    @apply outline-none border-transparent bg-white;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
 }

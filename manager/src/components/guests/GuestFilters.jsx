@@ -2,11 +2,23 @@ import styles from './GuestFilters.module.css';
 
 const GuestFilters = ({ searchTerm, setSearchTerm, statusFilter, setStatusFilter }) => {
     return (
-        <div className={styles.filtersContainer}>
+        <div className={`${styles.filtersContainer} mt-6`}>
             <div className={styles.searchWrapper}>
                 <div className={styles.searchContainer}>
-                    <svg className={styles.searchIcon} width="16" height="16" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <svg 
+                        className={styles.searchIcon} 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                     <input
                         type="text"
@@ -20,8 +32,19 @@ const GuestFilters = ({ searchTerm, setSearchTerm, statusFilter, setStatusFilter
                             onClick={() => setSearchTerm('')}
                             className={styles.clearButton}
                         >
-                            <svg width="14" height="14" fill="none" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 6l4 4m0-4l-4 4" />
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                width="16" 
+                                height="16" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
                             </svg>
                         </button>
                     )}
