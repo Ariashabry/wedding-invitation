@@ -22,6 +22,21 @@
     @apply text-red-600 font-medium;
 }
 
+/* Estilos para scrollbar sin nesting */
+.tableWrapper::-webkit-scrollbar {
+    height: 0.375rem;
+    width: 0.375rem;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+    background-color: rgb(156 163 175);
+    border-radius: 9999px;
+}
+
 /* Ajustes para móviles */
 @media (max-width: 640px) {
     .cellText {

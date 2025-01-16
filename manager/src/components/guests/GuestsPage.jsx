@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGuestsContext } from '../../context/GuestsContext';
+import Header from '../layout/Header';
 import Table from '../shared/Table';
 import GuestManagement from './GuestManagement';
 import GuestFilters from './GuestFilters';
@@ -91,30 +92,30 @@ const GuestsPage = () => {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.content}>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>Gestión de Invitados</h1>
-                    <p className={styles.subtitle}>
-                        Administra y visualiza el estado de todos los invitados
-                    </p>
+        <div>
+            <Header 
+                title="Gestión de Invitados" 
+                subtitle="Administra y visualiza el estado de todos los invitados"
+            />
+            <div className="px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="mt-6">
+                        <GuestManagement />
+                    </div>
                     <GuestFilters 
                         searchTerm={searchTerm}
                         setSearchTerm={setSearchTerm}
                         statusFilter={statusFilter}
                         setStatusFilter={setStatusFilter}
                     />
-                </div>
-
-                <GuestManagement />
-
-                <div className={styles.tableSection}>
-                    <Table 
-                        title="Lista de Invitados"
-                        columns={columns}
-                        data={filteredGuests}
-                        footer={`Total: ${filteredGuests.length} invitados`}
-                    />
+                    <div className={styles.tableSection}>
+                        <Table 
+                            title="Lista de Invitados"
+                            columns={columns}
+                            data={filteredGuests}
+                            footer={`Total: ${filteredGuests.length} invitados`}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

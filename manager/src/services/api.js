@@ -11,3 +11,13 @@ export const getGuests = async () => {
         throw error;
     }
 }; 
+
+export const createGuest = async (guestData) => {
+    try {
+        const response = await axios.post(`${API_URL}/api/guests`, guestData);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating guest:', error);
+        throw error;
+    }
+}; 
