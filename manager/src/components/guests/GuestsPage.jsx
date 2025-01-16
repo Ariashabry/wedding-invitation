@@ -20,12 +20,32 @@ const GuestsPage = () => {
             .join(' ');
     };
 
+    const filteredGuests = guests
+        .filter(guest => {
+            // Convertir tanto el término de búsqueda como el nombre a minúsculas para comparar
+            const searchTermLower = searchTerm.toLowerCase();
+            const fullNameLower = guest.fullName.toLowerCase();
+            const partnersLower = (guest.partnersName || []).map(name => name.toLowerCase());
+
+            // Buscar en nombre y acompañantes
+            const matchesSearch = fullNameLower.includes(searchTermLower) || 
+                                partnersLower.some(name => name.includes(searchTermLower));
+
+            const matchesStatus = statusFilter === 'all' ? true :
+                statusFilter === 'confirmed' ? (guest.assist === true || guest.assistChurch === true) :
+                statusFilter === 'pending' ? (guest.assist === null || guest.assistChurch === null) :
+                (guest.assist === false || guest.assistChurch === false);
+            
+            return matchesSearch && matchesStatus;
+        })
+        .sort((a, b) => b.id - a.id); // Ordenar de mayor a menor
+
     const columns = [
         { 
             header: '#',
             key: 'index',
             className: styles.indexColumn,
-            render: (_, index) => index + 1
+            render: (_, index) => filteredGuests.length - index
         },
         { 
             header: 'Nombre',
@@ -79,16 +99,6 @@ const GuestsPage = () => {
         }
     ];
 
-    const filteredGuests = guests.filter(guest => {
-        const matchesSearch = guest.fullName.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesStatus = statusFilter === 'all' ? true :
-            statusFilter === 'confirmed' ? (guest.assist === true || guest.assistChurch === true) :
-            statusFilter === 'pending' ? (guest.assist === null || guest.assistChurch === null) :
-            (guest.assist === false || guest.assistChurch === false);
-        
-        return matchesSearch && matchesStatus;
-    });
-
     if (loading) {
         return (
             <div className={styles.loading}>
@@ -109,15 +119,33 @@ const GuestsPage = () => {
             />
             <div className="px-6">
                 <div className="max-w-7xl mx-auto">
-                    <div className="mt-6">
+                    <div className="mt-6 mb-8">
+                        <div className="bg-blue-50 p-3 mb-4 rounded-lg border border-blue-100">
+                            <h2 className="text-lg font-semibold text-blue-800 mb-1">
+                                Formulario de Registro
+                            </h2>
+                            <p className="text-sm text-blue-600">
+                                Aquí puedes agregar nuevos invitados y sus acompañantes
+                            </p>
+                        </div>
                         <GuestManagement />
                     </div>
-                    <GuestFilters 
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        statusFilter={statusFilter}
-                        setStatusFilter={setStatusFilter}
-                    />
+
+                    <div className="bg-gray-50 p-3 mb-6 rounded-lg border border-gray-100">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                            Filtros y Búsqueda
+                        </h2>
+                        <p className="text-sm text-gray-600 mb-3">
+                            Busca por nombre o filtra por estado de asistencia
+                        </p>
+                        <GuestFilters 
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            statusFilter={statusFilter}
+                            setStatusFilter={setStatusFilter}
+                        />
+                    </div>
+
                     <div className={styles.tableSection}>
                         <Table 
                             title="Lista de Invitados"
