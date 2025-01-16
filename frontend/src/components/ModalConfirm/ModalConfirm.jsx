@@ -105,6 +105,36 @@ const ModalConfirm = () => {
    // Función para agregar un nuevo input para otro acompañante
    const addPartnerInput = (e) => {
       e.preventDefault();
+      if (partnerNames.length >= 2) {
+         Swal.fire({
+            icon: 'warning',
+            title: 'Límite de acompañantes alcanzado',
+            html: `
+                <div class="text-center">
+                    <p class="mb-4">Solo se permiten hasta 2 acompañantes por invitado.</p>
+                    <p class="text-sm text-gray-600">
+                        Si necesitas registrar más personas, por favor contáctanos:
+                        <br/>
+                        <a 
+                            href="https://wa.me/59176327232?text=Hola%20Alcides,%20necesito%20registrar%20más%20acompañantes" 
+                            class="font-bold text-[#25D366] hover:text-[#128C7E]"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            76327232 📱
+                        </a>
+                    </p>
+                </div>
+            `,
+            background: '#EAE8E4',
+            customClass: {
+                confirmButton: 'btn-alert bg-green hover:bg-green-dark',
+                popup: 'rounded-lg p-6'
+            },
+            buttonsStyling: false
+         });
+         return;
+      }
       setPartnerNames([...partnerNames, '']);
    };
 
@@ -556,15 +586,22 @@ const ModalConfirm = () => {
                                     className='section-input-text'
                                     disabled={optionalInput}
                                  />
-                                 <CancelIcon onClick={() => removePartnerInput(index)} fontSize='small' className='text-mustard ml-1 cursor-pointer' />
+                                 <CancelIcon 
+                                    onClick={() => removePartnerInput(index)} 
+                                    fontSize='small' 
+                                    className='text-mustard ml-1 cursor-pointer' 
+                                 />
                               </label>
                            ))}
-                           <button
-                              className='mt-3 flex items-center gap-2 text-gray-dark text-opacity-50 text-sm font-normal'
-                              onClick={addPartnerInput}>
-                              <AddCircleIcon fontSize='small' className='text-mustard' />
-                              Agregar acompañante
-                           </button>
+                           {partnerNames.length < 2 && (
+                              <button
+                                 className='mt-3 flex items-center gap-2 text-gray-dark text-opacity-50 text-sm font-normal'
+                                 onClick={addPartnerInput}
+                              >
+                                 <AddCircleIcon fontSize='small' className='text-mustard' />
+                                 Agregar acompañante
+                              </button>
+                           )}
                         </div>
                      </div>
                   </span>
