@@ -10,17 +10,17 @@ import { convertLength } from '@mui/material/styles/cssUtils';
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend-lake-nu.vercel.app';
 
 const countryCodes = [
-    { code: '+591', country: 'Bolivia', iso: 'BO' },
-    { code: '+51', country: 'Perú', iso: 'PE' },
-    { code: '+56', country: 'Chile', iso: 'CL' },
-    { code: '+54', country: 'Argentina', iso: 'AR' },
-    { code: '+55', country: 'Brasil', iso: 'BR' },
-    { code: '+593', country: 'Ecuador', iso: 'EC' },
-    { code: '+595', country: 'Paraguay', iso: 'PY' },
-    { code: '+598', country: 'Uruguay', iso: 'UY' },
-    { code: '+57', country: 'Colombia', iso: 'CO' },
-    { code: '+34', country: 'España', iso: 'ES' },
-    { code: '+1', country: 'Estados Unidos', iso: 'US' }
+    { code: '+591', country: 'Bolivia', iso: 'BO', minLength: 8, maxLength: 8 },
+    { code: '+51', country: 'Perú', iso: 'PE', minLength: 9, maxLength: 9 },
+    { code: '+56', country: 'Chile', iso: 'CL', minLength: 9, maxLength: 9 },
+    { code: '+54', country: 'Argentina', iso: 'AR', minLength: 10, maxLength: 10 },
+    { code: '+55', country: 'Brasil', iso: 'BR', minLength: 10, maxLength: 11 },
+    { code: '+593', country: 'Ecuador', iso: 'EC', minLength: 9, maxLength: 10 },
+    { code: '+595', country: 'Paraguay', iso: 'PY', minLength: 9, maxLength: 9 },
+    { code: '+598', country: 'Uruguay', iso: 'UY', minLength: 8, maxLength: 9 },
+    { code: '+57', country: 'Colombia', iso: 'CO', minLength: 10, maxLength: 10 },
+    { code: '+34', country: 'España', iso: 'ES', minLength: 9, maxLength: 9 },
+    { code: '+1', country: 'Estados Unidos', iso: 'US', minLength: 10, maxLength: 10 }
 ];
 
 const initialFormState = {
@@ -126,22 +126,25 @@ const ModalConfirm = () => {
       if (!phone.trim()) {
          return 'El teléfono es obligatorio';
       }
-      // Validación según el país seleccionado
-      const minLength = selectedCountryCode === '+1' ? 10 : 8;
-      const maxLength = selectedCountryCode === '+1' ? 10 : 9;
+
+      // Encontrar el país seleccionado
+      const selectedCountry = countryCodes.find(country => country.code === selectedCountryCode);
       
-      if (phone.length < minLength || phone.length > maxLength) {
-         return `El teléfono debe tener entre ${minLength} y ${maxLength} dígitos`;
+      if (phone.length < selectedCountry.minLength || phone.length > selectedCountry.maxLength) {
+         if (selectedCountry.minLength === selectedCountry.maxLength) {
+            return `El teléfono debe tener ${selectedCountry.minLength} dígitos para ${selectedCountry.country}`;
+         }
+         return `El teléfono debe tener entre ${selectedCountry.minLength} y ${selectedCountry.maxLength} dígitos para ${selectedCountry.country}`;
       }
+      
       return '';
    };
 
    // Función para formatear el teléfono
    const formatPhone = (value) => {
-      // Eliminar todo excepto números
+      const selectedCountry = countryCodes.find(country => country.code === selectedCountryCode);
       const numbersOnly = value.replace(/\D/g, '');
-      // Limitar a 8 dígitos
-      return numbersOnly.slice(0, 8);
+      return numbersOnly.slice(0, selectedCountry.maxLength);
    };
 
    const handleChange = (e) => {
@@ -229,52 +232,62 @@ const ModalConfirm = () => {
 
       setIsLoading(true);
 
+      // Crear una copia del formData con el teléfono completo
+      const formDataToSend = {
+         ...formData,
+         phone: `${selectedCountryCode}${formData.phone}`.replace(/\D/g, '') // Eliminar caracteres no numéricos
+      };
+
       const showConfirmation = (title, text, confirmedText) => {
          setTimeout(() => {
             Swal.fire({
-               confirmButtonText: 'Siguiente',
                title: title,
-               text: text,
+               html: `
+                  <div class="text-center">
+                     <div class="text-4xl mb-4">🎉</div>
+                     <h2 class="text-xl font-bold mb-4">${text}</h2>
+                     <p class="text-gray-600">${confirmedText}</p>
+                  </div>
+               `,
                background: '#EAE8E4',
+               confirmButtonText: 'Cerrar',
                customClass: {
-                  confirmButton: 'btn-alert bg-green hover:bg-green-dark'
+                  confirmButton: 'btn-alert bg-green hover:bg-green-dark',
+                  popup: 'rounded-lg p-6'
                },
-               buttonsStyling: false
+               buttonsStyling: false,
+               showClass: {
+                  popup: 'animate__animated animate__fadeInDown'
+               },
+               hideClass: {
+                  popup: 'animate__animated animate__fadeOutUp'
+               }
             }).then((result) => {
                if (result.isConfirmed) {
-                  Swal.fire({
-                     confirmButtonText: 'Cerrar',
-                     text: confirmedText,
-                     background: '#EAE8E4',
-                     customClass: {
-                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
-                     },
-                     buttonsStyling: false
-                  }).then((result) => {
-                     if (result.isConfirmed) {
-                        setConfirmationModal(false);
-                     }
-                  });
+                  setConfirmationModal(false);
                }
             });
          }, 100);
       };
 
       axios
-         .post(`${BACKEND_URL}/api/guests`, formData)
+         .post(`${BACKEND_URL}/api/guests`, formDataToSend)
          .then((response) => {
             console.log('Response:', response.data);
             if (formData.assist !== "false") {
                showConfirmation(
                   '¡Gracias por Confirmar!',
-                  'Estamos felices de saber que nos acompañarás en este día tan especial.',
-                  '🎉 Tu confirmación ha sido enviada con éxito. ¡Nos vemos pronto para celebrar juntos! ❤️✨'
+                  `¡${formData.fullName}!`,
+                  `Estamos muy felices de que nos acompañes en este día tan especial.<br><br>
+                  ¡Te esperamos para celebrar juntos! ❤️✨<br>
+                  <span class="font-bold">No olvides la fecha: 25 de Enero</span>`
                );
             } else {
                showConfirmation(
                   '¡Te vamos a extrañar!',
-                  'Lamentamos que no puedas acompañarnos en este día tan especial. ❤️',
-                  'Formulario enviado con éxito!'
+                  `¡${formData.fullName}!`,
+                  `Lamentamos que no puedas acompañarnos.<br>
+                  Gracias por tomarte el tiempo de confirmarnos ❤️`
                );
             }
          })
