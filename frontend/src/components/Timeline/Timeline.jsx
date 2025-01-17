@@ -124,37 +124,37 @@ const Timeline = () => {
       locationUrl: "https://maps.app.goo.gl/fLbBVkszwHn63fHz9"
     },
     {
-      time: "6:00 PM",
+      time: "6:00 PM - 6:45 PM",
       title: "CEREMONIA CIVIL",
       icon: <Handshake className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Ceremonia civil breve pero significativa. Agradecemos su compañía ✨"
+      description: "Ceremonia civil donde nos uniremos legalmente en matrimonio. Agradecemos su compañía ✨"
     },
     {
-      time: "6:30 PM",
+      time: "6:45 PM",
+      title: "BAILE DE LOS NOVIOS",
+      icon: <PersonSimpleWalk className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Show especial de los novios con canciones seleccionadas. ¡Nuestro primer baile como esposos! 💃"
+    },
+    {
+      time: "7:00 PM",
+      title: "VALS PRINCIPAL",
+      icon: <MusicNotes className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
+      description: "Disfrutemos del elegante vals con nuestros padres y seres queridos, celebrando este momento especial 🎵"
+    },
+    {
+      time: "7:15 PM",
       title: "BRINDIS DE HONOR",
       icon: <Wine className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Levantaremos nuestras copas para agradecerles por su amor y apoyo 🥂"
     },
     {
-      time: "6:45 PM",
+      time: "7:30 PM",
       title: "PALABRAS DE AGRADECIMIENTO",
       icon: <Microphone className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Un momento para expresar nuestro agradecimiento a familiares y amigos 💝"
     },
     {
-      time: "7:00 PM",
-      title: "BAILE DE LOS NOVIOS",
-      icon: <PersonSimpleWalk className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Abriremos la pista con nuestro primer baile como esposos. ¡Únanse a nosotros! 💃"
-    },
-    {
-      time: "7:15 PM",
-      title: "BAILE DEL VALS",
-      icon: <MusicNotes className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
-      description: "Disfrutemos del elegante vals, donde giraremos y celebraremos juntos este hermoso momento 🎵"
-    },
-    {
-      time: "7:30 PM",
+      time: "7:45 PM",
       title: "BAILE DE LA CUECA",
       icon: <PersonSimpleWalk className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Disfrutemos juntos del tradicional baile de la cueca 🎊"
