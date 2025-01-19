@@ -88,7 +88,7 @@ const GuestManagement = ({ onInteraction }) => {
             setIsLoading(true);
             const guestData = {
                 fullName: formData.fullName.trim(),
-                phone: formData.phone.trim(),
+                phone: `+591${formData.phone.trim()}`,
                 partnersName: formData.partnersName.filter(name => name.trim() !== ''),
                 assistChurch: formData.assistChurch,
                 assist: formData.assist,
@@ -97,10 +97,10 @@ const GuestManagement = ({ onInteraction }) => {
             const response = await createGuest(guestData);
             await fetchGuests();
             
-            // Mostrar mensaje de éxito con el nombre del invitado
-            Swal.fire({
+            // Mostrar mensaje de éxito con el nombre en negritas usando HTML
+            await Swal.fire({
                 title: '¡Invitado Agregado!',
-                text: `${capitalizeWords(formData.fullName)} ha sido registrado exitosamente`,
+                html: `<strong>${capitalizeWords(formData.fullName)}</strong> ha sido registrado exitosamente`,
                 icon: 'success',
                 confirmButtonColor: '#3b82f6'
             });
@@ -114,6 +114,11 @@ const GuestManagement = ({ onInteraction }) => {
                 partnersName: []
             });
             setErrors({});
+
+            // Hacer scroll a la sección de búsqueda después de cerrar el mensaje
+            if (onInteraction) {
+                onInteraction();
+            }
         } catch (error) {
             Swal.fire({
                 title: 'Error',
