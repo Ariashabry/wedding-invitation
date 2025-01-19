@@ -1,5 +1,4 @@
 import React from 'react';
-import FeatureWrapper from '../FeatureWrapper/FeatureWrapper';
 import { 
   Church, 
   Camera, 
@@ -186,27 +185,25 @@ const Timeline = () => {
   ];
 
   return (
-    <FeatureWrapper featureKey="TIMELINE">
-      <div className="w-full max-w-4xl mx-auto">
-        {/* Título con contenedor dedicado y padding simétrico */}
-        <div className="w-full py-8 sm:py-12 px-4 md:px-8">
-          <h1 className="text-3xl sm:text-4xl font-poppins text-white text-center font-semibold tracking-wide">
-            CRONOGRAMA
-          </h1>
-        </div>
-
-        {/* Contenedor de eventos con padding propio */}
-        <div className="relative px-4 md:px-8">
-          {events.map((event, index) => (
-            <TimelineEvent
-              key={index}
-              {...event}
-              isLast={index === events.length - 1}
-            />
-          ))}
-        </div>
+    <div className="w-full max-w-4xl mx-auto">
+      {/* Título con contenedor dedicado y padding simétrico */}
+      <div className="w-full py-8 sm:py-12 px-4 md:px-8">
+        <h1 className="text-3xl sm:text-4xl font-poppins text-white text-center font-semibold tracking-wide">
+          CRONOGRAMA
+        </h1>
       </div>
-    </FeatureWrapper>
+
+      {/* Contenedor de eventos con padding propio */}
+      <div className="relative px-4 md:px-8">
+        {events.map((event, index) => (
+          <TimelineEvent
+            key={index}
+            {...event}
+            isLast={index === events.length - 1}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

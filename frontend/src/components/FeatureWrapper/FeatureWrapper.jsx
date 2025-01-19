@@ -1,11 +1,13 @@
-import { FEATURES } from '../../config/features';
+import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 
 const FeatureWrapper = ({ featureKey, children }) => {
-  if (!FEATURES[featureKey]?.enabled) {
-    return null;
-  }
+    const isEnabled = useFeatureFlag(featureKey);
 
-  return children;
+    if (!isEnabled) {
+        return null;
+    }
+
+    return children;
 };
 
 export default FeatureWrapper; 

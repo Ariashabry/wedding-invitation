@@ -74,7 +74,9 @@ const Layout = () => {
             lg:px-8 lg:pb-20">
 
             <Countdown />
-            <Timeline />
+            <FeatureWrapper featureKey="TIMELINE">
+               <Timeline />
+            </FeatureWrapper>
 
             {/* Church and party container ---------- */}
             <SectionContainer>
@@ -338,16 +340,19 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
 
             {/* Desktop Gallery + Carousel */}
             <section className="hidden lg:flex lg:w-full lg:flex-col lg:items-center">
-               <Carousel />
-               <NewGallery />
+                <Carousel />
+                <FeatureWrapper featureKey="GALLERY">
+                    <NewGallery />
+                </FeatureWrapper>
             </section>
          </section>
 
          {/* 5° Carousel section (mobile only) --------------------------------------- */}
-         <section className="relative flex flex-col items-center bg-cream w-full z-20
-            sm:hidden">
+         <section className="relative flex flex-col items-center bg-cream w-full z-20 sm:hidden">
             <Carousel />
-            <NewGallery />
+            <FeatureWrapper featureKey="GALLERY">
+                <NewGallery />
+            </FeatureWrapper>
          </section>
 
 

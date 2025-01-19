@@ -1,16 +1,31 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from "./pages/Layout"
 import ModalProvider from "./context/ModalProvider"
 import { Analytics } from '@vercel/analytics/react'
+import AdminLogin from './pages/AdminLogin'
+import FeatureFlagsPanel from './components/admin/FeatureFlagsPanel'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
-
-
   return (
+    <BrowserRouter>
       <ModalProvider>
-        <Layout/>
+        <Routes>
+          <Route path="/" element={<Layout />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route 
+            path="/admin/features" 
+            element={
+              <ProtectedRoute>
+                <FeatureFlagsPanel />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
         <Analytics />
       </ModalProvider>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
