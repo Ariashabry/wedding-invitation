@@ -12,15 +12,18 @@ export const FEATURES = {
     version: '1.1.0'
   },
   TIPACU_BUTTON: {
-    enabled: false,
-    version: '1.0.0'
+    enabled: true,
+    version: '1.0.0',
+    description: 'Botón de T\'ipacu para regalos'
   },
   TIMELINE: {
-    enabled: false,
-    version: '1.0.0'
+    enabled: true,
+    version: '1.0.0',
+    description: 'Cronograma del evento'
   },
   CEREMONY_LOCATIONS: {
     enabled: true,
-    version: '1.0.0'
+    version: '1.0.0',
+    description: 'Sección de ubicaciones (iglesia y salón)'
   }
 }; 
