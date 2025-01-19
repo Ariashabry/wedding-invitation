@@ -34,14 +34,18 @@ const GuestsPage = () => {
 
     const filteredGuests = guests
         .filter(guest => {
-            // Convertir tanto el término de búsqueda como el nombre a minúsculas para comparar
+            // Convertir tanto el término de búsqueda como el nombre y teléfono a minúsculas para comparar
             const searchTermLower = searchTerm.toLowerCase();
             const fullNameLower = guest.fullName.toLowerCase();
             const partnersLower = (guest.partnersName || []).map(name => name.toLowerCase());
+            // Eliminar el código de país y espacios del teléfono para la búsqueda
+            const phoneNumber = (guest.phone || '').replace(/[\s+]/g, '');
 
-            // Buscar en nombre y acompañantes
-            const matchesSearch = fullNameLower.includes(searchTermLower) || 
-                                partnersLower.some(name => name.includes(searchTermLower));
+            // Buscar en nombre, acompañantes y teléfono
+            const matchesSearch = 
+                fullNameLower.includes(searchTermLower) || 
+                partnersLower.some(name => name.includes(searchTermLower)) ||
+                phoneNumber.includes(searchTerm.replace(/[\s+]/g, '')); // Eliminar espacios y + del término de búsqueda
 
             // Filtro para iglesia
             const matchesChurch = churchFilter === 'all' ? true :
