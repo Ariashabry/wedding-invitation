@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
 import Header from '../layout/Header';
 import GuestStats from './GuestStats';
 import GuestTables from './GuestTables';
 
 const Dashboard = () => {
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant'
+        });
+    }, []);
+
     return (
         <div>
             <Header 
