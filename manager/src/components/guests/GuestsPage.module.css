@@ -23,7 +23,7 @@
 }
 
 .tableSection {
-    @apply bg-white rounded-xl shadow-sm overflow-hidden;
+    @apply overflow-hidden;
 }
 
 /* Estilos de columnas responsivas */
@@ -67,19 +67,19 @@
 
 /* Badges de estado */
 .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-}
-
-.badgeConfirmed {
-    @apply bg-green-100 text-green-800;
-}
-
-.badgeNotAttending {
-    @apply bg-red-100 text-red-800;
+    @apply inline-flex items-center justify-between px-1.5 py-[2px] rounded text-[11px] font-medium w-full leading-none;
 }
 
 .badgePending {
-    @apply bg-yellow-100 text-yellow-800;
+    @apply bg-orange-50 text-orange-600;
+}
+
+.badgeConfirmed {
+    @apply bg-emerald-50 text-emerald-600;
+}
+
+.badgeNotAttending {
+    @apply bg-rose-50 text-rose-600;
 }
 
 /* Loading y Error states */
@@ -139,4 +139,37 @@
     .companionsColumn {
         min-width: 160px;
     }
+}
+
+/* Estilos adicionales para la tabla */
+.tableSection :global(th) {
+    @apply py-1 px-2 text-[11px] font-medium text-gray-500 uppercase tracking-tight border-b border-gray-200;
+}
+
+.tableSection :global(td) {
+    @apply px-2 align-top border-b border-gray-50;
+}
+
+.tableSection :global(tr:hover) {
+    @apply bg-gray-50/50;
+}
+
+.tableSection :global(table) {
+    @apply border-collapse;
+}
+
+.statusBadge {
+    @apply flex items-center justify-between px-1.5 py-[1px] rounded bg-opacity-50 w-full;
+}
+
+.statusPending {
+    @apply bg-gray-100 text-gray-600;
+}
+
+.statusConfirmed {
+    @apply bg-emerald-50 text-emerald-700;
+}
+
+.statusNotAttending {
+    @apply bg-rose-50 text-rose-700;
 }

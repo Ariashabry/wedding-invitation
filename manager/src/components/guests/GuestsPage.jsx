@@ -59,89 +59,119 @@ const GuestsPage = () => {
         })
         .sort((a, b) => b.id - a.id);
 
+    const getStatusIcon = (status) => {
+        if (status === null) return '○'; // círculo vacío para pendiente
+        if (status === true) return '●';  // círculo lleno para confirmado
+        return '×';  // x para no asiste
+    };
+
     const columns = [
         { 
             header: '#',
             key: 'index',
-            className: styles.indexColumn,
-            render: (_, index) => filteredGuests.length - index
+            className: 'w-8 text-center py-1',
+            render: (_, index) => (
+                <span className="text-xs text-gray-500">
+                    {filteredGuests.length - index}
+                </span>
+            )
         },
         { 
             header: 'Nombre',
             key: 'fullName',
-            className: styles.nameColumn,
-            render: (row) => capitalizeWords(row.fullName)
-        },
-        { 
-            header: 'Teléfono',
-            key: 'phone',
-            className: styles.phoneColumn
+            className: 'min-w-[150px] max-w-[200px] py-1',
+            render: (row) => (
+                <div className="flex flex-col leading-none">
+                    <span className="text-sm font-medium">{capitalizeWords(row.fullName)}</span>
+                    {row.phone && (
+                        <span className="text-xs text-gray-400 mt-0.5">
+                            {row.phone}
+                        </span>
+                    )}
+                </div>
+            )
         },
         { 
             header: 'Acompañantes',
             key: 'companions',
-            className: styles.companionsColumn,
+            className: 'min-w-[160px] max-w-[240px] py-1',
             render: (row) => {
                 const companions = row.partnersName || [];
-                return companions.map(name => capitalizeWords(name)).join(', ') || '-';
+                if (companions.length === 0) return (
+                    <span className="text-xs text-gray-400">-</span>
+                );
+                return (
+                    <div className="flex flex-col leading-none">
+                        {companions.map((name, idx) => (
+                            <span key={idx} className="text-xs text-gray-600 mt-0.5">
+                                {capitalizeWords(name)}
+                            </span>
+                        ))}
+                    </div>
+                );
             }
         },
         { 
-            header: 'Iglesia',
-            key: 'assistChurch',
-            className: styles.statusColumn,
+            header: 'Asistencia',
+            key: 'status',
+            className: 'w-[140px] py-1',
             render: (row) => (
-                <span className={`${styles.badge} ${
-                    row.assistChurch === null ? styles.badgePending :
-                    row.assistChurch ? styles.badgeConfirmed : 
-                    styles.badgeNotAttending
-                }`}>
-                    {row.assistChurch === null ? 'Pendiente' :
-                     row.assistChurch ? 'Confirmado' : 'No Asiste'}
-                </span>
-            )
-        },
-        { 
-            header: 'Boda',
-            key: 'assist',
-            className: styles.statusColumn,
-            render: (row) => (
-                <span className={`${styles.badge} ${
-                    row.assist === null ? styles.badgePending :
-                    row.assist ? styles.badgeConfirmed : 
-                    styles.badgeNotAttending
-                }`}>
-                    {row.assist === null ? 'Pendiente' :
-                     row.assist ? 'Confirmado' : 'No Asiste'}
-                </span>
+                <div className="flex flex-col gap-[2px]">
+                    <div className={`${styles.statusBadge} ${
+                        row.assistChurch === null ? styles.statusPending :
+                        row.assistChurch ? styles.statusConfirmed : 
+                        styles.statusNotAttending
+                    }`}>
+                        <span className="text-xs font-medium">Iglesia</span>
+                        <div className="flex items-center gap-1">
+                            <span className="text-sm leading-none">{getStatusIcon(row.assistChurch)}</span>
+                            <span className="text-xs">
+                                {row.assistChurch === null ? 'Pendiente' :
+                                 row.assistChurch ? 'Confirmado' : 'No asiste'}
+                            </span>
+                        </div>
+                    </div>
+                    <div className={`${styles.statusBadge} ${
+                        row.assist === null ? styles.statusPending :
+                        row.assist ? styles.statusConfirmed : 
+                        styles.statusNotAttending
+                    }`}>
+                        <span className="text-xs font-medium">Recepción</span>
+                        <div className="flex items-center gap-1">
+                            <span className="text-sm leading-none">{getStatusIcon(row.assist)}</span>
+                            <span className="text-xs">
+                                {row.assist === null ? 'Pendiente' :
+                                 row.assist ? 'Confirmado' : 'No asiste'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             )
         },
         {
-            header: 'Acciones',
+            header: '',
             key: 'actions',
-            className: styles.actionsColumn,
+            className: 'w-10 text-center py-1',
             render: (row) => (
-                <div className="flex justify-center gap-2">
-                    <button
-                        onClick={() => handleEdit(row._id)}
-                        title="Editar invitado"
-                        className="p-1.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
+                <button
+                    onClick={() => handleEdit(row._id)}
+                    title="Editar invitado"
+                    className="p-0.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
+                >
+                    <svg 
+                        className="w-3.5 h-3.5" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
                     >
-                        <svg 
-                            className="w-5 h-5" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                        >
-                            <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" 
-                            />
-                        </svg>
-                    </button>
-                </div>
+                        <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" 
+                        />
+                    </svg>
+                </button>
             )
         }
     ];
@@ -200,7 +230,7 @@ const GuestsPage = () => {
             'Acompañantes': (guest.partnersName || []).map(name => capitalizeWords(name)).join(', ') || '-',
             'Iglesia': guest.assistChurch === null ? 'Pendiente' : 
                       guest.assistChurch ? 'Confirmado' : 'No Asiste',
-            'Boda': guest.assist === null ? 'Pendiente' : 
+            'Recepción': guest.assist === null ? 'Pendiente' : 
                     guest.assist ? 'Confirmado' : 'No Asiste'
         }));
 
@@ -328,12 +358,14 @@ const GuestsPage = () => {
                             </div>
                             
                             <div className="overflow-hidden rounded-lg border border-gray-200">
-                                <Table 
-                                    title="Lista de Invitados"
-                                    columns={columns}
-                                    data={filteredGuests}
-                                    footer={`Total: ${filteredGuests.length} invitados`}
-                                />
+                                <div className="overflow-x-auto">
+                                    <Table 
+                                        title="Lista de Invitados"
+                                        columns={columns}
+                                        data={filteredGuests}
+                                        footer={`Total: ${filteredGuests.length} invitados`}
+                                    />
+                                </div>
                             </div>
                         </div>
                         
