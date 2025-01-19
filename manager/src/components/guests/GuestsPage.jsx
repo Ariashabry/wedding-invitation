@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useGuestsContext } from '../../context/GuestsContext';
 import Header from '../layout/Header';
 import Table from '../shared/Table';
@@ -14,6 +14,14 @@ const GuestsPage = () => {
     const [weddingFilter, setWeddingFilter] = useState('all');
     const filterSectionRef = useRef(null);
     const formSectionRef = useRef(null);
+
+    // Agregar useEffect para scroll al inicio cuando se monte el componente
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant' // Usamos 'instant' en lugar de 'smooth' para evitar la animación
+        });
+    }, []); // El array vacío significa que solo se ejecutará al montar el componente
 
     // Función para capitalizar palabras en formato título
     const capitalizeWords = (str) => {
