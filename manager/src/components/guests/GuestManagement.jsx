@@ -4,7 +4,7 @@ import { createGuest } from '../../services/api';
 import Swal from 'sweetalert2';
 import { useGuestsContext } from '../../context/GuestsContext';
 
-const GuestManagement = () => {
+const GuestManagement = ({ onInteraction }) => {
     const { fetchGuests } = useGuestsContext();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -37,7 +37,7 @@ const GuestManagement = () => {
     };
 
     const handleSubmit = async (e) => {
-        if (e) e.preventDefault();
+        e.preventDefault();
 
         // Validar si hay campos de acompañantes vacíos
         if (formData.partnersName.length > 0 && formData.partnersName.some(partner => !partner.trim())) {
@@ -94,30 +94,33 @@ const GuestManagement = () => {
                 assist: formData.assist,
             };
 
-            await createGuest(guestData);
+            const response = await createGuest(guestData);
+            await fetchGuests();
             
-            // Limpiar el formulario
+            // Mostrar mensaje de éxito con el nombre del invitado
+            Swal.fire({
+                title: '¡Invitado Agregado!',
+                text: `${capitalizeWords(formData.fullName)} ha sido registrado exitosamente`,
+                icon: 'success',
+                confirmButtonColor: '#3b82f6'
+            });
+
+            // Resetear el formulario
             setFormData({
                 fullName: '',
                 phone: '',
-                partnersName: [],
-                assistChurch: false,
-                assist: true,
-            });
-            setErrors({
-                fullName: '',
-                phone: '',
+                assistChurch: null,
+                assist: null,
                 partnersName: []
             });
-            
-            showAlert('success', '¡Invitado guardado exitosamente!');
-            
-            // Forzar la actualización de la lista
-            await fetchGuests();
-
-        } catch (err) {
-            console.error('Error:', err);
-            showAlert('error', 'Error al guardar el invitado');
+            setErrors({});
+        } catch (error) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al agregar el invitado',
+                icon: 'error',
+                confirmButtonColor: '#3b82f6'
+            });
         } finally {
             setIsLoading(false);
         }
@@ -184,6 +187,14 @@ const GuestManagement = () => {
         return '';
     };
 
+    // Handler para la interacción con el formulario
+    const handleFormInteraction = () => {
+        if (onInteraction) {
+            onInteraction();
+        }
+    };
+
+    // Modificar los handlers existentes para incluir el scroll
     const handleNameChange = (e) => {
         const capitalizedName = capitalizeWords(e.target.value);
         setFormData({
@@ -194,6 +205,7 @@ const GuestManagement = () => {
             ...errors,
             fullName: validateName(capitalizedName)
         });
+        handleFormInteraction();
     };
 
     const handlePhoneChange = (e) => {
@@ -207,6 +219,7 @@ const GuestManagement = () => {
                 ...errors,
                 phone: validatePhone(value)
             });
+            handleFormInteraction();
         }
     };
 
@@ -218,7 +231,10 @@ const GuestManagement = () => {
                         <h2 className={styles.formTitle}>Agregar Nuevo Invitado</h2>
                         <button 
                             type="button"
-                            onClick={handleSubmit}
+                            onClick={(e) => {
+                                handleSubmit(e);
+                                handleFormInteraction();
+                            }}
                             className={styles.headerButton}
                             disabled={isLoading}
                             style={{
@@ -246,7 +262,14 @@ const GuestManagement = () => {
                 </div>
 
                 <div className={styles.managementWrapper}>
-                    <form onSubmit={handleSubmit} className={styles.form}>
+                    <form 
+                        onSubmit={(e) => {
+                            handleSubmit(e);
+                            handleFormInteraction();
+                        }} 
+                        className={styles.form}
+                        onClick={handleFormInteraction}
+                    >
                         <div className={styles.formGrid}>
                             <div className={styles.formGroup}>
                                 <label htmlFor="fullName" className={styles.label}>
@@ -258,6 +281,7 @@ const GuestManagement = () => {
                                     id="fullName"
                                     value={formData.fullName}
                                     onChange={handleNameChange}
+                                    onFocus={handleFormInteraction}
                                     className={`${styles.input} ${errors.fullName ? styles.inputError : ''}`}
                                     placeholder="Ej: José Feliciano"
                                     required
@@ -281,6 +305,7 @@ const GuestManagement = () => {
                                         id="phone"
                                         value={formData.phone}
                                         onChange={handlePhoneChange}
+                                        onFocus={handleFormInteraction}
                                         className={`${styles.phoneInput} ${errors.phone ? styles.inputError : ''}`}
                                         placeholder="70707070"
                                         required
@@ -392,6 +417,7 @@ const GuestManagement = () => {
                                                 type="text"
                                                 value={partner}
                                                 onChange={(e) => handlePartnerChange(index, e.target.value)}
+                                                onFocus={handleFormInteraction}
                                                 placeholder={`Nombre del acompañante ${index + 1}`}
                                                 className={styles.input}
                                             />

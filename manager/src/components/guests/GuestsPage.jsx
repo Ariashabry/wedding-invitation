@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useGuestsContext } from '../../context/GuestsContext';
 import Header from '../layout/Header';
 import Table from '../shared/Table';
@@ -12,6 +12,8 @@ const GuestsPage = () => {
     const [statusFilter, setStatusFilter] = useState('all');
     const [churchFilter, setChurchFilter] = useState('all');
     const [weddingFilter, setWeddingFilter] = useState('all');
+    const filterSectionRef = useRef(null);
+    const formSectionRef = useRef(null);
 
     // Función para capitalizar palabras en formato título
     const capitalizeWords = (str) => {
@@ -139,6 +141,34 @@ const GuestsPage = () => {
         document.body.removeChild(link);
     };
 
+    // Función de scroll
+    const scrollToFilters = () => {
+        if (filterSectionRef.current) {
+            const yOffset = 0;
+            const element = filterSectionRef.current;
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            
+            window.scrollTo({
+                top: y,
+                behavior: 'smooth'
+            });
+        }
+    };
+
+    // Función de scroll para el formulario
+    const scrollToForm = () => {
+        if (formSectionRef.current) {
+            const yOffset = 0;
+            const element = formSectionRef.current;
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            
+            window.scrollTo({
+                top: y,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     if (loading) {
         return (
             <div className={styles.loading}>
@@ -157,21 +187,34 @@ const GuestsPage = () => {
                 title="Gestión de Invitados" 
                 subtitle="Administra y visualiza el estado de todos los invitados"
             />
-            <div className="px-6">
+            <div className="px-2 sm:px-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="mt-6 mb-8">
-                        <div className="bg-blue-50 p-3 mb-4 rounded-lg border border-blue-100">
+                        <div 
+                            ref={formSectionRef}
+                            className="bg-blue-50 p-3 rounded-lg border border-blue-100"
+                        >
                             <h2 className="text-lg font-semibold text-blue-800 mb-1">
                                 Formulario de Registro
                             </h2>
-                            <p className="text-sm text-blue-600">
+                            <p className="text-sm text-blue-600 mb-4">
                                 Aquí puedes agregar nuevos invitados y sus acompañantes
                             </p>
+                            <GuestManagement onInteraction={scrollToForm} />
                         </div>
-                        <GuestManagement />
                     </div>
 
-                    <div className="bg-gray-50 p-3 mb-6 rounded-lg border border-gray-100">
+                    <div 
+                        ref={filterSectionRef}
+                        className="bg-gray-50 p-2 sm:p-3 mb-6 rounded-lg border border-gray-100 sticky z-10"
+                        style={{ 
+                            backgroundColor: 'rgba(249, 250, 251, 0.95)',
+                            top: '1rem',
+                            paddingTop: '1rem',
+                            paddingBottom: '1rem',
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                        }}
+                    >
                         <h2 className="text-lg font-semibold text-gray-800 mb-1">
                             Filtros y Búsqueda
                         </h2>
@@ -185,25 +228,37 @@ const GuestsPage = () => {
                             setChurchFilter={setChurchFilter}
                             weddingFilter={weddingFilter}
                             setWeddingFilter={setWeddingFilter}
+                            onInteraction={scrollToFilters}
                         />
                     </div>
 
-                    <div className={styles.tableSection}>
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-lg font-semibold">Lista de Invitados</h2>
-                            <button
-                                onClick={handleExportCSV}
-                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm flex items-center"
-                            >
-                                <span>Exportar CSV</span>
-                            </button>
+                    <div className="min-h-[calc(100vh-12rem)] flex flex-col">
+                        <div className={`${styles.tableSection} mt-8 bg-white rounded-lg p-2 sm:p-6 shadow-sm border border-gray-100`}>
+                            <div className="flex justify-between items-center mb-4 sm:mb-6 px-2 sm:px-0">
+                                <h2 className="text-lg font-semibold text-gray-800">
+                                    Lista de Invitados
+                                </h2>
+                                <button
+                                    onClick={handleExportCSV}
+                                    className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm flex items-center gap-2 shadow-sm"
+                                >
+                                    <span>Exportar CSV</span>
+                                </button>
+                            </div>
+                            
+                            <div className="overflow-hidden rounded-lg border border-gray-200">
+                                <Table 
+                                    title="Lista de Invitados"
+                                    columns={columns}
+                                    data={filteredGuests}
+                                    footer={`Total: ${filteredGuests.length} invitados`}
+                                />
+                            </div>
                         </div>
-                        <Table 
-                            title="Lista de Invitados"
-                            columns={columns}
-                            data={filteredGuests}
-                            footer={`Total: ${filteredGuests.length} invitados`}
-                        />
+                        
+                        {filteredGuests.length === 0 && (
+                            <div className="flex-grow min-h-[50vh]"></div>
+                        )}
                     </div>
                 </div>
             </div>
