@@ -5,29 +5,29 @@ export const useFeatureFlag = (featureKey) => {
 
     useEffect(() => {
         // Función para obtener el estado actual del feature
-        const getFeatureState = () => {
-            try {
-                const features = JSON.parse(localStorage.getItem('features') || '{}');
-                return features[featureKey] || false;
-            } catch (error) {
-                console.error('Error reading feature flag:', error);
-                return false;
-            }
+        const checkFeatureState = () => {
+            const features = JSON.parse(localStorage.getItem('features') || '{}');
+            setIsEnabled(!!features[featureKey]);
         };
 
-        // Establecer estado inicial
-        setIsEnabled(getFeatureState());
+        // Verificar estado inicial
+        checkFeatureState();
 
-        // Crear un intervalo para verificar cambios
-        const interval = setInterval(() => {
-            const currentState = getFeatureState();
-            if (currentState !== isEnabled) {
-                setIsEnabled(currentState);
-            }
-        }, 1000); // Verificar cada segundo
+        // Escuchar cambios en localStorage
+        const handleStorageChange = () => {
+            checkFeatureState();
+        };
 
-        return () => clearInterval(interval);
-    }, [featureKey, isEnabled]);
+        window.addEventListener('storage', handleStorageChange);
+        
+        // Verificar periódicamente (por si acaso)
+        const interval = setInterval(checkFeatureState, 1000);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            clearInterval(interval);
+        };
+    }, [featureKey]);
 
     return isEnabled;
 }; 
