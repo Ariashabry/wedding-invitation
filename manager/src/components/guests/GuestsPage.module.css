@@ -52,6 +52,19 @@
     min-width: 180px;
 }
 
+.idColumn {
+    width: 220px;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actionsColumn {
+    width: 100px;
+    text-align: center;
+}
+
 /* Badges de estado */
 .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;

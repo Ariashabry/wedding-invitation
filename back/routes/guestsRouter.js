@@ -6,5 +6,6 @@ const guestsRouter = express.Router();
 
 guestsRouter.get("/", guestsController.getGuests);
 guestsRouter.post("/", guestsController.postGuests);
+guestsRouter.put("/:id", guestsController.updateGuest);
 
 export default guestsRouter;
