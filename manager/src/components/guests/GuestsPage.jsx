@@ -5,23 +5,21 @@ import Table from '../shared/Table';
 import GuestManagement from './GuestManagement';
 import GuestFilters from './GuestFilters';
 import styles from './GuestsPage.module.css';
+import { updateGuest } from '../../services/api';
+import Swal from 'sweetalert2';
+import EditGuestModal from './EditGuestModal';
 
 const GuestsPage = () => {
-    const { guests, loading, error } = useGuestsContext();
+    const { guests, loading, error, fetchGuests } = useGuestsContext();
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     const [churchFilter, setChurchFilter] = useState('all');
     const [weddingFilter, setWeddingFilter] = useState('all');
     const filterSectionRef = useRef(null);
     const formSectionRef = useRef(null);
-
-    // Agregar useEffect para scroll al inicio cuando se monte el componente
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'instant' // Usamos 'instant' en lugar de 'smooth' para evitar la animación
-        });
-    }, []); // El array vacío significa que solo se ejecutará al montar el componente
+    const [expandedRow, setExpandedRow] = useState(null);
+    const [editingGuest, setEditingGuest] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Función para capitalizar palabras en formato título
     const capitalizeWords = (str) => {
@@ -34,34 +32,32 @@ const GuestsPage = () => {
 
     const filteredGuests = guests
         .filter(guest => {
-            // Convertir tanto el término de búsqueda como el nombre y teléfono a minúsculas para comparar
-            const searchTermLower = searchTerm.toLowerCase();
-            const fullNameLower = guest.fullName.toLowerCase();
-            const partnersLower = (guest.partnersName || []).map(name => name.toLowerCase());
-            // Eliminar el código de país y espacios del teléfono para la búsqueda
-            const phoneNumber = (guest.phone || '').replace(/[\s+]/g, '');
+            // Si no hay término de búsqueda, mostrar todos
+            if (!searchTerm.trim()) return true;
 
-            // Buscar en nombre, acompañantes y teléfono
-            const matchesSearch = 
-                fullNameLower.includes(searchTermLower) || 
-                partnersLower.some(name => name.includes(searchTermLower)) ||
-                phoneNumber.includes(searchTerm.replace(/[\s+]/g, '')); // Eliminar espacios y + del término de búsqueda
+            // Si el término de búsqueda parece ser un número de teléfono
+            const isPhoneSearch = /^[0-9\s]*$/.test(searchTerm);
 
-            // Filtro para iglesia
-            const matchesChurch = churchFilter === 'all' ? true :
-                churchFilter === 'confirmed' ? guest.assistChurch === true :
-                churchFilter === 'pending' ? guest.assistChurch === null :
-                guest.assistChurch === false;
+            if (isPhoneSearch) {
+                // Eliminar espacios para la comparación
+                const phoneNumber = (guest.phone || '').replace(/[\s+]/g, '');
+                const searchPhone = searchTerm.replace(/[\s+]/g, '');
+                // Buscar coincidencia exacta o al menos 6 dígitos consecutivos
+                return phoneNumber.includes(searchPhone) && searchPhone.length >= 6;
+            }
 
-            // Filtro para boda
-            const matchesWedding = weddingFilter === 'all' ? true :
-                weddingFilter === 'confirmed' ? guest.assist === true :
-                weddingFilter === 'pending' ? guest.assist === null :
-                guest.assist === false;
-            
-            return matchesSearch && matchesChurch && matchesWedding;
+            // Para búsqueda por nombre, capitalizar y comparar
+            const searchTermCapitalized = capitalizeWords(searchTerm);
+            const fullNameCapitalized = capitalizeWords(guest.fullName);
+            const partnersCapitalized = (guest.partnersName || []).map(name => capitalizeWords(name));
+
+            // Buscar coincidencia más estricta para nombres
+            return searchTermCapitalized.length >= 3 && (
+                fullNameCapitalized.includes(searchTermCapitalized) || 
+                partnersCapitalized.some(name => name.includes(searchTermCapitalized))
+            );
         })
-        .sort((a, b) => b.id - a.id); // Ordenar de mayor a menor
+        .sort((a, b) => b.id - a.id);
 
     const columns = [
         { 
@@ -119,8 +115,81 @@ const GuestsPage = () => {
                      row.assist ? 'Confirmado' : 'No Asiste'}
                 </span>
             )
+        },
+        {
+            header: 'Acciones',
+            key: 'actions',
+            className: styles.actionsColumn,
+            render: (row) => (
+                <div className="flex justify-center gap-2">
+                    <button
+                        onClick={() => handleEdit(row._id)}
+                        title="Editar invitado"
+                        className="p-1.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
+                    >
+                        <svg 
+                            className="w-5 h-5" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                        >
+                            <path 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                strokeWidth={2} 
+                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" 
+                            />
+                        </svg>
+                    </button>
+                </div>
+            )
         }
     ];
+
+    // Reemplazar el handleEdit existente
+    const handleEdit = (id) => {
+        const guest = guests.find(g => g._id === id);
+        if (guest) {
+            setEditingGuest(guest);
+            setIsModalOpen(true);
+        }
+    };
+
+    // Agregar handleSave para el modal
+    const handleSave = async (formData) => {
+        try {
+            // Guardar la posición actual del scroll
+            const scrollPosition = window.pageYOffset;
+
+            await updateGuest(editingGuest._id, formData);
+            await fetchGuests();
+            setIsModalOpen(false);
+            setEditingGuest(null);
+            
+            // Restaurar la posición del scroll después de un pequeño delay
+            setTimeout(() => {
+                window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'instant'
+                });
+            }, 0);
+
+            Swal.fire({
+                title: '¡Actualizado!',
+                html: `<strong>${capitalizeWords(formData.fullName)}</strong> ha sido actualizado exitosamente`,
+                icon: 'success',
+                confirmButtonColor: '#3b82f6'
+            });
+        } catch (error) {
+            console.error('Error al actualizar invitado:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al actualizar el invitado',
+                icon: 'error',
+                confirmButtonColor: '#3b82f6'
+            });
+        }
+    };
 
     const handleExportCSV = () => {
         // Preparar los datos para el CSV
@@ -274,6 +343,16 @@ const GuestsPage = () => {
                     </div>
                 </div>
             </div>
+            
+            <EditGuestModal
+                guest={editingGuest}
+                isOpen={isModalOpen}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    setEditingGuest(null);
+                }}
+                onSave={handleSave}
+            />
         </div>
     );
 };

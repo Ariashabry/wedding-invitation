@@ -31,6 +31,50 @@ const GuestFilters = ({
         }
     };
 
+    // Función para capitalizar palabras
+    const capitalizeWords = (str) => {
+        if (!str) return '';
+        return str
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+    };
+
+    // Función para formatear número de teléfono
+    const formatPhoneNumber = (value) => {
+        // Eliminar todo excepto números
+        const numbers = value.replace(/[^\d]/g, '');
+        
+        // Aplicar formato según la longitud
+        if (numbers.length <= 2) {
+            return numbers;
+        } else if (numbers.length <= 6) {
+            return `${numbers.slice(0, 2)} ${numbers.slice(2)}`;
+        } else if (numbers.length <= 10) {
+            return `${numbers.slice(0, 2)} ${numbers.slice(2, 6)} ${numbers.slice(6)}`;
+        } else {
+            // Limitar a 10 dígitos
+            return `${numbers.slice(0, 2)} ${numbers.slice(2, 6)} ${numbers.slice(6, 10)}`;
+        }
+    };
+
+    // Manejar el cambio en el input
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        // Detectar si es búsqueda por teléfono
+        const isPhoneSearch = /^[0-9\s]*$/.test(value);
+
+        if (isPhoneSearch) {
+            // Si es número de teléfono, aplicar formato
+            const formattedPhone = formatPhoneNumber(value);
+            setSearchTerm(formattedPhone);
+        } else {
+            // Si es texto, capitalizar
+            const capitalizedText = capitalizeWords(value);
+            setSearchTerm(capitalizedText);
+        }
+    };
+
     return (
         <div ref={filterContainerRef} className="space-y-4">
             <div className="flex flex-col sm:flex-row gap-4">
@@ -52,10 +96,7 @@ const GuestFilters = ({
                     <input
                         type="text"
                         value={searchTerm}
-                        onChange={(e) => {
-                            setSearchTerm(e.target.value);
-                            handleInteraction();
-                        }}
+                        onChange={handleSearchChange}
                         onFocus={handleInteraction}
                         className={`${styles.searchInput} pl-10`}
                         placeholder="Buscar por nombre o teléfono..."
