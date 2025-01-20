@@ -3,13 +3,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-let uri_link = process.env.MONGO;
-console.log('Connection string:', uri_link);
-
-mongoose.connect(uri_link)
+mongoose.connect(process.env.MONGO)
    .then(() => {
-      console.log(' --> Database connected successfully <-- ');
+      if (process.env.NODE_ENV !== 'production') {
+         console.log('Database connected successfully');
+      }
    })
    .catch((err) => {
-      console.log(err)
-   })
+      if (process.env.NODE_ENV !== 'production') {
+         console.error('Database connection error:', err);
+      }
+   });

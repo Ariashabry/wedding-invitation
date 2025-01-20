@@ -2,7 +2,7 @@ import 'dotenv/config.js';
 import '../../config/database.js';
 import FeatureFlag from '../FeatureFlag.js';
 
-let featureFlags = [
+const featureFlags = [
     {
         name: "TIPACU_BUTTON",
         description: "Controla la visibilidad del botón de regalo T'ipacu",
@@ -35,12 +35,14 @@ let featureFlags = [
     }
 ];
 
-try {
-    await FeatureFlag.insertMany(featureFlags);
-    console.log('Feature flags initialized successfully');
-} catch (error) {
-    console.error('Error initializing feature flags:', error);
-}
+const initFeatures = async () => {
+    try {
+        await FeatureFlag.deleteMany({}); // Limpiar features existentes
+        await FeatureFlag.insertMany(featureFlags);
+        process.exit(0);
+    } catch (error) {
+        process.exit(1);
+    }
+};
 
-// Cerrar la conexión después de la inserción
-process.exit(0); 
+initFeatures(); 
