@@ -32,6 +32,12 @@ const featureFlags = [
         description: "Habilita/deshabilita la galería de fotos",
         enabled: false,
         updatedAt: new Date()
+    },
+    {
+        name: "WEDDING_REGISTRATION",
+        description: "Habilita/deshabilita el formulario de registro para la boda",
+        enabled: false,
+        updatedAt: new Date()
     }
 ];
 
@@ -39,8 +45,10 @@ const initFeatures = async () => {
     try {
         await FeatureFlag.deleteMany({}); // Limpiar features existentes
         await FeatureFlag.insertMany(featureFlags);
+        console.log('Feature flags inicializados correctamente');
         process.exit(0);
     } catch (error) {
+        console.error('Error al inicializar feature flags:', error);
         process.exit(1);
     }
 };
