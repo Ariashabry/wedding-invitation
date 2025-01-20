@@ -38,6 +38,12 @@ const featureFlags = [
         description: "Habilita/deshabilita el formulario de registro para la boda",
         enabled: false,
         updatedAt: new Date()
+    },
+    {
+        name: "WISHES",
+        description: "Habilita/deshabilita la funcionalidad de enviar deseos a los novios",
+        enabled: false,
+        updatedAt: new Date()
     }
 ];
 

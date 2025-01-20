@@ -25,5 +25,10 @@ export const FEATURES = {
     enabled: true,
     version: '1.0.0',
     description: 'Sección de ubicaciones (iglesia y salón)'
+  },
+  WISHES_BUTTON: {
+    key: 'WISHES_BUTTON',
+    defaultValue: true,
+    description: 'Habilita el botón de felicitaciones'
   }
 }; 

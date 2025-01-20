@@ -23,19 +23,33 @@ import SectionContainerElement from "../components/SectionContainerElement/Secti
 import NewGallery from '../components/NewGallery/NewGallery';
 import FeatureWrapper from '../components/FeatureWrapper/FeatureWrapper';
 import Timeline from '../components/Timeline/Timeline';
+import WishesButton from '../components/WishesButton/WishesButton';
+import ModalWishes from '../components/ModalWishes/ModalWishes';
 
 
 const Layout = () => {
 
-   const { modal, confirmationModal, weatherModal, isHistoryModalOpen } = useContext(ModalContext);
+   const { 
+      modal, 
+      confirmationModal, 
+      weatherModal, 
+      sent, 
+      isHistoryModalOpen,
+      wishesModal 
+   } = useContext(ModalContext);
 
    return (
-      <div className={` relative flex flex-col items-center overflow-hidden
-         ${confirmationModal || weatherModal || modal ? ' h-screen' : 'h-min-screen'} `
+      <div className={`relative flex flex-col items-center overflow-hidden
+         ${confirmationModal || weatherModal || modal || wishesModal ? ' h-screen' : 'h-min-screen'}`
       }>
 
          <FeatureWrapper featureKey="TIPACU_BUTTON">
             <ButtonGift />
+         </FeatureWrapper>
+
+         <FeatureWrapper featureKey="WISHES">
+            <WishesButton />
+            <ModalWishes />
          </FeatureWrapper>
 
          {/* Modals --------------------------------------- */}
