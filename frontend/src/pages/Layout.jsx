@@ -259,24 +259,26 @@ const Layout = () => {
                </SectionContainerElement>
 
                {/* Confirmation section (only Desktop) ---------- */}
-               <SectionContainerElement mobileView={'off'}>
-                  <ImageComponent
-                     src={"/assets/images/confirm-icon.png"}
-                     alt={"Icono confimación"}
-                     margin={"disabled"}
-                  />
-                  <InfoSection
-                     header={'¿Asistiras a nuestra boda?'}
-                     lineColorCode={'border-mustard'}
-                  >
-                     Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
-                  </InfoSection>
-                  <Button
-                     buttonText={'Confirmar 📝'}
-                     colorCode={'bg-mustard'}
-                     action={'openConfirmationModal'}
-                  />
-               </SectionContainerElement>
+               <FeatureWrapper featureKey="WEDDING_REGISTRATION">
+                   <SectionContainerElement mobileView={'off'}>
+                       <ImageComponent
+                           src={"/assets/images/confirm-icon.png"}
+                           alt={"Icono confimación"}
+                           margin={"disabled"}
+                       />
+                       <InfoSection
+                           header={'¿Asistiras a nuestra boda?'}
+                           lineColorCode={'border-mustard'}
+                       >
+                           Confirma tu asistencia. ¡Te esperamos! 💌
+                       </InfoSection>
+                       <Button
+                           buttonText={'Confirmar 📝'}
+                           colorCode={'bg-mustard'}
+                           action={'openConfirmationModal'}
+                       />
+                   </SectionContainerElement>
+               </FeatureWrapper>
 
             </SectionContainer>
 
@@ -315,24 +317,27 @@ Tu presencia es nuestro mayor regalo. 💕 Si deseas contribuir, puedes hacerlo 
                </SectionContainerElement> */}
 
                {/* Confirmation section ---------- only mobile*/}
-               <SectionContainerElement desktopView={'off'}>
-                  <ImageComponent
-                     src={"/assets/images/confirm-icon.png"}
-                     alt={"Icono confimación"}
-                     margin={"disabled"}
-                  />
-                  <InfoSection
-                     header={'¿Asistiras a nuestra boda?'}
-                     lineColorCode={'border-mustard'}
-                     textColorCode={'text-gray-dark'}
-                  >Confirma tu asistencia y cuántos acompañantes vendrán. ¡Te esperamos! 💌
-                  </InfoSection>
-                  <Button
-                     buttonText={'Confirmar 📝'}
-                     colorCode={'bg-mustard'}
-                     action={'openConfirmationModal'}
-                  />
-               </SectionContainerElement>
+               <FeatureWrapper featureKey="WEDDING_REGISTRATION">
+                   <SectionContainerElement desktopView={'off'}>
+                       <ImageComponent
+                           src={"/assets/images/confirm-icon.png"}
+                           alt={"Icono confimación"}
+                           margin={"disabled"}
+                       />
+                       <InfoSection
+                           header={'¿Asistiras a nuestra boda?'}
+                           lineColorCode={'border-mustard'}
+                           textColorCode={'text-gray-dark'}
+                       >
+                           Confirma tu asistencia. ¡Te esperamos! 💌
+                       </InfoSection>
+                       <Button
+                           buttonText={'Confirmar 📝'}
+                           colorCode={'bg-mustard'}
+                           action={'openConfirmationModal'}
+                       />
+                   </SectionContainerElement>
+               </FeatureWrapper>
 
 
 
