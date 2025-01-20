@@ -270,3 +270,13 @@
       font-size: 1rem;
    }
 }
+
+/* Añadir estos estilos */
+.wishes-overlay:focus {
+   outline: none;
+}
+
+/* Prevenir el outline en todos los elementos cuando el modal está abierto */
+.wishes-overlay * {
+   outline: none !important;
+}
