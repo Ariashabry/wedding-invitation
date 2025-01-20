@@ -1,0 +1,111 @@
+:root {
+   --modal-blue: #1e40af; /* Un azul más oscuro */
+   --modal-blue-hover: #1e3a8a;
+   --modal-blue-light: #3b82f6;
+   --modal-blue-lighter: #dbeafe;
+}
+
+.modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: rgba(0, 0, 0, 0.5);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 1rem;
+   z-index: 1000;
+}
+
+.modal-container {
+   background: white;
+   border-radius: 1rem;
+   width: 100%;
+   max-width: 500px;
+   position: relative;
+   padding: 2rem;
+}
+
+.close-button {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+   background: none;
+   border: none;
+   cursor: pointer;
+   color: #666;
+}
+
+.modal-header {
+   text-align: center;
+   margin-bottom: 2rem;
+}
+
+.modal-header h2 {
+   color: #1e40af;
+   font-size: 1.5rem;
+   font-weight: 600;
+   margin-bottom: 0.5rem;
+}
+
+.modal-header p {
+   color: #666;
+}
+
+form {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+}
+
+input, textarea {
+   width: 100%;
+   padding: 0.75rem;
+   border: 2px solid #e5e7eb;
+   border-radius: 0.5rem;
+   font-size: 1rem;
+}
+
+textarea {
+   height: 150px;
+   resize: none;
+}
+
+.character-count {
+   text-align: right;
+   font-size: 0.875rem;
+   color: #666;
+}
+
+button[type="submit"] {
+   background: #1e40af;
+   color: white;
+   padding: 1rem;
+   border: none;
+   border-radius: 0.5rem;
+   font-size: 1rem;
+   font-weight: 500;
+   cursor: pointer;
+   margin-top: 1rem;
+   width: 100%;
+   max-width: 280px;
+   align-self: center;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+   background: #1e3a8a;
+}
+
+button[type="submit"]:disabled {
+   opacity: 0.7;
+   cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+   .modal-container {
+      margin: 1rem;
+      padding: 1.5rem;
+   }
+}

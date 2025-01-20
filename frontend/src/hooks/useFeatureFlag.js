@@ -10,8 +10,6 @@ export const useFeatureFlag = (featureKey) => {
         const fetchFeatureFlag = async () => {
             try {
                 const response = await axios.get(`${API_URL}/api/features`);
-                console.log('Feature flags response:', response.data);
-                
                 if (response.data && response.data[featureKey]) {
                     setIsEnabled(response.data[featureKey].enabled);
                 }
