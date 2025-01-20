@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { ModalContext } from '../../context/ModalContext';
-import { PaperPlaneTilt, X } from "@phosphor-icons/react";
+import { PaperPlaneTilt, X, Heart } from "@phosphor-icons/react";
 import axios from 'axios';
 import './ModalWishes.css';
 
@@ -44,70 +44,113 @@ const ModalWishes = () => {
       }
    };
 
+   // Función para capitalizar todas las palabras (para el nombre)
+   const capitalizeWords = (str) => {
+      if (!str) return '';
+      return str
+         .toLowerCase()
+         .split(' ')
+         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+         .join(' ');
+   };
+
+   // Función para capitalizar solo la primera letra (para el mensaje)
+   const capitalizeFirstLetter = (str) => {
+      if (!str) return '';
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+   };
+
+   // Función para validar caracteres permitidos en nombres
+   const isValidNameChar = (char) => {
+      return /^[A-Za-zÀ-ÿ\u00f1\u00d1\s]$/.test(char);
+   };
+
+   // Función para formatear el nombre
+   const formatName = (value) => {
+      const cleanedValue = value
+         .split('')
+         .filter(char => isValidNameChar(char))
+         .join('')
+         .replace(/\s+/g, ' ');
+      
+      return capitalizeWords(cleanedValue);
+   };
+
    if (!wishesModal) return null;
 
    return (
-      <div className="modal-overlay">
-         <div className="modal-container">
-            <button 
-               onClick={() => setWishesModal(false)}
-               className="close-button"
-            >
-               <X size={24} weight="bold" />
-            </button>
-
-            <div className="modal-header">
+      <div className="wishes-overlay">
+         <div className="wishes-container">
+            <div className="wishes-header">
+               <Heart size={32} weight="fill" className="wishes-icon" />
                <h2>Envía tus Felicitaciones</h2>
                <p>Comparte tus buenos deseos con los novios</p>
+               <button 
+                  onClick={() => setWishesModal(false)}
+                  className="wishes-close-btn"
+                  aria-label="Cerrar"
+               >
+                  <X size={24} weight="bold" />
+               </button>
             </div>
             
-            <form onSubmit={handleSubmit}>
-               <input
-                  type="text"
-                  placeholder="Tu nombre"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  required
-                  minLength={3}
-                  maxLength={50}
-                  disabled={isSubmitting}
-               />
+            <form className="wishes-form">
+               <div className="form-group">
+                  <label htmlFor="name">Nombre</label>
+                  <input
+                     id="name"
+                     type="text"
+                     placeholder="Tu nombre completo"
+                     value={formData.name}
+                     onChange={(e) => {
+                        const formattedName = formatName(e.target.value);
+                        setFormData({...formData, name: formattedName});
+                     }}
+                     required
+                     minLength={3}
+                     maxLength={50}
+                     disabled={isSubmitting}
+                     className="wishes-input"
+                  />
+               </div>
                
-               <textarea
-                  placeholder="Escribe tu mensaje..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  required
-                  minLength={10}
-                  maxLength={200}
-                  disabled={isSubmitting}
-               />
-               <span className="character-count">
-                  {200 - formData.message.length} caracteres restantes
-               </span>
+               <div className="form-group">
+                  <label htmlFor="message">Mensaje</label>
+                  <textarea
+                     id="message"
+                     placeholder="Escribe tus buenos deseos para los novios..."
+                     value={formData.message}
+                     onChange={(e) => {
+                        const formattedMessage = capitalizeFirstLetter(e.target.value);
+                        setFormData({...formData, message: formattedMessage});
+                     }}
+                     required
+                     minLength={10}
+                     maxLength={200}
+                     disabled={isSubmitting}
+                     className="wishes-textarea"
+                  />
+                  <span className="character-count">
+                     {200 - formData.message.length} caracteres restantes
+                  </span>
+               </div>
+            </form>
 
-               {error && (
-                  <div className="error-message">
-                     {error}
-                  </div>
-               )}
-
+            <div className="wishes-footer">
                <button 
-                  type="submit" 
+                  onClick={handleSubmit}
                   disabled={isSubmitting || isSuccess || !formData.name.trim() || !formData.message.trim()}
+                  className="wishes-submit-btn"
                >
                   {isSuccess ? (
-                     '¡Mensaje Enviado!'
+                     <>¡Mensaje Enviado! <Heart size={20} weight="fill" /></>
                   ) : isSubmitting ? (
                      'Enviando...'
                   ) : (
-                     <>
-                        Enviar Felicitación 
-                        <PaperPlaneTilt size={20} weight="fill" />
-                     </>
+                     <>Enviar Felicitación <PaperPlaneTilt size={20} weight="fill" /></>
                   )}
                </button>
-            </form>
+            </div>
          </div>
       </div>
    );
