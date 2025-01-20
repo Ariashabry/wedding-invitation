@@ -47,8 +47,10 @@ const Layout = () => {
             <ButtonGift />
          </FeatureWrapper>
 
-         <WishesButton />
-         <ModalWishes />
+         <FeatureWrapper featureKey="WISHES">
+            <WishesButton />
+            <ModalWishes />
+         </FeatureWrapper>
 
          {/* Modals --------------------------------------- */}
          <ModalContainer isOpen={modal}>
