@@ -12,21 +12,33 @@ const ModalWishes = () => {
    });
    const [isSubmitting, setIsSubmitting] = useState(false);
    const [isSuccess, setIsSuccess] = useState(false);
+   const [error, setError] = useState(null);
 
    const handleSubmit = async (e) => {
       e.preventDefault();
       setIsSubmitting(true);
+      setError(null);
       
       try {
-         await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/wishes`, formData);
-         setIsSuccess(true);
-         setTimeout(() => {
-            setWishesModal(false);
-            setFormData({ name: '', message: '' });
-            setIsSuccess(false);
-         }, 2000);
+         const response = await axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/api/wishes`, 
+            {
+               name: formData.name.trim(),
+               message: formData.message.trim()
+            }
+         );
+
+         if (response.data.success) {
+            setIsSuccess(true);
+            setTimeout(() => {
+               setWishesModal(false);
+               setFormData({ name: '', message: '' });
+               setIsSuccess(false);
+            }, 2000);
+         }
       } catch (error) {
          console.error('Error:', error);
+         setError(error.response?.data?.error || 'Hubo un error al enviar tu mensaje');
       } finally {
          setIsSubmitting(false);
       }
@@ -56,6 +68,9 @@ const ModalWishes = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
+                  minLength={3}
+                  maxLength={50}
+                  disabled={isSubmitting}
                />
                
                <textarea
@@ -63,17 +78,34 @@ const ModalWishes = () => {
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   required
+                  minLength={10}
                   maxLength={200}
+                  disabled={isSubmitting}
                />
                <span className="character-count">
                   {200 - formData.message.length} caracteres restantes
                </span>
 
+               {error && (
+                  <div className="error-message">
+                     {error}
+                  </div>
+               )}
+
                <button 
                   type="submit" 
-                  disabled={isSubmitting || isSuccess}
+                  disabled={isSubmitting || isSuccess || !formData.name.trim() || !formData.message.trim()}
                >
-                  {isSubmitting ? 'Enviando...' : 'Enviar Felicitación'}
+                  {isSuccess ? (
+                     '¡Mensaje Enviado!'
+                  ) : isSubmitting ? (
+                     'Enviando...'
+                  ) : (
+                     <>
+                        Enviar Felicitación 
+                        <PaperPlaneTilt size={20} weight="fill" />
+                     </>
+                  )}
                </button>
             </form>
          </div>
