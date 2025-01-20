@@ -3,9 +3,7 @@ import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 const FeatureWrapper = ({ children, featureKey }) => {
     const { isEnabled, isLoading } = useFeatureFlag(featureKey);
 
-    if (isLoading) return null;
-
-    if (!isEnabled) {
+    if (isLoading || !isEnabled) {
         return null;
     }
 
