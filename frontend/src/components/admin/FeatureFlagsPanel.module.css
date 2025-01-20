@@ -1,25 +1,13 @@
 .container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgb(249 250 251);
-    padding: 1rem;
+    @apply min-h-screen bg-gray-100 flex items-center justify-center p-4;
 }
 
 .panel {
-    width: 100%;
-    max-width: 28rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    @apply bg-white rounded-lg shadow-lg w-full max-w-2xl;
 }
 
 .header {
-    text-align: center;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
+    @apply flex justify-between items-center mb-6;
 }
 
 .headerContent {
@@ -39,11 +27,7 @@
 }
 
 .featureItem {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    padding-bottom: 1rem;
+    @apply bg-gray-50 p-4 rounded-lg mb-4;
 }
 
 .featureInfo {
@@ -112,13 +96,9 @@
 }
 
 .timestamp {
-    font-size: 0.75rem;
-    color: #6b7280;
-    text-align: right;
-    margin-top: 0.25rem;
+    @apply text-xs text-gray-400 mt-1;
 }
 
 .description {
-    font-size: 0.875rem;
-    color: #4b5563;
+    @apply text-sm text-gray-600 mt-2;
 } 
