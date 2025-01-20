@@ -7,25 +7,25 @@
 
 @keyframes tipacu-dance {
    0%, 100% {
-      transform: rotate(0deg);
+      transform: rotate(0deg) scale(1);
    }
    15% {
-      transform: rotate(-15deg);
+      transform: rotate(-15deg) scale(1.08);
    }
    30% {
-      transform: rotate(10deg);
+      transform: rotate(10deg) scale(1.15);
    }
    45% {
-      transform: rotate(-8deg);
+      transform: rotate(-8deg) scale(1.12);
    }
    60% {
-      transform: rotate(6deg);
+      transform: rotate(6deg) scale(1.09);
    }
    75% {
-      transform: rotate(-4deg);
+      transform: rotate(-4deg) scale(1.06);
    }
    85% {
-      transform: rotate(2deg);
+      transform: rotate(2deg) scale(1.03);
    }
 }
 
@@ -36,14 +36,21 @@
 
 .tipacu-button {
    background: rgba(255, 255, 255, 0.95);
-   border-radius: 12px;
-   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   border-radius: 20px;
+   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
    min-width: fit-content;
+   padding: 1.25rem 2rem;
    transition: all 0.3s ease;
+   transform: scale(1.15);
 }
 
 .tipacu-button:hover {
    background: rgba(255, 255, 255, 1);
-   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-   transform: translateY(-2px);
+   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+   transform: translateY(-4px) scale(1.17);
+}
+
+.tipacu-button:active {
+   transform: translateY(2px) scale(1.13);
+   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
 }

@@ -5,107 +5,278 @@
    --modal-blue-lighter: #dbeafe;
 }
 
-.modal-overlay {
+.wishes-overlay {
    position: fixed;
    top: 0;
    left: 0;
    right: 0;
    bottom: 0;
-   background: rgba(0, 0, 0, 0.5);
+   background: rgba(0, 0, 0, 0.75);
    display: flex;
    align-items: center;
    justify-content: center;
    padding: 1rem;
    z-index: 1000;
+   backdrop-filter: blur(5px);
 }
 
-.modal-container {
+.wishes-container {
    background: white;
-   border-radius: 1rem;
-   width: 100%;
+   border-radius: 1.5rem;
+   width: 95%;
    max-width: 500px;
-   position: relative;
-   padding: 2rem;
+   display: flex;
+   flex-direction: column;
+   max-height: 90vh;
 }
 
-.close-button {
-   position: absolute;
-   top: 1rem;
-   right: 1rem;
-   background: none;
-   border: none;
-   cursor: pointer;
-   color: #666;
-}
-
-.modal-header {
+.wishes-header {
+   padding: 2rem 2rem 1rem;
    text-align: center;
-   margin-bottom: 2rem;
+   position: relative;
 }
 
-.modal-header h2 {
+.wishes-icon {
    color: #1e40af;
-   font-size: 1.5rem;
-   font-weight: 600;
+   margin-bottom: 1rem;
+   animation: heartBeat 1.5s infinite;
+}
+
+.wishes-header h2 {
+   color: #1e40af;
+   font-size: 1.75rem;
+   font-weight: 700;
    margin-bottom: 0.5rem;
 }
 
-.modal-header p {
+.wishes-header p {
    color: #666;
+   font-size: 1.1rem;
 }
 
-form {
+.wishes-close-btn {
+   position: absolute;
+   top: -1rem;
+   right: -1rem;
+   background: white;
+   border: none;
+   border-radius: 50%;
+   width: 2.5rem;
+   height: 2.5rem;
    display: flex;
-   flex-direction: column;
-   gap: 1rem;
+   align-items: center;
+   justify-content: center;
+   cursor: pointer;
+   color: #666;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   transition: all 0.2s ease;
 }
 
-input, textarea {
+.wishes-close-btn:hover {
+   transform: scale(1.1);
+   color: #1e40af;
+}
+
+.wishes-form {
+   padding: 0 2rem;
+   overflow-y: auto;
+   flex: 1;
+}
+
+.form-group {
+   margin-bottom: 1.5rem;
+}
+
+.form-group label {
+   display: block;
+   margin-bottom: 0.5rem;
+   font-weight: 500;
+   color: #374151;
+}
+
+.wishes-input,
+.wishes-textarea {
    width: 100%;
-   padding: 0.75rem;
-   border: 2px solid #e5e7eb;
+   padding: 0.75rem 1rem;
+   border: 2px solid #E5E7EB;
    border-radius: 0.5rem;
    font-size: 1rem;
+   transition: all 0.2s ease;
 }
 
-textarea {
-   height: 150px;
+.wishes-input:focus,
+.wishes-textarea:focus {
+   outline: none;
+   border-color: var(--modal-blue);
+   box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.wishes-input::placeholder,
+.wishes-textarea::placeholder {
+   color: #9CA3AF;
+}
+
+.wishes-textarea {
+   height: 120px;
    resize: none;
 }
 
 .character-count {
+   display: block;
    text-align: right;
    font-size: 0.875rem;
-   color: #666;
+   color: #6B7280;
+   margin-top: 0.25rem;
 }
 
-button[type="submit"] {
-   background: #1e40af;
-   color: white;
+.wishes-footer {
+   padding: 1.5rem 2rem;
+   border-top: 1px solid #E5E7EB;
+   background: white;
+   border-radius: 0 0 1.5rem 1.5rem;
+}
+
+.wishes-submit-btn {
+   width: 100%;
    padding: 1rem;
+   background-color: var(--modal-blue);
+   color: white;
    border: none;
    border-radius: 0.5rem;
-   font-size: 1rem;
+   font-size: 1.125rem;
    font-weight: 500;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.75rem;
    cursor: pointer;
-   margin-top: 1rem;
-   width: 100%;
-   max-width: 280px;
-   align-self: center;
+   transition: all 0.2s ease;
 }
 
-button[type="submit"]:hover:not(:disabled) {
-   background: #1e3a8a;
+.wishes-submit-btn:hover:not(:disabled) {
+   background-color: var(--modal-blue-hover);
 }
 
-button[type="submit"]:disabled {
-   opacity: 0.7;
+.wishes-submit-btn:disabled {
+   background-color: #94a3b8;
    cursor: not-allowed;
+   opacity: 0.7;
+}
+
+.wishes-submit-btn.success {
+   background-color: #059669;
+}
+
+.btn-content {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.75rem;
+}
+
+/* Efecto de ripple al hacer click */
+.wishes-submit-btn::after {
+   content: '';
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: 0;
+   height: 0;
+   background: rgba(255, 255, 255, 0.2);
+   border-radius: 50%;
+   transform: translate(-50%, -50%);
+   transition: width 0.6s ease-out, height 0.6s ease-out;
+}
+
+.wishes-submit-btn:active::after {
+   width: 200%;
+   height: 200%;
+}
+
+.wishes-error {
+   background: #fee2e2;
+   border: 1px solid #ef4444;
+   padding: 0.75rem;
+   border-radius: 0.5rem;
+   color: #dc2626;
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+   font-size: 0.95rem;
+}
+
+@keyframes modalFadeIn {
+   from {
+      opacity: 0;
+      transform: translateY(20px);
+   }
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
+@keyframes heartBeat {
+   0% {
+      transform: scale(1);
+   }
+   14% {
+      transform: scale(1.1);
+   }
+   28% {
+      transform: scale(1);
+   }
+   42% {
+      transform: scale(1.1);
+   }
+   70% {
+      transform: scale(1);
+   }
+}
+
+/* Estilizar el scrollbar */
+.wishes-form::-webkit-scrollbar {
+   width: 6px;
+}
+
+.wishes-form::-webkit-scrollbar-track {
+   background: #f1f1f1;
+   border-radius: 3px;
+}
+
+.wishes-form::-webkit-scrollbar-thumb {
+   background: #1e40af;
+   border-radius: 3px;
 }
 
 @media (max-width: 640px) {
-   .modal-container {
-      margin: 1rem;
-      padding: 1.5rem;
+   .wishes-container {
+      max-height: 85vh;
+      margin: 0.5rem;
    }
+   
+   .wishes-header,
+   .wishes-form,
+   .wishes-footer {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+   }
+
+   .wishes-header h2 {
+      font-size: 1.5rem;
+   }
+
+   .wishes-header p {
+      font-size: 1rem;
+   }
+}
+
+/* Añadir estos estilos */
+.wishes-overlay:focus {
+   outline: none;
+}
+
+/* Prevenir el outline en todos los elementos cuando el modal está abierto */
+.wishes-overlay * {
+   outline: none !important;
 }
