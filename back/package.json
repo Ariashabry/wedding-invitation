@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node ./server.js",
-    "guests": "node ./models/data/guests.js"
+    "guests": "node ./models/data/guests.js",
+    "init-features": "node ./models/data/featureFlags.js"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",

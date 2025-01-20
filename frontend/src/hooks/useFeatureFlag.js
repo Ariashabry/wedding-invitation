@@ -1,33 +1,29 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const useFeatureFlag = (featureKey) => {
     const [isEnabled, setIsEnabled] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const API_URL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
-        // Función para obtener el estado actual del feature
-        const checkFeatureState = () => {
-            const features = JSON.parse(localStorage.getItem('features') || '{}');
-            setIsEnabled(!!features[featureKey]);
+        const fetchFeatureFlag = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/api/features`);
+                console.log('Feature flags response:', response.data);
+                
+                if (response.data && response.data[featureKey]) {
+                    setIsEnabled(response.data[featureKey].enabled);
+                }
+            } catch (error) {
+                console.error('Error fetching feature flag:', error);
+            } finally {
+                setIsLoading(false);
+            }
         };
 
-        // Verificar estado inicial
-        checkFeatureState();
+        fetchFeatureFlag();
+    }, [featureKey, API_URL]);
 
-        // Escuchar cambios en localStorage
-        const handleStorageChange = () => {
-            checkFeatureState();
-        };
-
-        window.addEventListener('storage', handleStorageChange);
-        
-        // Verificar periódicamente (por si acaso)
-        const interval = setInterval(checkFeatureState, 1000);
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-            clearInterval(interval);
-        };
-    }, [featureKey]);
-
-    return isEnabled;
+    return { isEnabled, isLoading };
 }; 

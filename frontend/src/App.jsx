@@ -13,14 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />} />
           <Route path="/admin" element={<AdminLogin />} />
-          <Route 
-            path="/admin/features" 
-            element={
-              <ProtectedRoute>
-                <FeatureFlagsPanel />
-              </ProtectedRoute>
-            } 
-          />
+          <Route path="/admin/features" element={<FeatureFlagsPanel />} />
         </Routes>
         <Analytics />
       </ModalProvider>
