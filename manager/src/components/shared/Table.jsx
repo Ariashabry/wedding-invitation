@@ -13,9 +13,9 @@ const Table = ({ title, columns, data, footer }) => {
                 <table className={styles.table}>
                     <thead className={styles.tableHead}>
                         <tr>
-                            {columns.map((column, index) => (
-                                <th key={index} className={styles.tableHeaderCell}>
-                                    {column.header}
+                            {columns.map(column => (
+                                <th key={column.key} className={column.className}>
+                                    {column.headerRender ? column.headerRender() : column.header}
                                 </th>
                             ))}
                         </tr>
