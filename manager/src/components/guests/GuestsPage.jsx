@@ -20,6 +20,10 @@ const GuestsPage = () => {
     const [expandedRow, setExpandedRow] = useState(null);
     const [editingGuest, setEditingGuest] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [sortConfig, setSortConfig] = useState({
+        key: 'index',
+        direction: 'desc'
+    });
 
     // Función para capitalizar palabras en formato título
     const capitalizeWords = (str) => {
@@ -96,19 +100,63 @@ const GuestsPage = () => {
         return '×';  // x para no asiste
     };
 
+    // Función para manejar el ordenamiento
+    const handleSort = (key) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    // Función para renderizar el indicador de ordenamiento
+    const getSortIcon = (columnKey) => {
+        if (sortConfig.key !== columnKey) {
+            return (
+                <svg className="w-3 h-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                </svg>
+            );
+        }
+        return sortConfig.direction === 'asc' ? (
+            <svg className="w-3 h-3 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
+        ) : (
+            <svg className="w-3 h-3 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        );
+    };
+
+    const sortedGuests = [...filteredGuests].sort((a, b) => {
+        if (sortConfig.key === 'fullName') {
+            // Convertir nombres a minúsculas para una comparación consistente
+            const nameA = (a.fullName || '').toLowerCase();
+            const nameB = (b.fullName || '').toLowerCase();
+            
+            // Ordenar alfabéticamente
+            if (sortConfig.direction === 'asc') {
+                return nameA.localeCompare(nameB, 'es', { sensitivity: 'base' });
+            } else {
+                return nameB.localeCompare(nameA, 'es', { sensitivity: 'base' });
+            }
+        }
+        // Por defecto, mantener el orden original
+        return 0;
+    });
+
     const columns = [
-        // 1. ID
         { 
             header: '#',
             key: 'index',
             className: 'w-8 text-center py-1',
             render: (_, index) => (
                 <span className="text-xs text-gray-500">
-                    {filteredGuests.length - index}
+                    {sortedGuests.length - index}
                 </span>
             )
         },
-        // 2. Acciones con header
         {
             header: 'Editar',
             key: 'actions',
@@ -135,11 +183,20 @@ const GuestsPage = () => {
                 </button>
             )
         },
-        // 3. Nombre
         { 
             header: 'Nombre',
             key: 'fullName',
             className: 'min-w-[150px] max-w-[200px] py-1',
+            headerRender: () => (
+                <button 
+                    onClick={() => handleSort('fullName')}
+                    className="w-full h-full flex items-center gap-1 hover:bg-gray-50 p-1 rounded cursor-pointer"
+                    title="Ordenar por nombre"
+                >
+                    <span className="font-medium">Nombre</span>
+                    {getSortIcon('fullName')}
+                </button>
+            ),
             render: (row) => (
                 <div className="flex flex-col leading-none">
                     <span className="text-sm font-medium">{capitalizeWords(row.fullName)}</span>
@@ -151,7 +208,6 @@ const GuestsPage = () => {
                 </div>
             )
         },
-        // 4. Acompañantes
         { 
             header: 'Acompañantes',
             key: 'companions',
@@ -172,7 +228,6 @@ const GuestsPage = () => {
                 );
             }
         },
-        // 5. Asistencia
         { 
             header: 'Asistencia',
             key: 'status',
@@ -341,13 +396,10 @@ const GuestsPage = () => {
 
                     <div 
                         ref={filterSectionRef}
-                        className="bg-gray-50 p-2 sm:p-3 mb-6 rounded-lg border border-gray-100 sticky z-10"
+                        className="sticky top-0 bg-white/95 backdrop-blur-sm p-4 rounded-lg border border-gray-100 shadow-md z-30 mb-6"
                         style={{ 
-                            backgroundColor: 'rgba(249, 250, 251, 0.95)',
-                            top: '1rem',
                             paddingTop: '1rem',
                             paddingBottom: '1rem',
-                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
                         }}
                     >
                         <h2 className="text-lg font-semibold text-gray-800 mb-1">
@@ -367,8 +419,8 @@ const GuestsPage = () => {
                         />
                     </div>
 
-                    <div className="min-h-[calc(100vh-12rem)] flex flex-col">
-                        <div className={`${styles.tableSection} mt-8 bg-white rounded-lg p-2 sm:p-6 shadow-sm border border-gray-100`}>
+                    <div className="min-h-[calc(100vh-12rem)] flex flex-col mt-20 sm:mt-8">
+                        <div className={`${styles.tableSection} bg-white rounded-lg p-2 sm:p-6 shadow-sm border border-gray-100`}>
                             <div className="flex justify-between items-center mb-4 sm:mb-6 px-2 sm:px-0">
                                 <h2 className="text-lg font-semibold text-gray-800">
                                     Lista de Invitados
@@ -381,15 +433,38 @@ const GuestsPage = () => {
                                 </button>
                             </div>
                             
-                            <div className="overflow-hidden rounded-lg border border-gray-200">
-                                <div className="overflow-x-auto">
-                                    <Table 
-                                        title="Lista de Invitados"
-                                        columns={columns}
-                                        data={filteredGuests}
-                                        footer={`Total: ${filteredGuests.length} invitados`}
-                                    />
+                            <div className="relative border border-gray-200 rounded-lg">
+                                <div className="overflow-y-auto h-[calc(100vh-350px)] sm:h-[calc(100vh-300px)]">
+                                    <table className="w-full">
+                                        <thead className="sticky top-0 bg-white shadow-sm z-20">
+                                            <tr>
+                                                {columns.map(column => (
+                                                    <th 
+                                                        key={column.key} 
+                                                        className={`${column.className} border-b border-gray-200 bg-white`}
+                                                    >
+                                                        {column.headerRender ? column.headerRender() : column.header}
+                                                    </th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {sortedGuests.map((row, index) => (
+                                                <tr key={row._id || index}>
+                                                    {columns.map(column => (
+                                                        <td key={column.key} className={column.className}>
+                                                            {column.render ? column.render(row, index) : row[column.key]}
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
+                            
+                            <div className="mt-4 px-4 py-3 text-sm text-gray-600">
+                                Total: {sortedGuests.length} invitados
                             </div>
                         </div>
                         
