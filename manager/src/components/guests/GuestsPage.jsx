@@ -32,30 +32,61 @@ const GuestsPage = () => {
 
     const filteredGuests = guests
         .filter(guest => {
-            // Si no hay término de búsqueda, mostrar todos
-            if (!searchTerm.trim()) return true;
+            // Aplicar filtro de búsqueda
+            if (searchTerm.trim()) {
+                const isPhoneSearch = /^[0-9\s]*$/.test(searchTerm);
 
-            // Si el término de búsqueda parece ser un número de teléfono
-            const isPhoneSearch = /^[0-9\s]*$/.test(searchTerm);
+                if (isPhoneSearch) {
+                    const phoneNumber = (guest.phone || '').replace(/[\s+]/g, '');
+                    const searchPhone = searchTerm.replace(/[\s+]/g, '');
+                    if (!(phoneNumber.includes(searchPhone) && searchPhone.length >= 6)) {
+                        return false;
+                    }
+                } else {
+                    const searchTermCapitalized = capitalizeWords(searchTerm);
+                    const fullNameCapitalized = capitalizeWords(guest.fullName);
+                    const partnersCapitalized = (guest.partnersName || []).map(name => capitalizeWords(name));
 
-            if (isPhoneSearch) {
-                // Eliminar espacios para la comparación
-                const phoneNumber = (guest.phone || '').replace(/[\s+]/g, '');
-                const searchPhone = searchTerm.replace(/[\s+]/g, '');
-                // Buscar coincidencia exacta o al menos 6 dígitos consecutivos
-                return phoneNumber.includes(searchPhone) && searchPhone.length >= 6;
+                    if (!(searchTermCapitalized.length >= 3 && (
+                        fullNameCapitalized.includes(searchTermCapitalized) || 
+                        partnersCapitalized.some(name => name.includes(searchTermCapitalized))
+                    ))) {
+                        return false;
+                    }
+                }
             }
 
-            // Para búsqueda por nombre, capitalizar y comparar
-            const searchTermCapitalized = capitalizeWords(searchTerm);
-            const fullNameCapitalized = capitalizeWords(guest.fullName);
-            const partnersCapitalized = (guest.partnersName || []).map(name => capitalizeWords(name));
+            // Aplicar filtro de iglesia
+            if (churchFilter !== 'all') {
+                switch (churchFilter) {
+                    case 'confirmed':
+                        if (!guest.assistChurch) return false;
+                        break;
+                    case 'pending':
+                        if (guest.assistChurch !== null) return false;
+                        break;
+                    case 'notAttending':
+                        if (guest.assistChurch !== false) return false;
+                        break;
+                }
+            }
 
-            // Buscar coincidencia más estricta para nombres
-            return searchTermCapitalized.length >= 3 && (
-                fullNameCapitalized.includes(searchTermCapitalized) || 
-                partnersCapitalized.some(name => name.includes(searchTermCapitalized))
-            );
+            // Aplicar filtro de recepción
+            if (weddingFilter !== 'all') {
+                switch (weddingFilter) {
+                    case 'confirmed':
+                        if (!guest.assist) return false;
+                        break;
+                    case 'pending':
+                        if (guest.assist !== null) return false;
+                        break;
+                    case 'notAttending':
+                        if (guest.assist !== false) return false;
+                        break;
+                }
+            }
+
+            return true;
         })
         .sort((a, b) => b.id - a.id);
 
@@ -66,6 +97,7 @@ const GuestsPage = () => {
     };
 
     const columns = [
+        // 1. ID
         { 
             header: '#',
             key: 'index',
@@ -76,80 +108,9 @@ const GuestsPage = () => {
                 </span>
             )
         },
-        { 
-            header: 'Nombre',
-            key: 'fullName',
-            className: 'min-w-[150px] max-w-[200px] py-1',
-            render: (row) => (
-                <div className="flex flex-col leading-none">
-                    <span className="text-sm font-medium">{capitalizeWords(row.fullName)}</span>
-                    {row.phone && (
-                        <span className="text-xs text-gray-400 mt-0.5">
-                            {row.phone}
-                        </span>
-                    )}
-                </div>
-            )
-        },
-        { 
-            header: 'Acompañantes',
-            key: 'companions',
-            className: 'min-w-[160px] max-w-[240px] py-1',
-            render: (row) => {
-                const companions = row.partnersName || [];
-                if (companions.length === 0) return (
-                    <span className="text-xs text-gray-400">-</span>
-                );
-                return (
-                    <div className="flex flex-col leading-none">
-                        {companions.map((name, idx) => (
-                            <span key={idx} className="text-xs text-gray-600 mt-0.5">
-                                {capitalizeWords(name)}
-                            </span>
-                        ))}
-                    </div>
-                );
-            }
-        },
-        { 
-            header: 'Asistencia',
-            key: 'status',
-            className: 'w-[140px] py-1',
-            render: (row) => (
-                <div className="flex flex-col gap-[2px]">
-                    <div className={`${styles.statusBadge} ${
-                        row.assistChurch === null ? styles.statusPending :
-                        row.assistChurch ? styles.statusConfirmed : 
-                        styles.statusNotAttending
-                    }`}>
-                        <span className="text-xs font-medium">Iglesia</span>
-                        <div className="flex items-center gap-1">
-                            <span className="text-sm leading-none">{getStatusIcon(row.assistChurch)}</span>
-                            <span className="text-xs">
-                                {row.assistChurch === null ? 'Pendiente' :
-                                 row.assistChurch ? 'Confirmado' : 'No asiste'}
-                            </span>
-                        </div>
-                    </div>
-                    <div className={`${styles.statusBadge} ${
-                        row.assist === null ? styles.statusPending :
-                        row.assist ? styles.statusConfirmed : 
-                        styles.statusNotAttending
-                    }`}>
-                        <span className="text-xs font-medium">Recepción</span>
-                        <div className="flex items-center gap-1">
-                            <span className="text-sm leading-none">{getStatusIcon(row.assist)}</span>
-                            <span className="text-xs">
-                                {row.assist === null ? 'Pendiente' :
-                                 row.assist ? 'Confirmado' : 'No asiste'}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            )
-        },
+        // 2. Acciones con header
         {
-            header: '',
+            header: 'Editar',
             key: 'actions',
             className: 'w-10 text-center py-1',
             render: (row) => (
@@ -172,6 +133,69 @@ const GuestsPage = () => {
                         />
                     </svg>
                 </button>
+            )
+        },
+        // 3. Nombre
+        { 
+            header: 'Nombre',
+            key: 'fullName',
+            className: 'min-w-[150px] max-w-[200px] py-1',
+            render: (row) => (
+                <div className="flex flex-col leading-none">
+                    <span className="text-sm font-medium">{capitalizeWords(row.fullName)}</span>
+                    {row.phone && (
+                        <span className="text-xs text-gray-400 mt-0.5">
+                            {row.phone}
+                        </span>
+                    )}
+                </div>
+            )
+        },
+        // 4. Acompañantes
+        { 
+            header: 'Acompañantes',
+            key: 'companions',
+            className: 'min-w-[160px] max-w-[240px] py-1',
+            render: (row) => {
+                const companions = row.partnersName || [];
+                if (companions.length === 0) return (
+                    <span className="text-xs text-gray-400">-</span>
+                );
+                return (
+                    <div className="flex flex-col leading-none">
+                        {companions.map((name, idx) => (
+                            <span key={idx} className="text-xs text-gray-600 mt-0.5">
+                                {capitalizeWords(name)}
+                            </span>
+                        ))}
+                    </div>
+                );
+            }
+        },
+        // 5. Asistencia
+        { 
+            header: 'Asistencia',
+            key: 'status',
+            className: 'w-[100px] py-1',
+            render: (row) => (
+                <div className="flex flex-col gap-1">
+                    <div className={`flex items-center gap-2 px-2 py-1 rounded-md ${
+                        row.assistChurch === null ? 'bg-gray-100 text-gray-600' :
+                        row.assistChurch ? 'bg-green-100 text-green-600' : 
+                        'bg-red-100 text-red-600'
+                    }`}>
+                        <span className="text-sm leading-none">{getStatusIcon(row.assistChurch)}</span>
+                        <span className="text-xs">Iglesia</span>
+                    </div>
+                    <div className={`flex items-center gap-2 px-2 py-1 rounded-md ${
+                        row.assist === null ? 'bg-gray-100 text-gray-600' :
+                        row.assist ? 'bg-green-100 text-green-600' : 
+                        'bg-red-100 text-red-600'
+                    }`}>
+                        <span className="text-sm leading-none">{getStatusIcon(row.assist)}</span>
+                        <span className="text-xs">Recepción</span>
+                    </div>
+                </div>
             )
         }
     ];
