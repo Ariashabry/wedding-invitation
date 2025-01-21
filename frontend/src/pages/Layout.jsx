@@ -40,7 +40,7 @@ const Layout = () => {
 
    return (
       <div className={`relative flex flex-col items-center overflow-hidden
-         ${confirmationModal || weatherModal || modal || wishesModal ? ' h-screen' : 'h-min-screen'}`
+         ${confirmationModal || weatherModal || modal || wishesModal ? 'h-screen' : 'h-min-screen'}`
       }>
 
          <FeatureWrapper featureKey="TIPACU_BUTTON">
@@ -52,22 +52,24 @@ const Layout = () => {
             <ModalWishes />
          </FeatureWrapper>
 
-         {/* Modals --------------------------------------- */}
-         <ModalContainer isOpen={modal}>
-            <ModalAccounts />
-         </ModalContainer>
+         {/* Modals con z-index alto */}
+         <div className="z-[9999]">
+            <ModalContainer isOpen={modal}>
+               <ModalAccounts />
+            </ModalContainer>
 
-         <ModalContainer isOpen={weatherModal}>
-            <ModalWeather />
-         </ModalContainer>
+            <ModalContainer isOpen={weatherModal}>
+               <ModalWeather />
+            </ModalContainer>
 
-         <ModalContainer isOpen={confirmationModal}>
-            <ModalConfirm />
-         </ModalContainer>
+            <ModalContainer isOpen={confirmationModal}>
+               <ModalConfirm />
+            </ModalContainer>
 
-         <ModalContainer isOpen={isHistoryModalOpen}>
-            <ModalHistory />
-         </ModalContainer>
+            <ModalContainer isOpen={isHistoryModalOpen}>
+               <ModalHistory />
+            </ModalContainer>
+         </div>
 
          {/* 1° Portrait Section --------------------------------------- */}
          <section className="relative flex flex-col items-center w-full h-[100vh] text-sm bg-cream pt-8 px-8 overflow-hidden z-20">

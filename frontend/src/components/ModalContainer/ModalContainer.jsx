@@ -1,11 +1,10 @@
-
 const ModalContainer = ({ children, isOpen }) => {
+  if (!isOpen) return null;
+
   return (
-    isOpen && (
-      <div className={`fixed inset-0 mx-auto flex justify-center pt-4 pb-10 h-screen w-full backdrop-blur-md bg-cream/60 z-50`}>
-        {children}
-      </div>
-    )
+    <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-[9999]">
+      {children}
+    </div>
   );
 };
 
