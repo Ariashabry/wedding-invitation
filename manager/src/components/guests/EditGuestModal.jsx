@@ -223,11 +223,18 @@ const EditGuestModal = ({ guest, isOpen, onClose, onSave }) => {
                     </div>
 
                     <div className={styles.formActions}>
-                        <button type="button" onClick={onClose} className={styles.cancelButton}>
+                        <button 
+                            type="button" 
+                            onClick={onClose} 
+                            className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                        >
                             Cancelar
                         </button>
-                        <button type="submit" className={styles.submitButton}>
-                            Guardar Cambios
+                        <button 
+                            type="submit" 
+                            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors font-medium shadow-sm"
+                        >
+                            Guardar
                         </button>
                     </div>
                 </form>

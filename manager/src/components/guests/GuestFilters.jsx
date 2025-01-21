@@ -130,10 +130,10 @@ const GuestFilters = ({
                         onFocus={handleInteraction}
                         className="w-full px-4 py-2 border rounded-md"
                     >
-                        <option value="all">Boda - Todos</option>
-                        <option value="confirmed">Boda - Confirmados</option>
-                        <option value="pending">Boda - Pendientes</option>
-                        <option value="notAttending">Boda - No Asisten</option>
+                        <option value="all">Recepción - Todos</option>
+                        <option value="confirmed">Recepción - Confirmados</option>
+                        <option value="pending">Recepción - Pendientes</option>
+                        <option value="notAttending">Recepción - No Asisten</option>
                     </select>
                 </div>
             </div>
