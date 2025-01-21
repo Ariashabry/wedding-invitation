@@ -84,12 +84,14 @@ const Layout = () => {
          </section>
 
          {/* 2° Countdown, maps and schelude section --------------------------------------- */}
-         <section className="relative flex flex-col items-center justify-center w-full bg-blue h-fit px-8 pb-4 z-30
+         <section className="relative flex flex-col items-center justify-center w-full bg-blue h-fit px-8 pb-4 
             lg:px-8 lg:pb-20">
 
             <Countdown />
             <FeatureWrapper featureKey="TIMELINE">
-               <Timeline />
+               <div className="scroll-mt-48 w-full" id="cronograma">
+                  <Timeline />
+               </div>
             </FeatureWrapper>
 
             {/* Church and party container ---------- */}

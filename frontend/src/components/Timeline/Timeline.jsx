@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FeatureWrapper from '../FeatureWrapper/FeatureWrapper';
 import { 
   Church, 
@@ -244,9 +244,19 @@ const Timeline = () => {
     }
   ];
 
+  useEffect(() => {
+    // Manejar el scroll cuando se carga la página si hay un hash en la URL
+    if (window.location.hash === '#cronograma') {
+      const element = document.getElementById('cronograma');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, []);
+
   return (
     <FeatureWrapper featureKey="TIMELINE">
-      <div className="w-full max-w-4xl mx-auto">
+      <div id="cronograma" className="w-full max-w-4xl mx-auto scroll-mt-20">
         {/* Título con contenedor dedicado y padding simétrico */}
         <div className="w-full py-8 sm:py-12 px-4 md:px-8">
           <h1 className="text-3xl sm:text-4xl font-poppins text-white text-center font-semibold tracking-wide">
