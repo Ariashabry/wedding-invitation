@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const ModalContext = createContext({
    modal: false,
@@ -15,16 +15,44 @@ export const ModalContext = createContext({
    setWishesModal: () => {}
 });
 
-const ModalProvider = ({ children }) => {
-   const [modal, setModal] = useState(false);                     // Para T'ipacu
+export const ModalProvider = ({ children }) => {
+   const [modal, setModal] = useState(false);
    const [confirmationModal, setConfirmationModal] = useState(false);
    const [weatherModal, setWeatherModal] = useState(false);
    const [sent, setSent] = useState(false);
    const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
-   const [wishesModal, setWishesModal] = useState(false);        // Para Felicitaciones
+   const [wishesModal, setWishesModal] = useState(false);
+
+   useEffect(() => {
+      const handleHashChange = () => {
+         const hash = window.location.hash;
+         
+         // Cerrar todos los modales primero
+         setModal(false);
+         setConfirmationModal(false);
+         setWeatherModal(false);
+         setIsHistoryModalOpen(false);
+         setWishesModal(false);
+
+         // Abrir el modal correspondiente según el hash
+         if (hash === '#confirmar') {
+            setConfirmationModal(true);
+         } else if (hash === '#deseos') {
+            setWishesModal(true);
+         }
+      };
+
+      // Verificar al montar y cuando cambie el hash
+      window.addEventListener('hashchange', handleHashChange);
+      handleHashChange(); // Verificar hash inicial
+
+      return () => {
+         window.removeEventListener('hashchange', handleHashChange);
+      };
+   }, []);
 
    const contextValue = {
-      modal,                    // T'ipacu modal
+      modal,
       setModal,
       confirmationModal,
       setConfirmationModal,
@@ -34,7 +62,7 @@ const ModalProvider = ({ children }) => {
       setSent,
       isHistoryModalOpen,
       setIsHistoryModalOpen,
-      wishesModal,             // Wishes modal
+      wishesModal,
       setWishesModal
    };
 

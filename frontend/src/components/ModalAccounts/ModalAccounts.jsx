@@ -58,7 +58,7 @@ const ModalAccounts = () => {
                   T'ipacu: ✨ Uniendo Corazones y Tradiciones 🤝
                </h2>
                <p className="text-xs md:text-sm text-yellow-400 italic">
-                  Ayni: Donde Cada Mano que Da, Recibe
+                  Compartiendo Amor y Tradición
                </p>
             </div>
             <button 
@@ -77,8 +77,8 @@ const ModalAccounts = () => {
          <main className='flex flex-col items-center justify-center gap-4 grow bg-cream px-2 py-4 md:py-6 md:px-4 text-gray-dark'>
             <article className="text-center max-w-xl">
                <p className="text-sm md:text-base lg:text-lg">
-                  En nuestra cultura andina 🦙, el Ayni representa el equilibrio perfecto entre dar y recibir. 
-                  Es la sabiduría ancestral que nos enseña que en la reciprocidad encontramos la verdadera riqueza de nuestra comunidad.
+                  ¡Celebremos juntos este momento especial! 🎉 
+                  El Ayni nos une en esta fiesta de amor y tradición ✨
                </p>
             </article>
 
