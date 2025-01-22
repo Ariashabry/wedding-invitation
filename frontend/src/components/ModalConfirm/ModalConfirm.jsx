@@ -7,7 +7,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import './ModalConfirm.css';
 import Swal from 'sweetalert2'
 import { convertLength } from '@mui/material/styles/cssUtils';
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend-lake-nu.vercel.app';
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://backend-lake-nu.vercel.app";
 
 const countryCodes = [
     { code: '+591', country: 'Bolivia', iso: 'BO', minLength: 8, maxLength: 8 },
@@ -22,6 +23,92 @@ const countryCodes = [
     { code: '+34', country: 'España', iso: 'ES', minLength: 9, maxLength: 9 },
     { code: '+1', country: 'Estados Unidos', iso: 'US', minLength: 10, maxLength: 10 }
 ];
+
+const PHONE_CONFIGS = {
+   '591': { // Bolivia
+      length: 8,
+      name: 'Bolivia',
+      startsWith: ['6', '7', '2', '3', '4'],
+      flag: '🇧🇴'
+   },
+   '51': { // Perú
+      length: 9,
+      name: 'Perú',
+      startsWith: ['9'],
+      flag: '🇵🇪'
+   },
+   '54': { // Argentina
+      length: 10,
+      name: 'Argentina',
+      startsWith: ['9'],
+      flag: '🇦🇷'
+   },
+   '55': { // Brasil
+      length: 9,
+      name: 'Brasil',
+      startsWith: ['9'],
+      flag: '🇧🇷'
+   },
+   '56': { // Chile
+      length: 9,
+      name: 'Chile',
+      startsWith: ['9'],
+      flag: '🇨🇱'
+   },
+   '57': { // Colombia
+      length: 10,
+      name: 'Colombia',
+      startsWith: ['3'],
+      flag: '🇨🇴'
+   },
+   '58': { // Venezuela
+      length: 10,
+      name: 'Venezuela',
+      startsWith: ['4'],
+      flag: '🇻🇪'
+   },
+   '52': { // México
+      length: 10,
+      name: 'México',
+      startsWith: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+      flag: '🇲🇽'
+   },
+   '593': { // Ecuador
+      length: 9,
+      name: 'Ecuador',
+      startsWith: ['9'],
+      flag: '🇪🇨'
+   },
+   '595': { // Paraguay
+      length: 9,
+      name: 'Paraguay',
+      startsWith: ['9'],
+      flag: '🇵🇾'
+   },
+   '598': { // Uruguay
+      length: 8,
+      name: 'Uruguay',
+      startsWith: ['9'],
+      flag: '🇺🇾'
+   },
+   '34': { // España
+      length: 9,
+      name: 'España',
+      startsWith: ['6', '7'],
+      flag: '🇪🇸'
+   },
+   '1': { // Estados Unidos
+      length: 10,
+      name: 'Estados Unidos',
+      startsWith: ['2', '3', '4', '5', '6', '7', '8', '9'],
+      flag: '🇺🇸'
+   }
+};
+
+// Ordenar países por nombre para el selector
+const sortedCountries = Object.entries(PHONE_CONFIGS).sort((a, b) => 
+   a[1].name.localeCompare(b[1].name, 'es', { sensitivity: 'base' })
+);
 
 const initialFormState = {
    fullName: '',
@@ -38,6 +125,33 @@ const initialFormState = {
    // message: '',
 };
 
+const styleSheet = document.createElement("style");
+styleSheet.textContent = `
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.highlight-required {
+  box-shadow: 0 0 0 2px #EF4444;
+  transition: all 0.3s ease;
+}
+
+.swal-popup-high-z-index {
+   z-index: 9999 !important;
+}
+
+.swal2-container {
+   z-index: 9999 !important;
+}
+`;
+document.head.appendChild(styleSheet);
+
 const ModalConfirm = () => {
 
    const { setConfirmationModal } = useContext(ModalContext);
@@ -46,9 +160,17 @@ const ModalConfirm = () => {
    const [arrowBehavior, setArrowBehavior] = useState(false);
    const [optionalInput, setOptionalInput] = useState(true);
    const [partnerNames, setPartnerNames] = useState(['']);
-   const [errors, setErrors] = useState({});
+   const [errors, setErrors] = useState({
+      fullName: '',
+      phone: ''
+   });
    const [showToast, setShowToast] = useState(false);
-   const [selectedCountryCode, setSelectedCountryCode] = useState('+591');
+   const [selectedCountry, setSelectedCountry] = useState('591');
+   const [activeSection, setActiveSection] = useState('confirmation');
+   const [shakingFields, setShakingFields] = useState({
+      fullName: false,
+      phone: false
+   });
 
    // Función para capitalizar nombres
    const capitalizeWords = (str) => {
@@ -158,7 +280,7 @@ const ModalConfirm = () => {
       }
 
       // Encontrar el país seleccionado
-      const selectedCountry = countryCodes.find(country => country.code === selectedCountryCode);
+      const selectedCountry = countryCodes.find(country => country.code === selectedCountry);
       
       if (phone.length < selectedCountry.minLength || phone.length > selectedCountry.maxLength) {
          if (selectedCountry.minLength === selectedCountry.maxLength) {
@@ -172,7 +294,7 @@ const ModalConfirm = () => {
 
    // Función para formatear el teléfono
    const formatPhone = (value) => {
-      const selectedCountry = countryCodes.find(country => country.code === selectedCountryCode);
+      const selectedCountry = countryCodes.find(country => country.code === selectedCountry);
       const numbersOnly = value.replace(/\D/g, '');
       return numbersOnly.slice(0, selectedCountry.maxLength);
    };
@@ -220,6 +342,15 @@ const ModalConfirm = () => {
       }
    };
 
+   const handlePhoneChange = (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      // Si el usuario está empezando a escribir, agregamos el código de país
+      if (!value.startsWith(selectedCountry)) {
+         value = value.slice(0, PHONE_CONFIGS[selectedCountry].length); // Solo los dígitos permitidos
+      }
+      setFormData({ ...formData, phone: value });
+      if (errors.phone) setErrors({ ...errors, phone: '' });
+   };
 
    const handleArrowBehavior = (e) => {
       setArrowBehavior({
@@ -249,510 +380,593 @@ const ModalConfirm = () => {
       return newErrors;
    };
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
       e.preventDefault();
-      
-      const formErrors = validateForm();
-      if (Object.keys(formErrors).length > 0) {
-         setErrors(formErrors);
-         setShowToast(true);
-         setTimeout(() => setShowToast(false), 3000);
-         return;
-      }
-
       setIsLoading(true);
+      setErrors({ fullName: '', phone: '' });
+      
+      try {
+         const newErrors = {};
+         const newShaking = {
+            fullName: false,
+            phone: false
+         };
 
-      // Crear una copia del formData con el teléfono completo
-      const formDataToSend = {
-         ...formData,
-         phone: `${selectedCountryCode}${formData.phone}`.replace(/\D/g, '') // Eliminar caracteres no numéricos
-      };
+         if (!formData.fullName?.trim()) {
+            newErrors.fullName = 'El nombre es obligatorio';
+            newShaking.fullName = true;
+         }
 
-      const showConfirmation = (title, text, confirmedText) => {
-         setTimeout(() => {
+         // Validación del teléfono
+         const phoneNumber = formData.phone?.replace(/\D/g, '');
+         let validatedPhone = '';
+
+         if (!phoneNumber) {
+            newErrors.phone = 'El teléfono es obligatorio';
+            newShaking.phone = true;
+         } else {
+            const config = PHONE_CONFIGS[selectedCountry];
+            
+            if (phoneNumber.length !== config.length) {
+               newErrors.phone = `El número debe tener ${config.length} dígitos`;
+               newShaking.phone = true;
+            } else if (config.startsWith && !config.startsWith.includes(phoneNumber[0])) {
+               newErrors.phone = `El número no parece ser válido para ${config.name}`;
+               newShaking.phone = true;
+            } else {
+               validatedPhone = selectedCountry + phoneNumber;
+            }
+         }
+
+         // Si hay errores de validación, mostrarlos
+         if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            setShakingFields(newShaking);
+            
+            const firstErrorField = Object.keys(newErrors)[0];
+            const errorElement = document.querySelector(`[name="${firstErrorField}"]`);
+            if (errorElement) {
+               errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
             Swal.fire({
-               title: title,
-               html: `
-                  <div class="text-center">
-                     <div class="text-4xl mb-4">🎉</div>
-                     <h2 class="text-xl font-bold mb-4">${text}</h2>
-                     <p class="text-gray-600">${confirmedText}</p>
-                  </div>
-               `,
-               background: '#EAE8E4',
-               confirmButtonText: 'Cerrar',
-               customClass: {
-                  confirmButton: 'btn-alert bg-green hover:bg-green-dark',
-                  popup: 'rounded-lg p-6'
-               },
-               buttonsStyling: false,
-               showClass: {
-                  popup: 'animate__animated animate__fadeInDown'
-               },
-               hideClass: {
-                  popup: 'animate__animated animate__fadeOutUp'
-               }
-            }).then((result) => {
-               if (result.isConfirmed) {
-                  setConfirmationModal(false);
-               }
+               icon: 'warning',
+               title: 'Campos requeridos',
+               text: Object.values(newErrors)[0],
+               timer: 3000,
+               timerProgressBar: true,
+               showConfirmButton: false
             });
-         }, 100);
-      };
 
-      axios
-         .post(`${BACKEND_URL}/api/guests`, formDataToSend)
-         .then((response) => {
-            console.log('Response:', response.data);
-            if (formData.assist !== "false") {
-               showConfirmation(
-                  '¡Gracias por Confirmar!',
-                  `¡${formData.fullName}!`,
-                  `Estamos muy felices de que nos acompañes en este día tan especial.<br><br>
-                  ¡Te esperamos para celebrar juntos! ❤️✨<br>
-                  <span class="font-bold">No olvides la fecha: 25 de Enero</span>`
-               );
-            } else {
-               showConfirmation(
-                  '¡Te vamos a extrañar!',
-                  `¡${formData.fullName}!`,
-                  `Lamentamos que no puedas acompañarnos.<br>
-                  Gracias por tomarte el tiempo de confirmarnos ❤️`
-               );
-            }
-         })
-         .catch((error) => {
-            console.error('Error:', error);
-            // Verificar si es error de usuario duplicado
-            if (error.response?.data?.error === "Ya existe un invitado con el mismo nombre completo") {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Usuario ya registrado',
-                    html: `
-                        <div class="text-center">
-                            <p class="mb-4">Ya existe un registro con el nombre "${formData.fullName}".</p>
-                            <p class="text-sm text-gray-600">
-                                Si necesitas modificar tu confirmación, por favor contacta con nosotros:
-                                <br/>
-                                <a 
-                                    href="https://wa.me/59176327232?text=Hola%20Alcides,%20necesito%20modificar%20mi%20confirmación%20de%20la%20boda" 
-                                    class="font-bold text-[#25D366] hover:text-[#128C7E]"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    76327232 📱
-                                </a>
-                            </p>
-                        </div>
-                    `,
-                    background: '#EAE8E4',
-                    customClass: {
-                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
-                    },
-                    buttonsStyling: false
-                });
-            } else {
-                // Mostrar error genérico para otros casos
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.',
-                    background: '#EAE8E4',
-                    customClass: {
-                        confirmButton: 'btn-alert bg-green hover:bg-green-dark'
-                    },
-                    buttonsStyling: false
-                });
-            }
-         })
-         .finally(() => {
             setIsLoading(false);
-         });
+            return;
+         }
+
+         // Preparamos los datos para enviar
+         let submitData = {
+            fullName: formData.fullName.trim(),
+            phone: validatedPhone,
+            assist: false,
+            assistChurch: false,
+            onlyChurch: false
+         };
+
+         // Procesamos los datos de acompañantes si existen
+         if (formData.partner === 'true' && Array.isArray(formData.partnersName)) {
+            const validPartners = formData.partnersName
+               .filter(name => name && typeof name === 'string')
+               .map(name => name.trim())
+               .filter(name => name.length > 0);
+
+            if (validPartners.length > 0) {
+               submitData.partner = true;
+               submitData.partnersName = validPartners;
+            }
+         }
+
+         // Intentamos registrar al invitado
+         const response = await axios.post(`${BACKEND_URL}/api/guests`, submitData);
+
+         if (response.status === 200 || response.status === 201) {
+            Swal.fire({
+               icon: 'success',
+               title: '¡Gracias!',
+               html: `¡Gracias <b>${submitData.fullName}</b> por confirmar tu asistencia!`,
+               timer: 3000,
+               timerProgressBar: true,
+               showConfirmButton: false
+            });
+            setConfirmationModal(false);
+            setFormData({
+               fullName: '',
+               phone: '',
+               assist: 'false',
+               partner: 'false',
+               partnersName: '',
+               assistChurch: 'false',
+               onlyChurch: false
+            });
+         }
+      } catch (error) {
+         console.error('Error al registrar:', error);
+         
+         // Aseguramos que el Sweet Alert se muestre con el z-index correcto
+         const swalConfig = {
+            icon: 'error',
+            title: 'Error',
+            text: error.response?.data?.error || 'Hubo un error al procesar tu registro.',
+            showConfirmButton: true,
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#3085d6',
+            customClass: {
+               popup: 'swal-popup-high-z-index' // Clase personalizada para z-index alto
+            }
+         };
+
+         // Mostramos el Sweet Alert y esperamos su respuesta
+         await Swal.fire(swalConfig);
+         
+         // Si el error es de duplicado, cerramos el modal de registro
+         if (error.response?.data?.error?.includes('Ya existe')) {
+            setConfirmationModal(false);
+         }
+      } finally {
+         setIsLoading(false);
+      }
+   };
+
+   const handleSectionClick = (section) => {
+      setActiveSection(section);
    };
 
    return (
-      <div className="relative flex flex-col justify-start w-11/12 rounded-md antialiased overflow-y-scroll bg-cream text-gray-dark py-6 shadow-md
-         sm:py-12
-         md:w-[640px]
-         lg:w-[720px]">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+         <div className="relative bg-white w-11/12 max-w-2xl rounded-3xl flex flex-col h-[90vh]">
+            {/* Botón de cerrar */}
+            <button
+               onClick={() => setConfirmationModal(false)}
+               className="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-700 transition-colors"
+               aria-label="Cerrar"
+            >
+               <svg 
+                  className="w-6 h-6" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+               >
+                  <path 
+                     strokeLinecap="round" 
+                     strokeLinejoin="round" 
+                     strokeWidth={2} 
+                     d="M6 18L18 6M6 6l12 12" 
+                  />
+               </svg>
+            </button>
 
-         {/* Toast de errores */}
-         {showToast && Object.keys(errors).length > 0 && (
-            <div className="fixed top-4 right-4 z-50 animate-fade-in">
-               <div className="bg-red bg-opacity-90 text-white px-6 py-4 rounded-lg shadow-lg">
-                  <h4 className="font-semibold mb-2">Por favor completa los campos requeridos:</h4>
-                  <ul className="list-disc list-inside">
-                     {Object.values(errors).map((error, index) => (
-                        <li key={index} className="text-sm">{error}</li>
-                     ))}
-                  </ul>
-               </div>
-            </div>
-         )}
+            <div className="flex-1 overflow-y-auto">
+               <div className="p-8">
+                  <h2 className="text-2xl font-semibold text-center mb-2">
+                     Confirma tu asistencia
+                  </h2>
+                  <p className="text-center text-gray-600 mb-6">
+                     Por favor, completa un formulario por familia o invitado individual.
+                     ¡Nos encantaría contar con tu presencia!
+                  </p>
 
-         <img
-            onClick={() => setConfirmationModal(false)}
-            src="./assets/images/btn-close.png"
-            alt=" Boton cerrar "
-            className="absolute top-5 right-5 h-10 cursor-pointer shadow-md rounded-md z-50
-               transition-all delay-50 duration-150 hover:cursor-pointer hover:scale-90 hover:drop-shadow-md hover:rotate-90" />
+                  <div className="bg-blue-50 p-4 rounded-2xl mb-6">
+                     <p className="flex items-center gap-2 text-blue-600">
+                        <span role="img" aria-label="tip">💡</span>
+                        Tip: Haz clic en cada sección para completar tus datos
+                     </p>
+                  </div>
 
-         <div className="relative py-3 w-10/12 mx-auto text-center">
-
-            <section className="flex flex-col mb-6">
-               <span className="text-2xl font-medium mb-4">¿Asistiras a nuestra boda?</span>
-               <span className="text-base font-light">
-                  Por favor, completa un formulario por familia o invitado individual.
-                  <br></br>
-                  ¡Nos encantaría contar con tu presencia! 
-               </span>
-               <div className="flex items-center gap-2 mt-4 bg-blue-50 p-3 rounded-lg">
-                  <span className="text-blue-600">💡</span>
-                  <span className="text-sm text-blue-700">
-                     Tip: Haz clic en cada sección para completar tus datos
-                  </span>
-               </div>
-            </section>
-
-            <form onClick={handleArrowBehavior} className="mt-4 flex flex-col gap-4 text-left">
-
-               {/* Full name section ---------------------- */}
-               <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='fullname' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
-                     <div className="section-header">
-                        <h3>
-                           Nombre completo
-                           <span className='section-required text-red'>(*)</span>
-                        </h3>
-                        <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180'}`} fontSize='medium' />
-                     </div>
-                     <div className="flex flex-col pb-6 gap-2">
-                        <label>
-                           <input
-                              required
-                              type="text"
-                              name="fullName"
-                              placeholder="Ej: Juan Pérez Mamani"
-                              value={formData.fullName}
-                              onChange={handleChange}
-                              className={`section-input-text ${errors.fullName ? 'border-red-500' : ''}`}
-                              title="Solo se permiten letras y espacios"
-                           />
-                           {errors.fullName && (
-                              <span className="text-red-500 text-xs mt-1">
-                                 {errors.fullName}
-                              </span>
-                           )}
-                        </label>
-                     </div>
-                  </span>
-               </label>
-
-               {/* Phone section ---------------------- */}
-               <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='fullname' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
-                     <div className="section-header">
-                        <h3>
-                           Teléfono ☎️
-                           <span className='section-required text-red'>(*)</span>
-                        </h3>
-                        <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180'}`} fontSize='medium' />
-                     </div>
-                     <h3 className="text-sm font-medium mb-4">Dejanos un número de teléfono para poder contactarte por cualquier cosa.</h3>
-                     <div className="flex flex-col pb-6 gap-2">
-                        <label>
-                           <div className="phoneInputWrapper">
-                              <select 
-                                 value={selectedCountryCode}
-                                 onChange={(e) => setSelectedCountryCode(e.target.value)}
-                                 className="countryCodeSelect"
-                                 title="Código de país"
-                              >
-                                 {countryCodes.map(({ code, country, iso }) => (
-                                    <option key={code} value={code} title={country}>
-                                       {iso} {code}
-                                    </option>
-                                 ))}
-                              </select>
-                              <input
-                                 required
-                                 type="tel"
-                                 name="phone"
-                                 placeholder="Ej: 70707070"
-                                 value={formData.phone}
-                                 onChange={handleChange}
-                                 className={`section-input-text ${errors.phone ? 'border-red-500' : ''}`}
-                                 title="Ingresa un número de teléfono válido"
-                              />
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                     {/* Full name section ---------------------- */}
+                     <label>
+                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='fullname' />
+                        <div className="section-line"></div>
+                        <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
+                           <div className="section-header">
+                              <h3>
+                                 Nombre completo
+                                 <span className='section-required text-red'>(*)</span>
+                              </h3>
+                              <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180'}`} fontSize='medium' />
                            </div>
-                           {errors.phone && (
-                              <span className="text-red-500 text-xs mt-1">
-                                 {errors.phone}
-                              </span>
-                           )}
-                        </label>
-                     </div>
-                  </span>
-               </label>
+                           <div className="flex flex-col pb-6 gap-2">
+                              <label>
+                                 <input
+                                    required
+                                    type="text"
+                                    name="fullName"
+                                    placeholder="Ej: Juan Pérez Mamani"
+                                    value={formData.fullName}
+                                    onChange={handleChange}
+                                    className={`section-input-text ${errors.fullName ? 'border-red-500 highlight-required' : 'border-gray-300'} ${shakingFields.fullName ? 'shake' : ''}`}
+                                    title="Solo se permiten letras y espacios"
+                                 />
+                                 {errors.fullName && (
+                                    <span className="text-red-500 text-xs mt-1">
+                                       {errors.fullName}
+                                    </span>
+                                 )}
+                              </label>
+                           </div>
+                        </span>
+                     </label>
 
-               {/* Assists section ---------------------- */}
-               <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='assist' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-52">
-                     <div className="section-header">
-                        <h3>
-                           Confirmación ✅
-                           <span className='section-required text-red'>(*)</span>
-                        </h3>
-                        <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'assist') && 'rotate-180'}`} fontSize='medium' />
-                     </div>
-                     <div className="flex flex-col pb-6">
-                        <label className="section-label-radio">
-                           <input
-                              required
-                              type="radio"
-                              name="assist"
-                              value={true}
-                              onChange={handleChange}
-                              className="section-input-radio"
-                              defaultChecked
-                           />ASISTIRÉ 🚀
-                        </label>
-                        <label className="section-label-radio">
-                           <input
-                              type="radio"
-                              name="assist"
-                              value={false}
-                              onChange={handleChange}
-                              className="section-input-radio"
-                           />NO VOY A PODER ASISTIR 😔
-                        </label>
-                     </div>
-                  </span>
-               </label>
+                     {/* Phone section ---------------------- */}
+                     <label>
+                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='fullname' />
+                        <div className="section-line"></div>
+                        <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
+                           <div className="section-header">
+                              <h3>
+                                 Teléfono ☎️
+                                 <span className='section-required text-red'>(*)</span>
+                              </h3>
+                              <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180'}`} fontSize='medium' />
+                           </div>
+                           <h3 className="text-sm font-medium mb-4">Dejanos un número de teléfono para poder contactarte por cualquier cosa.</h3>
+                           <div className="flex flex-col pb-6 gap-2">
+                              <label>
+                                 <div className="flex gap-2">
+                                    <div className="relative">
+                                       <select
+                                          value={selectedCountry}
+                                          onChange={(e) => {
+                                             setSelectedCountry(e.target.value);
+                                             setFormData({ ...formData, phone: '' });
+                                          }}
+                                          className="p-3 border rounded-lg bg-white appearance-none pr-8 min-w-[140px]"
+                                       >
+                                          {sortedCountries.map(([code, config]) => (
+                                             <option key={code} value={code} className="flex items-center gap-2">
+                                                {config.flag} {config.name}
+                                             </option>
+                                          ))}
+                                       </select>
+                                       <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                          </svg>
+                                       </div>
+                                    </div>
+                                    
+                                    <input
+                                       type="text"
+                                       name="phone"
+                                       placeholder={`Número (${PHONE_CONFIGS[selectedCountry].length} dígitos)`}
+                                       value={formData.phone}
+                                       onChange={handlePhoneChange}
+                                       className={`flex-1 p-3 border rounded-lg transition-all duration-300
+                                          ${errors.phone ? 'border-red-500 highlight-required' : 'border-gray-300'}
+                                          ${shakingFields.phone ? 'shake' : ''}`}
+                                    />
+                                 </div>
+                                 
+                                 <p className="text-gray-500 text-xs">
+                                    {PHONE_CONFIGS[selectedCountry].name}: {PHONE_CONFIGS[selectedCountry].length} dígitos
+                                    {selectedCountry === '591' && " (Ej: 76543210)"}
+                                    {selectedCountry === '51' && " (Ej: 987654321)"}
+                                    {selectedCountry === '54' && " (Ej: 9876543210)"}
+                                 </p>
+                                 
+                                 {errors.phone && (
+                                    <p className="text-red-500 text-sm font-medium flex items-center">
+                                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                       </svg>
+                                       {errors.phone}
+                                    </p>
+                                 )}
+                              </label>
+                           </div>
+                        </span>
+                     </label>
 
-               {/* Partners section ---------------------- */}
-               <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='partners_name' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-fit">
-                     <div className="section-header">
-                        <h3>
-                           Acompañante 🧑‍🤝‍🧑
-                        </h3>
-                        <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180'}`} fontSize='medium' />
-                     </div>
-                     <h3 className="text-sm font-medium mb-4">
-                        <span className="font-bold">¿Fuiste invitado con alguien? </span>
-                        Necesitamos su nombre y apellido para la lista.
-                     </h3>
-                     <div className="section-label-text">
-                        <div className='flex gap-4'>
-                           <label htmlFor="partnerConfirm" className='flex gap-2 cursor-pointer'>Si
+                     {/* Sección de Confirmación */}
+                     <label>
+                        <input 
+                           className="peer/showLabel absolute scale-0 unselectable section-input-radio hidden-checkbox" 
+                           type="checkbox" 
+                           name='confirmation'
+                        />
+                        <div className="section-line"></div>
+                        <span className="block bg-white max-h-14 overflow-hidden rounded-2xl px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
+                           <div className="section-header">
+                              <h3>Confirmación ✨</h3>
+                              <KeyboardArrowDownIcon className={`text-gray-dark ${arrowBehavior.checked && arrowBehavior.name === 'confirmation' && 'rotate-180'}`} fontSize='medium' />
+                           </div>
+                           
+                           <div className="px-4 pb-6">
+                              <div className="flex flex-wrap justify-center gap-3">
+                                 <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                       type="radio"
+                                       name="attendance"
+                                       value="none"
+                                       checked={formData.assist === 'false'}
+                                       onChange={(e) => {
+                                          setFormData({
+                                             ...formData,
+                                             assist: 'false',
+                                             assistChurch: 'false'
+                                          });
+                                       }}
+                                       className="sr-only"
+                                    />
+                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
+                                       formData.assist === 'false'
+                                          ? 'bg-gray-200 text-gray-700 border-gray-300 shadow-sm' 
+                                          : 'border-gray-300 hover:border-gray-400 text-gray-700'
+                                    }`}>
+                                       No podré asistir
+                                    </span>
+                                 </label>
+
+                                 <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                       type="radio"
+                                       name="attendance"
+                                       value="onlyChurch"
+                                       checked={formData.assist === 'false' && formData.assistChurch === 'true'}
+                                       onChange={(e) => {
+                                          setFormData({
+                                             ...formData,
+                                             assist: 'false',
+                                             assistChurch: 'true',
+                                             onlyChurch: true
+                                          });
+                                       }}
+                                       className="sr-only"
+                                    />
+                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
+                                       formData.assist === 'false' && formData.assistChurch === 'true'
+                                          ? 'bg-green text-white border-green shadow-sm' 
+                                          : 'border-gray-300 hover:border-green text-gray-700'
+                                    }`}>
+                                       Solo Iglesia (14:00)
+                                    </span>
+                                 </label>
+
+                                 <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                       type="radio"
+                                       name="attendance"
+                                       value="onlyParty"
+                                       checked={formData.assist === 'true' && formData.assistChurch === 'false'}
+                                       onChange={(e) => {
+                                          setFormData({
+                                             ...formData,
+                                             assist: 'true',
+                                             assistChurch: 'false',
+                                             onlyChurch: false
+                                          });
+                                       }}
+                                       className="sr-only"
+                                    />
+                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
+                                       formData.assist === 'true' && formData.assistChurch === 'false'
+                                          ? 'bg-green text-white border-green shadow-sm' 
+                                          : 'border-gray-300 hover:border-green text-gray-700'
+                                    }`}>
+                                       Solo Recepción (17:30)
+                                    </span>
+                                 </label>
+
+                                 <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                       type="radio"
+                                       name="attendance"
+                                       value="both"
+                                       checked={formData.assist === 'true' && formData.assistChurch === 'true' && !formData.onlyChurch}
+                                       onChange={(e) => {
+                                          setFormData({
+                                             ...formData,
+                                             assist: 'true',
+                                             assistChurch: 'true',
+                                             onlyChurch: false
+                                          });
+                                       }}
+                                       className="sr-only"
+                                    />
+                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
+                                       formData.assist === 'true' && formData.assistChurch === 'true' && !formData.onlyChurch
+                                          ? 'bg-green text-white border-green shadow-sm' 
+                                          : 'border-gray-300 hover:border-green text-gray-700'
+                                    }`}>
+                                       Ambos Iglesia y Recepción
+                                    </span>
+                                 </label>
+                              </div>
+                           </div>
+                        </span>
+                     </label>
+
+                     {/* Partners section ---------------------- */}
+                     <label>
+                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='partners_name' />
+                        <div className="section-line"></div>
+                        <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-fit">
+                           <div className="section-header">
+                              <h3>
+                                 Acompañante 🧑‍🤝‍🧑
+                              </h3>
+                              <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180'}`} fontSize='medium' />
+                           </div>
+                           <h3 className="text-sm font-medium mb-4">
+                              <span className="font-bold">¿Fuiste invitado con alguien? </span>
+                              Necesitamos su nombre y apellido para la lista.
+                           </h3>
+                           <div className="section-label-text">
+                              <div className='flex gap-4'>
+                                 <label htmlFor="partnerConfirm" className='flex gap-2 cursor-pointer'>Si
+                                    <input
+                                       type="radio"
+                                       name="partner"
+                                       id="partnerConfirm"
+                                       value={true}
+                                       onClick={handleChange}
+                                       className='section-input-radio'
+                                    />
+                                 </label>
+                                 <label htmlFor="partnerNotConfirm" className='flex gap-2 cursor-pointer'>No
+                                    <input
+                                       type="radio"
+                                       name="partner"
+                                       id="partnerNotConfirm"
+                                       value={false}
+                                       onClick={handleChange}
+                                       className='section-input-radio'
+                                       defaultChecked
+                                    />
+                                 </label>
+                              </div>
+                              <div className={`${formData.partner !== 'false' ? 'visible' : 'hidden'}`}>
+                                 {partnerNames.map((partnerName, index) => (
+                                    <label key={index} className='flex items-center mt-2'>
+                                       <input
+                                          type="text"
+                                          placeholder={`${index + 1}) Nombre y apellido `}
+                                          value={partnerName}
+                                          onChange={e => handlePartnerNameChange(index, e.target.value)}
+                                          className='section-input-text'
+                                          disabled={optionalInput}
+                                       />
+                                       <CancelIcon 
+                                          onClick={() => removePartnerInput(index)} 
+                                          fontSize='small' 
+                                          className='text-mustard ml-1 cursor-pointer' 
+                                       />
+                                    </label>
+                                 ))}
+                                 {partnerNames.length < 2 && (
+                                    <button
+                                       className='mt-3 flex items-center gap-2 text-gray-dark text-opacity-50 text-sm font-normal'
+                                       onClick={addPartnerInput}
+                                    >
+                                       <AddCircleIcon fontSize='small' className='text-mustard' />
+                                       Agregar acompañante
+                                    </button>
+                                 )}
+                              </div>
+                           </div>
+                        </span>
+                     </label>
+
+                     {/* Food section ---------------------- */}
+                     {/* <label>
+                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='partners_name' />
+                        <div className="section-line"></div>
+                        <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-72">
+                           <div className="section-header">
+                              <h3>
+                                 Restricciones alimentarias
+                              </h3>
+                              <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180' }` } fontSize='medium' /> 
+                           </div>
+                           <h3 className="text-sm font-medium mb-4">¿Vos o alguno de tu/s acompañante/s tienen alguna restricción alimentaria? Decinos a qué y cuántos son.</h3>
+                           <div className="section-label-text">
+                              <div className='flex gap-4'>
+                                 <label htmlFor="childrensConfirm" className='flex gap-2 cursor-pointer'>Si
+                                    <input 
+                                    type="radio" 
+                                    name="dietaryRestrictions" 
+                                    id="restrictionsConfirm" 
+                                    value={ true } 
+                                    onClick={ handle Change } 
+                                    className='section-input-radio'
+                                    />
+                                 </label>
+                                 <label htmlFor="childrensNotConfirm" className='flex gap-2 cursor-pointer'>No
+                                    <input 
+                                    type="radio" 
+                                    name="dietaryRestrictions" 
+                                    id="restrictionsNotConfirm" 
+                                    value={ false } 
+                                    onClick={ handle Change }
+                                    className='section-input-radio'
+                                    />
+                                 </label>
+                              </div>
+                              <label className='flex flex-col mt-2'>
                               <input
-                                 type="radio"
-                                 name="partner"
-                                 id="partnerConfirm"
-                                 value={true}
-                                 onClick={handleChange}
-                                 className='section-input-radio'
+                                 type="text"
+                                 name="dietaryRestrictionsIndications"
+                                 placeholder="Ingresá el tipo de restricción"
+                                 value={formData.dietaryRestrictionsIndications}
+                                 onChange={ handle Change } 
+                                 className={`section-input-text ${formData.dietaryRestrictions !== 'false' ? 'visible section-input-text' : 'hidden'}`}
+                                 disabled={optionalInput} // Utiliza optionalInput para controlar la desactivación del input
                               />
-                           </label>
-                           <label htmlFor="partnerNotConfirm" className='flex gap-2 cursor-pointer'>No
-                              <input
-                                 type="radio"
-                                 name="partner"
-                                 id="partnerNotConfirm"
-                                 value={false}
-                                 onClick={handleChange}
-                                 className='section-input-radio'
-                                 defaultChecked
-                              />
-                           </label>
-                        </div>
-                        <div className={`${formData.partner !== 'false' ? 'visible' : 'hidden'}`}>
-                           {partnerNames.map((partnerName, index) => (
-                              <label key={index} className='flex items-center mt-2'>
+                              </label>
+                           </div>
+                        </span>
+                     </label> */}
+
+
+                     {/* Message section ---------------------- */}
+                     {/* <label>
+                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='message' />
+                        <div className="section-line"></div>
+                        <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-64">
+                           <div className="section-header">
+                              <h3>
+                                 Mensaje para los novios
+                              </h3>
+                              <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'message') && 'rotate-180' }` } fontSize='medium' /> 
+                           </div>
+                           <h3 className="text-sm font-medium mb-4">¿Querés decirnos algo? Consulta, declaraciones de amor, lo que sea, este es el espacio.</h3>
+                           <div className="section-label-text">
+                              <label>
                                  <input
                                     type="text"
-                                    placeholder={`${index + 1}) Nombre y apellido `}
-                                    value={partnerName}
-                                    onChange={e => handlePartnerNameChange(index, e.target.value)}
+                                    name="message"
+                                    placeholder="Te leemos"
+                                    value={ formData.message }
+                                    onChange={ handle Change }
                                     className='section-input-text'
-                                    disabled={optionalInput}
-                                 />
-                                 <CancelIcon 
-                                    onClick={() => removePartnerInput(index)} 
-                                    fontSize='small' 
-                                    className='text-mustard ml-1 cursor-pointer' 
                                  />
                               </label>
-                           ))}
-                           {partnerNames.length < 2 && (
-                              <button
-                                 className='mt-3 flex items-center gap-2 text-gray-dark text-opacity-50 text-sm font-normal'
-                                 onClick={addPartnerInput}
-                              >
-                                 <AddCircleIcon fontSize='small' className='text-mustard' />
-                                 Agregar acompañante
-                              </button>
-                           )}
-                        </div>
-                     </div>
-                  </span>
-               </label>
+                           </div>
+                        </span>
+                     </label> */}
 
-               {/* Assist church section ---------------------- */}
-               <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable section-input-radio hidden-checkbox" type="checkbox" name='assist_church' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-52">
-                     <div className="section-header">
-                        <h3>
-                           Iglesia 💒
-                        </h3>
-                        <KeyboardArrowDownIcon className={`text-gray-dark ${arrowBehavior.checked && arrowBehavior.name === 'assist_church' && 'rotate-180'}`} fontSize='medium' />
+                     <div className="flex flex-col gap-4 mt-6 mb-2">
+                        <hr className="border-gray-200" />
+                        <p className="text-sm text-gray-600 italic text-center">
+                           Si bien <span className="font-semibold">amamos a los niños</span>, el 
+                           <span className="font-semibold"> horario nocturno</span> y la 
+                           <span className="font-semibold"> naturaleza de la celebración</span> nos lleva a organizar una 
+                           recepción <span className="font-semibold">solo para adultos</span>. 
+                           Para confirmar la asistencia de niños, por favor contacta con Alcides al{' '}
+                           <a 
+                              href="https://wa.me/59176327232?text=Hola%20Alcides,%20quisiera%20consultar%20sobre%20la%20asistencia%20de%20niños%20a%20la%20boda" 
+                              className="font-bold text-[#25D366] hover:text-[#128C7E]"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                           >
+                              76327232 <span className="text-xs">📱</span>
+                           </a>.
+                        </p>
                      </div>
-                     <div className="flex flex-col pb-6">
-                        <label className="section-label-radio">
-                           <input
-                              type="radio"
-                              name='assistChurch'
-                              value={true}
-                              onChange={handleChange}
-                              className="section-input-radio"
-                              defaultChecked
-                           />Sí, 14:00 PM estaré presente en la Iglesia San Martín 💒
-                        </label>
-                        <label className="section-label-radio">
-                           <input
-                              type="radio"
-                              name='assistChurch'
-                              value={false}
-                              onChange={handleChange}
-                              className="section-input-radio"
-                           />No, 17:30 PM estaré en el salón 🙌🏼
-                        </label>
-                     </div>
-                  </span>
-               </label>
-
-               {/* Food section ---------------------- */}
-               {/* <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='partners_name' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg  px-4 py-0  shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-72">
-                     <div className="section-header">
-                        <h3>
-                           Restricciones alimentarias
-                        </h3>
-                        <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'partners_name') && 'rotate-180' }` } fontSize='medium' /> 
-                     </div>
-                     <h3 className="text-sm font-medium mb-4">¿Vos o alguno de tu/s acompañante/s tienen alguna restricción alimentaria? Decinos a qué y cuántos son.</h3>
-                     <div className="section-label-text">
-                        <div className='flex gap-4'>
-                           <label htmlFor="childrensConfirm" className='flex gap-2 cursor-pointer'>Si
-                              <input 
-                              type="radio" 
-                              name="dietaryRestrictions" 
-                              id="restrictionsConfirm" 
-                              value={ true } 
-                              onClick={ handleChange } 
-                              className='section-input-radio'
-                              />
-                           </label>
-                           <label htmlFor="childrensNotConfirm" className='flex gap-2 cursor-pointer'>No
-                              <input 
-                              type="radio" 
-                              name="dietaryRestrictions" 
-                              id="restrictionsNotConfirm" 
-                              value={ false } 
-                              onClick={ handleChange }
-                              className='section-input-radio'
-                              />
-                           </label>
-                        </div>
-                        <label className='flex flex-col mt-2'>
-                        <input
-                           type="text"
-                           name="dietaryRestrictionsIndications"
-                           placeholder="Ingresá el tipo de restricción"
-                           value={formData.dietaryRestrictionsIndications}
-                           onChange={ handleChange } 
-                           className={`section-input-text ${formData.dietaryRestrictions !== 'false' ? 'visible section-input-text' : 'hidden'}`}
-                           disabled={optionalInput} // Utiliza optionalInput para controlar la desactivación del input
-                        />
-                        </label>
-                     </div>
-                  </span>
-               </label> */}
-
-
-               {/* Message section ---------------------- */}
-               {/* <label>
-                  <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='message' />
-                  <div className="section-line"></div>
-                  <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-64">
-                     <div className="section-header">
-                        <h3>
-                           Mensaje para los novios
-                        </h3>
-                        <KeyboardArrowDownIcon className={ `text-gray-dark ${ (arrowBehavior.checked && arrowBehavior.name === 'message') && 'rotate-180' }` } fontSize='medium' /> 
-                     </div>
-                     <h3 className="text-sm font-medium mb-4">¿Querés decirnos algo? Consulta, declaraciones de amor, lo que sea, este es el espacio.</h3>
-                     <div className="section-label-text">
-                        <label>
-                           <input
-                              type="text"
-                              name="message"
-                              placeholder="Te leemos"
-                              value={ formData.message }
-                              onChange={ handleChange }
-                              className='section-input-text'
-                           />
-                        </label>
-                     </div>
-                  </span>
-               </label> */}
-
-               <div className="flex flex-col gap-4 mt-6 mb-2">
-                  <hr className="border-gray-200" />
-                  <p className="text-sm text-gray-600 italic text-center">
-                     Si bien <span className="font-semibold">amamos a los niños</span>, el 
-                     <span className="font-semibold"> horario nocturno</span> y la 
-                     <span className="font-semibold"> naturaleza de la celebración</span> nos lleva a organizar una 
-                     recepción <span className="font-semibold">solo para adultos</span>. 
-                     Para confirmar la asistencia de niños, por favor contacta con Alcides al{' '}
-                     <a 
-                        href="https://wa.me/59176327232?text=Hola%20Alcides,%20quisiera%20consultar%20sobre%20la%20asistencia%20de%20niños%20a%20la%20boda" 
-                        className="font-bold text-[#25D366] hover:text-[#128C7E]"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                     >
-                        76327232 <span className="text-xs">📱</span>
-                     </a>.
-                  </p>
+                  </form>
                </div>
+            </div>
 
-               <div className="flex justify-center w-full">
-                  <button
-                     onClick={handleSubmit}
-                     type="submit"
-                     disabled={isLoading}
-                     className={`w-full mt-6 bg-green text-white py-4 px-8 text-lg font-medium 
-                        transition-all duration-200 rounded-md hover:bg-green-dark active:scale-95 
-                        shadow-md md:w-[280px] ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
-                     {isLoading ? 'Enviando...' : 'Enviar'}
-                  </button>
-               </div>
-
-            </form>
+            {/* Footer con botón siempre visible */}
+            <div className="sticky bottom-0 bg-white p-6 border-t rounded-b-3xl">
+               <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  disabled={isLoading}
+                  className={`w-full bg-[#B8860B] text-white py-4 rounded-full text-lg font-medium
+                     transition-colors duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+               >
+                  {isLoading ? 'Enviando...' : 'Enviar'}
+               </button>
+            </div>
          </div>
       </div>
    )
