@@ -442,17 +442,19 @@ const ModalConfirm = () => {
             return;
          }
 
-         // Preparamos los datos para enviar
+         // Preparamos los datos para enviar con valores booleanos explícitos
          let submitData = {
             fullName: formData.fullName.trim(),
             phone: validatedPhone,
-            assist: false,
-            assistChurch: false,
-            onlyChurch: false
+            assist: Boolean(formData.assist),           // Conversión explícita a boolean
+            assistChurch: Boolean(formData.assistChurch), // Conversión explícita a boolean
+            onlyChurch: Boolean(formData.onlyChurch),    // Conversión explícita a boolean
+            partner: false,                              // Valor por defecto
+            partnersName: []                             // Array vacío por defecto
          };
 
          // Procesamos los datos de acompañantes si existen
-         if (formData.partner === 'true' && Array.isArray(formData.partnersName)) {
+         if (formData.partner && Array.isArray(formData.partnersName)) {
             const validPartners = formData.partnersName
                .filter(name => name && typeof name === 'string')
                .map(name => name.trim())
@@ -463,6 +465,8 @@ const ModalConfirm = () => {
                submitData.partnersName = validPartners;
             }
          }
+
+         console.log('Datos a enviar:', submitData); // Para debugging
 
          // Intentamos registrar al invitado
          const response = await axios.post(`${BACKEND_URL}/api/guests`, submitData);
@@ -671,21 +675,21 @@ const ModalConfirm = () => {
                               </h3>
                               <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'confirmation') && 'rotate-180'}`} fontSize='medium' />
                            </div>
-                           <div className="flex flex-col pb-6 gap-2">
+                           <div className="flex flex-col gap-2">
                               {/* No asistiré */}
                               <button
                                  type="button"
                                  onClick={() => {
                                     setFormData({
                                        ...formData,
-                                       assist: 'false',
-                                       assistChurch: 'false',
+                                       assist: false,
+                                       assistChurch: false,
                                        onlyChurch: false
                                     });
                                  }}
                                  className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
-                                    formData.assist === 'false' 
-                                       ? 'bg-gray-100 border-gray-300 text-gray-900' 
+                                    !formData.assist && !formData.assistChurch
+                                       ? 'bg-[#B08D57] border-[#B08D57] text-white'
                                        : 'border-gray-200 text-gray-600 hover:bg-gray-50'
                                  }`}
                               >
@@ -698,13 +702,13 @@ const ModalConfirm = () => {
                                  onClick={() => {
                                     setFormData({
                                        ...formData,
-                                       assist: 'true',
-                                       assistChurch: 'true',
+                                       assist: false,
+                                       assistChurch: true,
                                        onlyChurch: true
                                     });
                                  }}
                                  className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
-                                    formData.onlyChurch
+                                    formData.assistChurch && !formData.assist
                                        ? 'bg-[#B08D57] border-[#B08D57] text-white'
                                        : 'border-gray-200 text-gray-600 hover:bg-gray-50'
                                  }`}
@@ -718,13 +722,13 @@ const ModalConfirm = () => {
                                  onClick={() => {
                                     setFormData({
                                        ...formData,
-                                       assist: 'true',
-                                       assistChurch: 'false',
+                                       assist: true,
+                                       assistChurch: false,
                                        onlyChurch: false
                                     });
                                  }}
                                  className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
-                                    formData.assist === 'true' && formData.assistChurch === 'false'
+                                    formData.assist && !formData.assistChurch
                                        ? 'bg-[#B08D57] border-[#B08D57] text-white'
                                        : 'border-gray-200 text-gray-600 hover:bg-gray-50'
                                  }`}
@@ -732,19 +736,19 @@ const ModalConfirm = () => {
                                  Recepción (17:30)
                               </button>
 
-                              {/* Ambos */}
+                              {/* Iglesia y Recepción */}
                               <button
                                  type="button"
                                  onClick={() => {
                                     setFormData({
                                        ...formData,
-                                       assist: 'true',
-                                       assistChurch: 'true',
+                                       assist: true,
+                                       assistChurch: true,
                                        onlyChurch: false
                                     });
                                  }}
                                  className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
-                                    formData.assist === 'true' && formData.assistChurch === 'true' && !formData.onlyChurch
+                                    formData.assist && formData.assistChurch
                                        ? 'bg-[#B08D57] border-[#B08D57] text-white'
                                        : 'border-gray-200 text-gray-600 hover:bg-gray-50'
                                  }`}
