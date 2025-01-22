@@ -595,191 +595,162 @@ const ModalConfirm = () => {
                         </span>
                      </label>
 
-                     {/* Phone section ---------------------- */}
+                     {/* Teléfono */}
                      <label>
-                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='fullname' />
+                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='phone' onChange={handleArrowBehavior} />
                         <div className="section-line"></div>
                         <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
                            <div className="section-header">
                               <h3>
-                                 Teléfono ☎️
+                                 Teléfono 📞
                                  <span className='section-required text-red'>(*)</span>
                               </h3>
-                              <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'fullname') && 'rotate-180'}`} fontSize='medium' />
+                              <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'phone') && 'rotate-180'}`} fontSize='medium' />
                            </div>
-                           <h3 className="text-sm font-medium mb-4">Dejanos un número de teléfono para poder contactarte por cualquier cosa.</h3>
                            <div className="flex flex-col pb-6 gap-2">
-                              <label>
-                                 <div className="flex gap-2">
-                                    <div className="relative">
-                                       <select
-                                          value={selectedCountry}
-                                          onChange={(e) => {
-                                             setSelectedCountry(e.target.value);
-                                             setFormData({ ...formData, phone: '' });
-                                          }}
-                                          className="p-3 border rounded-lg bg-white appearance-none pr-8 min-w-[140px]"
-                                       >
-                                          {sortedCountries.map(([code, config]) => (
-                                             <option key={code} value={code} className="flex items-center gap-2">
-                                                {config.flag} {config.name}
-                                             </option>
-                                          ))}
-                                       </select>
-                                       <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                          </svg>
-                                       </div>
+                              <div className="flex items-center gap-2">
+                                 {/* Selector de código de país */}
+                                 <div className="relative min-w-[80px] w-auto">
+                                    <select
+                                       value={selectedCountry}
+                                       onChange={(e) => {
+                                          setSelectedCountry(e.target.value);
+                                          setFormData({ ...formData, phone: '' });
+                                       }}
+                                       className="w-full p-3 border rounded-lg bg-white appearance-none pr-8 text-base"
+                                    >
+                                       {sortedCountries.map(([code, config]) => (
+                                          <option key={code} value={code}>
+                                             {config.flag} {code}
+                                          </option>
+                                       ))}
+                                    </select>
+                                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                       <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                       </svg>
                                     </div>
-                                    
+                                 </div>
+
+                                 {/* Input de número */}
+                                 <div className="flex-1">
                                     <input
-                                       type="text"
+                                       type="tel"
                                        name="phone"
-                                       placeholder={`Número (${PHONE_CONFIGS[selectedCountry].length} dígitos)`}
+                                       placeholder={`${PHONE_CONFIGS[selectedCountry].length} dígitos`}
                                        value={formData.phone}
                                        onChange={handlePhoneChange}
-                                       className={`flex-1 p-3 border rounded-lg transition-all duration-300
-                                          ${errors.phone ? 'border-red-500 highlight-required' : 'border-gray-300'}
-                                          ${shakingFields.phone ? 'shake' : ''}`}
+                                       className={`w-full p-3 border rounded-lg text-base ${
+                                          errors.phone ? 'border-red-500' : 'border-gray-300'
+                                       }`}
                                     />
                                  </div>
-                                 
-                                 <p className="text-gray-500 text-xs">
-                                    {PHONE_CONFIGS[selectedCountry].name}: {PHONE_CONFIGS[selectedCountry].length} dígitos
-                                    {selectedCountry === '591' && " (Ej: 76543210)"}
-                                    {selectedCountry === '51' && " (Ej: 987654321)"}
-                                    {selectedCountry === '54' && " (Ej: 9876543210)"}
-                                 </p>
-                                 
-                                 {errors.phone && (
-                                    <p className="text-red-500 text-sm font-medium flex items-center">
-                                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                       </svg>
-                                       {errors.phone}
-                                    </p>
-                                 )}
-                              </label>
+                              </div>
+                              
+                              {/* Texto informativo */}
+                              <p className="text-xs text-gray-500">
+                                 Bolivia: {PHONE_CONFIGS[selectedCountry].length} dígitos
+                              </p>
+
+                              {errors.phone && (
+                                 <p className="text-red-500 text-sm">{errors.phone}</p>
+                              )}
                            </div>
                         </span>
                      </label>
 
-                     {/* Sección de Confirmación */}
+                     {/* Confirmación */}
                      <label>
-                        <input 
-                           className="peer/showLabel absolute scale-0 unselectable section-input-radio hidden-checkbox" 
-                           type="checkbox" 
-                           name='confirmation'
-                        />
+                        <input className="peer/showLabel absolute scale-0 unselectable" type="checkbox" name='confirmation' onChange={handleArrowBehavior} />
                         <div className="section-line"></div>
-                        <span className="block bg-white max-h-14 overflow-hidden rounded-2xl px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
+                        <span className="block bg-white max-h-14 overflow-hidden rounded-b-lg px-4 py-0 shadow-lg transition-all duration-300 peer-checked/showLabel:max-h-96">
                            <div className="section-header">
-                              <h3>Confirmación ✨</h3>
-                              <KeyboardArrowDownIcon className={`text-gray-dark ${arrowBehavior.checked && arrowBehavior.name === 'confirmation' && 'rotate-180'}`} fontSize='medium' />
+                              <h3>
+                                 Confirmación ✨
+                                 <span className='section-required text-red'>(*)</span>
+                              </h3>
+                              <KeyboardArrowDownIcon className={`text-gray-dark ${(arrowBehavior.checked && arrowBehavior.name === 'confirmation') && 'rotate-180'}`} fontSize='medium' />
                            </div>
-                           
-                           <div className="px-4 pb-6">
-                              <div className="flex flex-wrap justify-center gap-3">
-                                 <label className="flex items-center gap-2 cursor-pointer">
-                                    <input
-                                       type="radio"
-                                       name="attendance"
-                                       value="none"
-                                       checked={formData.assist === 'false'}
-                                       onChange={(e) => {
-                                          setFormData({
-                                             ...formData,
-                                             assist: 'false',
-                                             assistChurch: 'false'
-                                          });
-                                       }}
-                                       className="sr-only"
-                                    />
-                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
-                                       formData.assist === 'false'
-                                          ? 'bg-gray-200 text-gray-700 border-gray-300 shadow-sm' 
-                                          : 'border-gray-300 hover:border-gray-400 text-gray-700'
-                                    }`}>
-                                       No podré asistir
-                                    </span>
-                                 </label>
+                           <div className="flex flex-col pb-6 gap-2">
+                              {/* No asistiré */}
+                              <button
+                                 type="button"
+                                 onClick={() => {
+                                    setFormData({
+                                       ...formData,
+                                       assist: 'false',
+                                       assistChurch: 'false',
+                                       onlyChurch: false
+                                    });
+                                 }}
+                                 className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
+                                    formData.assist === 'false' 
+                                       ? 'bg-gray-100 border-gray-300 text-gray-900' 
+                                       : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                                 }`}
+                              >
+                                 No asistiré
+                              </button>
 
-                                 <label className="flex items-center gap-2 cursor-pointer">
-                                    <input
-                                       type="radio"
-                                       name="attendance"
-                                       value="onlyChurch"
-                                       checked={formData.assist === 'false' && formData.assistChurch === 'true'}
-                                       onChange={(e) => {
-                                          setFormData({
-                                             ...formData,
-                                             assist: 'false',
-                                             assistChurch: 'true',
-                                             onlyChurch: true
-                                          });
-                                       }}
-                                       className="sr-only"
-                                    />
-                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
-                                       formData.assist === 'false' && formData.assistChurch === 'true'
-                                          ? 'bg-green text-white border-green shadow-sm' 
-                                          : 'border-gray-300 hover:border-green text-gray-700'
-                                    }`}>
-                                       Solo Iglesia (14:00)
-                                    </span>
-                                 </label>
+                              {/* Iglesia */}
+                              <button
+                                 type="button"
+                                 onClick={() => {
+                                    setFormData({
+                                       ...formData,
+                                       assist: 'true',
+                                       assistChurch: 'true',
+                                       onlyChurch: true
+                                    });
+                                 }}
+                                 className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
+                                    formData.onlyChurch
+                                       ? 'bg-[#B08D57] border-[#B08D57] text-white'
+                                       : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                                 }`}
+                              >
+                                 Iglesia (14:00)
+                              </button>
 
-                                 <label className="flex items-center gap-2 cursor-pointer">
-                                    <input
-                                       type="radio"
-                                       name="attendance"
-                                       value="onlyParty"
-                                       checked={formData.assist === 'true' && formData.assistChurch === 'false'}
-                                       onChange={(e) => {
-                                          setFormData({
-                                             ...formData,
-                                             assist: 'true',
-                                             assistChurch: 'false',
-                                             onlyChurch: false
-                                          });
-                                       }}
-                                       className="sr-only"
-                                    />
-                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
-                                       formData.assist === 'true' && formData.assistChurch === 'false'
-                                          ? 'bg-green text-white border-green shadow-sm' 
-                                          : 'border-gray-300 hover:border-green text-gray-700'
-                                    }`}>
-                                       Solo Recepción (17:30)
-                                    </span>
-                                 </label>
+                              {/* Recepción */}
+                              <button
+                                 type="button"
+                                 onClick={() => {
+                                    setFormData({
+                                       ...formData,
+                                       assist: 'true',
+                                       assistChurch: 'false',
+                                       onlyChurch: false
+                                    });
+                                 }}
+                                 className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
+                                    formData.assist === 'true' && formData.assistChurch === 'false'
+                                       ? 'bg-[#B08D57] border-[#B08D57] text-white'
+                                       : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                                 }`}
+                              >
+                                 Recepción (17:30)
+                              </button>
 
-                                 <label className="flex items-center gap-2 cursor-pointer">
-                                    <input
-                                       type="radio"
-                                       name="attendance"
-                                       value="both"
-                                       checked={formData.assist === 'true' && formData.assistChurch === 'true' && !formData.onlyChurch}
-                                       onChange={(e) => {
-                                          setFormData({
-                                             ...formData,
-                                             assist: 'true',
-                                             assistChurch: 'true',
-                                             onlyChurch: false
-                                          });
-                                       }}
-                                       className="sr-only"
-                                    />
-                                    <span className={`px-5 py-2 rounded-full border text-base transition-colors ${
-                                       formData.assist === 'true' && formData.assistChurch === 'true' && !formData.onlyChurch
-                                          ? 'bg-green text-white border-green shadow-sm' 
-                                          : 'border-gray-300 hover:border-green text-gray-700'
-                                    }`}>
-                                       Ambos Iglesia y Recepción
-                                    </span>
-                                 </label>
-                              </div>
+                              {/* Ambos */}
+                              <button
+                                 type="button"
+                                 onClick={() => {
+                                    setFormData({
+                                       ...formData,
+                                       assist: 'true',
+                                       assistChurch: 'true',
+                                       onlyChurch: false
+                                    });
+                                 }}
+                                 className={`w-full px-4 py-3 rounded-full border text-center transition-all ${
+                                    formData.assist === 'true' && formData.assistChurch === 'true' && !formData.onlyChurch
+                                       ? 'bg-[#B08D57] border-[#B08D57] text-white'
+                                       : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                                 }`}
+                              >
+                                 Iglesia y Recepción
+                              </button>
                            </div>
                         </span>
                      </label>
