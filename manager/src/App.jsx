@@ -1,11 +1,13 @@
-import { GuestsProvider } from './context/GuestsContext';
+import { BrowserRouter } from 'react-router-dom';
 import Layout from './pages/Layout';
 
 function App() {
+  console.log('App rendering'); // Debug log
+  
   return (
-    <GuestsProvider>
+    <BrowserRouter>
       <Layout />
-    </GuestsProvider>
+    </BrowserRouter>
   );
 }
 

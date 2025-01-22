@@ -47,4 +47,45 @@ export const deleteGuest = async (id) => {
     }
 };
 
+// Servicios de Wishes
+export const getWishes = async () => {
+    try {
+        const response = await api.get('/api/wishes');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching wishes:', error);
+        throw error;
+    }
+};
+
+export const createWish = async (wishData) => {
+    try {
+        const response = await api.post('/api/wishes', wishData);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating wish:', error);
+        throw error;
+    }
+};
+
+export const updateWish = async (id, wishData) => {
+    try {
+        const response = await api.put(`/api/wishes/${id}`, wishData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating wish:', error);
+        throw error;
+    }
+};
+
+export const deleteWish = async (id) => {
+    try {
+        const response = await api.delete(`/api/wishes/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting wish:', error);
+        throw error;
+    }
+};
+
 export default api; 
