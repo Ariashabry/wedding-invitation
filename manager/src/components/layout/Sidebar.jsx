@@ -15,13 +15,16 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <>
             <button 
                 className={styles.menuButton} 
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsOpen(true)}
             >
                 ☰
             </button>
 
             <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
                 <div className={styles.sidebarHeader}>
+                    <div className={styles.logoContainer}>
+                        <h1 className={styles.title}>Wedding Manager</h1>
+                    </div>
                     <button 
                         className={styles.closeButton} 
                         onClick={() => setIsOpen(false)}
