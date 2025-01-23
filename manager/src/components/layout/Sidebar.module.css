@@ -1,49 +1,60 @@
+.menuButton {
+    @apply fixed top-4 left-4 z-50 p-2 
+    text-gray-700 hover:text-gray-900 bg-white rounded-md
+    sm:hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
 .sidebar {
-    @apply fixed top-0 left-0 h-full bg-white shadow-lg z-40
-    transition-all duration-300 ease-in-out;
-    width: 0;
-    overflow: hidden;
+    @apply fixed top-0 left-0 h-full w-72 bg-white shadow-lg transform 
+    -translate-x-full transition-transform duration-300 ease-in-out z-50
+    sm:translate-x-0 sm:static sm:h-screen;
 }
 
-.sidebarOpen {
-    @apply w-64;
+.sidebar.open {
+    @apply translate-x-0;
 }
 
-.sidebarContent {
-    @apply h-full flex flex-col p-4 min-w-[256px];
+.sidebarHeader {
+    @apply flex items-center justify-between p-4 border-b border-gray-100;
 }
 
-.logo {
-    @apply text-xl font-bold text-gray-800 mb-8 px-4;
+.logoContainer {
+    @apply flex items-center;
+}
+
+.title {
+    @apply text-lg font-medium text-gray-800;
+}
+
+.closeButton {
+    @apply p-2 text-gray-400 hover:text-gray-600 sm:hidden
+    rounded-full hover:bg-gray-100;
 }
 
 .nav {
-    @apply space-y-2;
+    @apply flex flex-col gap-1 p-3 mt-2;
 }
 
 .navLink {
-    @apply block px-4 py-2 rounded-lg text-gray-600 
-    hover:bg-gray-50 transition-colors duration-200;
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg
+    text-gray-600 hover:bg-gray-50 transition-colors;
 }
 
-.navLinkActive {
-    @apply bg-blue-50 text-blue-600 font-medium;
+.navLink.active {
+    @apply bg-[#B8860B] text-white;
 }
 
-/* Botón de menú móvil */
-.mobileMenuButton {
-    @apply fixed top-4 left-4 z-50 
-    px-3 py-1.5 rounded-lg 
-    bg-white shadow-md
-    text-sm font-medium text-gray-700
-    hover:bg-gray-50 
-    focus:outline-none focus:ring-2 focus:ring-blue-500
-    lg:hidden;
+.icon {
+    @apply text-lg min-w-[24px] flex justify-center;
 }
 
-/* Overlay para móvil */
+.text {
+    @apply text-sm font-medium ml-3;
+}
+
 .overlay {
-    @apply fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden;
+    @apply fixed inset-0 bg-black/30 backdrop-blur-sm z-40 sm:hidden;
 }
 
 /* Ajustes para escritorio */
@@ -52,7 +63,7 @@
         width: 256px;
     }
 
-    .mobileMenuButton,
+    .menuButton,
     .overlay {
         @apply hidden;
     }
@@ -60,16 +71,8 @@
 
 /* Ajustes para móviles pequeños */
 @media (max-width: 360px) {
-    .sidebarOpen {
+    .sidebar {
         width: 240px;
-    }
-
-    .sidebarContent {
-        @apply min-w-[240px];
-    }
-
-    .logo {
-        @apply text-lg mb-6;
     }
 
     .navLink {
