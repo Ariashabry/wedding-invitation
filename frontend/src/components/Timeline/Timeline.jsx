@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import FeatureWrapper from '../FeatureWrapper/FeatureWrapper';
 import { 
   Church, 
@@ -16,8 +16,10 @@ import {
   Handshake,
   UsersThree
 } from "@phosphor-icons/react";
+import { useInView } from 'react-intersection-observer';
 
-const TimelineEvent = ({ time, title, icon, description, location, locationUrl, isLast, count, transitionText }) => (
+// Memoizar el componente TimelineEvent para evitar re-renders innecesarios
+const TimelineEvent = memo(({ time, title, icon, description, location, locationUrl, isLast, count, transitionText }) => (
   <div className="relative mb-24 sm:mb-20 last:mb-8">
     {/* Vertical line for mobile with transition text */}
     {!isLast && (
@@ -140,9 +142,16 @@ const TimelineEvent = ({ time, title, icon, description, location, locationUrl, 
       </div>
     </div>
   </div>
-);
+));
 
 const Timeline = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+    rootMargin: '50px 0px'
+  });
+
   const events = [
     {
       time: "2:00 PM",
@@ -245,6 +254,14 @@ const Timeline = () => {
   ];
 
   useEffect(() => {
+    if (inView) {
+      requestAnimationFrame(() => {
+        setIsVisible(true);
+      });
+    }
+  }, [inView]);
+
+  useEffect(() => {
     // Manejar el scroll cuando se carga la página si hay un hash en la URL
     if (window.location.hash === '#cronograma') {
       const element = document.getElementById('cronograma');
@@ -256,7 +273,12 @@ const Timeline = () => {
 
   return (
     <FeatureWrapper featureKey="TIMELINE">
-      <div id="cronograma" className="w-full max-w-4xl mx-auto scroll-mt-20">
+      <div 
+        ref={ref}
+        id="cronograma" 
+        className={`w-full max-w-4xl mx-auto scroll-mt-20 transition-opacity duration-500 ease-in-out
+          ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      >
         {/* Título con contenedor dedicado y padding simétrico */}
         <div className="w-full py-8 sm:py-12 px-4 md:px-8">
           <h1 className="text-3xl sm:text-4xl font-poppins text-white text-center font-semibold tracking-wide">
@@ -279,4 +301,4 @@ const Timeline = () => {
   );
 };
 
-export default Timeline; 
+export default memo(Timeline); 
