@@ -1,0 +1,104 @@
+.tableWrapper {
+    @apply bg-white rounded-xl shadow-sm overflow-hidden;
+}
+
+.tableHeader {
+    @apply px-6 py-4 border-b border-gray-200 bg-white;
+}
+
+.tableTitle {
+    @apply text-lg font-semibold text-gray-800;
+}
+
+.tableResponsive {
+    @apply overflow-x-auto;
+    scrollbar-width: thin; /* Para Firefox */
+    /* Estilos para webkit browsers */
+    &::-webkit-scrollbar {
+        @apply h-1.5 w-1.5;
+    }
+    
+    &::-webkit-scrollbar-track {
+        @apply bg-gray-100 rounded-full;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        @apply bg-gray-300 rounded-full hover:bg-gray-400;
+    }
+}
+
+.table {
+    @apply min-w-full divide-y divide-gray-200;
+}
+
+.tableHead {
+    @apply bg-gray-50;
+}
+
+.tableHeaderCell {
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+.tableBody {
+    @apply bg-white divide-y divide-gray-200;
+}
+
+.tableRow {
+    @apply hover:bg-gray-50 transition-colors duration-150;
+}
+
+.tableCell {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-600;
+}
+
+.tableFooter {
+    @apply px-6 py-3 bg-gray-50 border-t border-gray-200
+    text-sm font-medium text-gray-700;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 640px) {
+    .tableWrapper {
+        @apply rounded-none shadow-none;
+    }
+
+    .tableHeader {
+        @apply px-4 py-3;
+    }
+
+    .tableTitle {
+        @apply text-base;
+    }
+
+    .tableHeaderCell,
+    .tableCell {
+        @apply px-3 py-2 text-xs;
+    }
+
+    .tableFooter {
+        @apply px-4 py-2 text-xs;
+    }
+}
+
+/* Estilos para filas alternas */
+.tableRow:nth-child(even) {
+    @apply bg-gray-50;
+}
+
+/* Estilos para columnas específicas */
+.tableCell[data-type="status"] {
+    @apply font-medium;
+}
+
+.tableCell[data-type="number"] {
+    @apply text-right;
+}
+
+/* Mejoras de accesibilidad */
+.table {
+    @apply border-collapse;
+}
+
+.tableHeaderCell {
+    @apply font-semibold;
+} 

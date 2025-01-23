@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
     "reactjs-popup": "^2.0.6"
   }
 }

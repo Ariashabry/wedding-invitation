@@ -1,0 +1,81 @@
+.menuButton {
+    @apply fixed top-4 left-4 z-50 p-2 
+    text-gray-700 hover:text-gray-900 bg-white rounded-md
+    sm:hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.sidebar {
+    @apply fixed top-0 left-0 h-full w-72 bg-white shadow-lg transform 
+    -translate-x-full transition-transform duration-300 ease-in-out z-50
+    sm:translate-x-0 sm:static sm:h-screen;
+}
+
+.sidebar.open {
+    @apply translate-x-0;
+}
+
+.sidebarHeader {
+    @apply flex items-center justify-between p-4 border-b border-gray-100;
+}
+
+.logoContainer {
+    @apply flex items-center;
+}
+
+.title {
+    @apply text-lg font-medium text-gray-800;
+}
+
+.closeButton {
+    @apply p-2 text-gray-400 hover:text-gray-600 sm:hidden
+    rounded-full hover:bg-gray-100;
+}
+
+.nav {
+    @apply flex flex-col gap-1 p-3 mt-2;
+}
+
+.navLink {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg
+    text-gray-600 hover:bg-gray-50 transition-colors;
+}
+
+.navLink.active {
+    @apply bg-[#B8860B] text-white;
+}
+
+.icon {
+    @apply text-lg min-w-[24px] flex justify-center;
+}
+
+.text {
+    @apply text-sm font-medium ml-3;
+}
+
+.overlay {
+    @apply fixed inset-0 bg-black/30 backdrop-blur-sm z-40 sm:hidden;
+}
+
+/* Ajustes para escritorio */
+@media (min-width: 1024px) {
+    .sidebar {
+        width: 256px;
+    }
+
+    .menuButton,
+    .overlay {
+        @apply hidden;
+    }
+}
+
+/* Ajustes para móviles pequeños */
+@media (max-width: 360px) {
+    .sidebar {
+        width: 240px;
+    }
+
+    .navLink {
+        @apply text-sm;
+    }
+}

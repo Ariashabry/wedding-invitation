@@ -1,0 +1,171 @@
+.container {
+    @apply w-full mx-auto;
+}
+
+.formWrapper {
+    @apply bg-white rounded-lg border border-gray-200 shadow-sm mb-6;
+}
+
+.formHeader {
+    @apply bg-white rounded-t-lg border-b border-gray-200 p-4;
+    position: relative;
+}
+
+.headerContent {
+    @apply flex items-center justify-between;
+    gap: 1rem;
+}
+
+.formTitle {
+    @apply text-lg font-medium text-gray-900;
+}
+
+.headerButton {
+    border: none;
+    background: #3b82f6;  /* bg-blue-500 */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    min-width: 120px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.headerButton:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}
+
+.managementWrapper {
+    @apply p-4 sm:p-6;
+}
+
+.form {
+    @apply space-y-6;
+}
+
+.formGrid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6;
+}
+
+.formGroup {
+    @apply space-y-1.5;
+}
+
+.label {
+    @apply block text-sm font-medium text-gray-700;
+}
+
+.inputHelper {
+    @apply text-xs text-gray-500 mt-1;
+}
+
+.input {
+    @apply w-full px-3 py-2 
+    text-sm border border-gray-300 rounded-lg
+    focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+    transition-colors duration-200
+    placeholder-gray-400;
+}
+
+.phoneInputWrapper {
+    @apply relative flex items-center;
+}
+
+.phonePrefix {
+    @apply absolute left-3 text-gray-500 text-sm font-medium;
+}
+
+.phoneInput {
+    @apply pl-12 w-full px-3 py-2 
+    text-sm border border-gray-300 rounded-lg
+    focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+
+.radioGroup {
+    @apply flex flex-wrap gap-4 sm:gap-6 mt-2;
+}
+
+.radioLabel {
+    @apply flex items-center gap-2 cursor-pointer text-sm text-gray-700;
+}
+
+.radio {
+    @apply w-4 h-4 text-blue-600 
+    focus:ring-2 focus:ring-blue-500
+    border-gray-300;
+}
+
+.partnersHeader {
+    @apply flex flex-col sm:flex-row sm:items-center 
+    justify-between gap-2 mb-3;
+}
+
+.addPartnerButton {
+    @apply inline-flex items-center text-sm text-blue-600 
+    hover:text-blue-700 font-medium;
+}
+
+.partnersContainer {
+    @apply space-y-3;
+}
+
+.partnerInputGroup {
+    @apply flex gap-2;
+}
+
+.removePartnerButton {
+    @apply p-2 text-gray-400 hover:text-red-500 
+    focus:outline-none focus:ring-2 focus:ring-red-500 rounded-lg
+    transition-colors duration-200;
+}
+
+/* Responsive ajustes */
+@media (max-width: 640px) {
+    .headerContent {
+        @apply flex-col items-start;
+        gap: 0.5rem;
+    }
+
+    .headerButton {
+        width: 100%;
+        text-align: center;
+    }
+
+    .formGroup {
+        @apply col-span-1;
+    }
+
+    .radioGroup {
+        @apply justify-start;
+    }
+
+    .container {
+        @apply px-0;
+    }
+    
+    .formWrapper {
+        @apply rounded-none border-x-0;
+    }
+}
+
+.inputError {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+}
+
+.errorMessage {
+    @apply text-xs text-red-500 mt-1;
+}
+
+.requiredLabel {
+    @apply font-medium text-gray-700;
+}
+
+.requiredAsterisk {
+    @apply text-red-500 ml-1;
+}
+
+.noPartnersMessage {
+    @apply text-gray-500 text-sm mt-2 mb-4 italic;
+}
+

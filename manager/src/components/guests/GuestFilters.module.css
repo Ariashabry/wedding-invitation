@@ -1,0 +1,41 @@
+.filtersContainer {
+    @apply flex flex-col sm:flex-row justify-between gap-4 mt-6;
+}
+
+.searchWrapper {
+    @apply flex-1;
+}
+
+.searchContainer {
+    @apply relative flex items-center max-w-md;
+}
+
+.searchIcon {
+    @apply absolute left-3 text-gray-400;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.clearButton {
+    @apply absolute right-3 text-gray-400 hover:text-gray-600;
+}
+
+.filterWrapper {
+    @apply w-full sm:w-48;
+}
+
+.statusSelect {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}

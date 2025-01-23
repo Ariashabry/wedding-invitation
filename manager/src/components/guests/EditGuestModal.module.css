@@ -1,0 +1,95 @@
+.modalOverlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.modalContent {
+  @apply bg-white rounded-xl shadow-2xl p-6 w-full max-w-md transform transition-all max-h-[90vh] overflow-y-auto m-4;
+}
+
+.modalHeader {
+  @apply flex items-center justify-between mb-6;
+}
+
+.modalTitle {
+  @apply text-2xl font-bold text-gray-800;
+}
+
+.closeButton {
+  @apply text-gray-400 hover:text-gray-600 transition-colors;
+}
+
+.form {
+  @apply space-y-6;
+}
+
+.formGroup {
+  @apply space-y-2;
+}
+
+.label {
+  @apply block text-sm font-semibold text-gray-700;
+}
+
+.input {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors;
+}
+
+.select {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-colors;
+}
+
+.optionPending {
+  @apply text-orange-700 bg-orange-50;
+}
+
+.optionConfirmed {
+  @apply text-emerald-700 bg-emerald-50;
+}
+
+.optionNotAttending {
+  @apply text-rose-700 bg-rose-50;
+}
+
+.selectPending {
+  @apply text-gray-600 bg-gray-50 border-gray-200;
+}
+
+.selectConfirmed {
+  @apply text-blue-600 bg-blue-50 border-blue-200;
+}
+
+.selectNotAttending {
+  @apply text-gray-600 bg-gray-50 border-gray-200;
+}
+
+.formGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.formActions {
+  @apply flex justify-end gap-3 mt-8 pt-4 border-t;
+}
+
+.cancelButton {
+  @apply px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-gray-200 transition-colors;
+}
+
+.submitButton {
+  @apply px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition-colors;
+}
+
+.partnersList {
+  @apply space-y-2;
+}
+
+.partnerItem {
+  @apply flex items-center gap-2;
+}
+
+.addButton {
+  @apply text-sm px-3 py-1 text-blue-600 hover:bg-blue-50 rounded-md transition-colors;
+}
+
+.removeButton {
+  @apply text-gray-400 hover:text-red-500 p-1 rounded-full hover:bg-gray-100 transition-colors;
+} 

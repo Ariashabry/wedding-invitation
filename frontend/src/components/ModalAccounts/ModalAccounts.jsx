@@ -1,12 +1,38 @@
+import React, { useContext, useState, useEffect } from 'react'
 import { ModalContext } from "../../context/ModalContext"
-import { useContext, useState } from "react"
 import './ModalAccounts.css'
-
 
 const ModalAccounts = () => {
 
    const { setModal } = useContext(ModalContext);
    const [ copied, setCopied ] = useState(false);
+
+   const handleClose = () => {
+      setModal(false);
+   };
+
+   const handleDownloadQR = () => {
+      const link = document.createElement('a');
+      link.href = './assets/photos/pagos/qr.webp';
+      link.download = 'qr-yape.webp';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+   };
+
+   useEffect(() => {
+      const handleEscapeKey = (event) => {
+         if (event.key === 'Escape') {
+            handleClose();
+         }
+      };
+
+      document.addEventListener('keydown', handleEscapeKey);
+
+      return () => {
+         document.removeEventListener('keydown', handleEscapeKey);
+      };
+   }, []);
 
    const copyToClipboard = (text) => {
       navigator.clipboard.writeText(text);
@@ -17,228 +43,111 @@ const ModalAccounts = () => {
    }
 
    return (
-      <div className="flex flex-col w-11/12 rounded-md overflow-y-scroll shadow-md h-full
-         md:w-[640px] md:h-5/6 md:self-center
+      <div className="flex flex-col w-11/12 rounded-lg shadow-lg h-[90vh] 
+         md:w-[640px] md:self-center
          lg:w-[720px]">
 
-         <header className="relative flex flex-col items-center justify-start gap-2 w-full rounded-t-md
-            bg-[url('/assets/backgrounds/cbu-header-vertical.png')] bg-no-repeat bg-cover bg-bottom ">
-            <div className="h-[150px] md:h-[150px] lg:h-[150px] flex pt-[4vh]">
-               <h2 className="text-2xl font-semibold text-center text-white z-50
-                  lg:text-3xl">
-                  ¿No sabés que <br className="md:hidden"></br> regalarnos?
-               </h2>
-            </div> 
+         <header className="relative flex flex-col items-center justify-center w-full rounded-t-lg overflow-hidden h-[15vh]">
+            <div className='absolute inset-0 bg-blue-900/80'></div>
             <img 
-               onClick={ () => setModal( false ) }
-               src="./assets/images/btn-close.png" 
-               alt=" Boton cerrar " 
-               className="absolute top-4 right-4 h-10 cursor-pointer rounded-md z-50
-                  transition-all delay-50 duration-150 hover:cursor-pointer hover:scale-90 hover:drop-shadow-md hover:rotate-90" 
+               src="./assets/images/aguayo.webp" 
+               className="absolute inset-0 w-full h-full object-cover opacity-20"
             />
-            <img src="./assets/images/cbu-header-pieces-03.png" alt="Gift animation" className="h-16 absolute -bottom-4 right-5 jumping-element lg:h-20 lg:-bottom-4 lg:right-12" />
-            <img src="./assets/images/cbu-header-pieces-06.png" alt="Star animation" className="h-4 absolute top-2 left-12 jumping-element-reverse lg:h-5 lg:top-5 lg:left-20" />
-            <img src="./assets/images/cbu-header-pieces-04.png" alt="Coins animation" className="h-10 absolute top-16 left-2 jumping-element-reverse lg:h-16 lg:top-16 lg:left-12" />
-            <img src="./assets/images/cbu-header-pieces-01.png" alt="" className="h-6 absolute bottom-2 left-5 jumping-element lg:h-8 lg:-bottom-2" />
+            <div className="w-full flex flex-col items-center justify-center gap-0.5 relative z-20 px-4">
+               <h2 className="text-base font-semibold text-center text-yellow-500 md:text-lg lg:text-xl max-w-[90%]">
+                  T'ipacu: ✨ Uniendo Corazones y Tradiciones 🤝
+               </h2>
+               <p className="text-xs md:text-sm text-yellow-400 italic">
+                  Compartiendo Amor y Tradición
+               </p>
+            </div>
+            <button 
+               onClick={handleClose}
+               className="absolute top-0 right-0 p-3 md:p-4 bg-white/20 rounded-tl-xl rounded-br-lg z-30
+                  transition-all duration-300 hover:bg-white/30 hover:rotate-90"
+            >
+               <img 
+                  src="./assets/images/btn-close.png" 
+                  alt="Botón cerrar (Esc)" 
+                  className="h-7 w-7 md:h-8 md:w-8"
+               />
+            </button>
          </header>
 
-         <main className='flex flex-col items-center gap-8 grow bg-cream p-6 text-gray-dark text-sm'>
-
-            {/* Patagonia Bank Section */}
-            <article className="flex flex-col gap-2 w-full
-            lg:w-[450px]">
-               <section className="flex items-center gap-2">
-                  <img src="./assets/images/green-arrows-icon.png" alt="" className='h-6'/>
-                  <h2 className='font-semibold text-base'>BANCO BBVA</h2>
-               </section>
-               <div className="flex flex-col gap-1.5">
-                  <div className='flex-wrap'>
-                     <span className='italic'>Titular :</span>
-                     <span className='font-semibold'> Federico Rouyere</span>
-                  </div>
-                  <div className='flex items-center gap-2 flex-wrap'>
-                     <span className='italic'>Alias :</span>
-                        <div className='flex items-center gap-2'>
-                           <span className='font-semibold'> FEDERICO.CASPER.BBVA</span>
-                        </div>
-                        <button
-                           className="group relative inline-flex " >
-                           <img 
-                              onClick={ () => copyToClipboard('FEDERICO.CASPER.BBVA') } 
-                              src="./assets/images/copy-icon.png" 
-                              alt=" Boton copiar " 
-                              title='Copiar' 
-                              className='h-6 cursor-pointer
-                              transition origin-bottom-left duration-300 ease-in-out hover:scale-110 hover:rotate-3' />
-                           <div className="hidden group-hover:block">
-                              <div
-                                 className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-cream before:-top-2">
-                                 <div className={`rounded-md py-1 px-2 ${ copied ? 'bg-mustard' : 'bg-green' }`}>
-                                    <p className="whitespace-nowrap">{ copied ? 'Copiado!' : 'Copiar' }</p>
-                                 </div>
-                              </div>
-                           </div>
-                        </button>
-                  </div>
-                  <div className='flex-wrap'>
-                     <span className='italic'>CUIL/CUIT :</span>
-                     <span className='font-semibold'> 20308193242</span>
-                  </div>
-                  <div className='flex items-center gap-2 flex-wrap'>
-                     <span className='italic'>CBU :</span>
-                     <div className='flex items-center gap-2'>
-                        <span className='font-semibold'> 0170237040000005581238</span>
-                        <button
-                           className="group relative inline-flex " >
-                           <img 
-                              onClick={ () => copyToClipboard('0170237040000005581238') } 
-                              src="./assets/images/copy-icon.png" 
-                              alt=" Boton copiar " 
-                              title='Copiar' 
-                              className='h-6 cursor-pointer
-                              transition origin-bottom-left duration-300 ease-in-out hover:scale-110 hover:rotate-3' />
-                           <div className="hidden group-hover:block">
-                              <div
-                                 className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-[#EAE8E4] before:-top-2">
-                                 <div className={`rounded-md py-1 px-2 ${ copied ? 'bg-mustard' : 'bg-green' }`}>
-                                    <p className="whitespace-nowrap">{ copied ? 'Copiado!' : 'Copiar' }</p>
-                                 </div>
-                              </div>
-                           </div>
-                        </button>
-                     </div>
-                  </div>
-               </div>
-            </article>
-
-            {/* Dolars Section */}
-            <article className="flex flex-col gap-2 w-full
-               lg:w-[450px]">
-               <section className="flex items-center gap-2">
-                  <img src="./assets/images/green-arrows-icon.png" alt="" className='h-6'/>
-                  <h2 className='font-semibold text-base'>MONEDA EXTRANJERA</h2>
-               </section>
-               <p >
-                  <span className='italic text-sm leading-6'>
-                     No tenemos cuentas para recibir dinero extranjero, por lo tanto 👉🏼 sobre en mano.<br></br>
-                     <span className='font-semibold not-italic'> Requisito único : </span>
-                     No dólar cara chica o estropeado (después nadie nos los recibe 😥)
-                  </span>
+         <main className='flex flex-col items-center justify-center gap-4 grow bg-cream px-2 py-4 md:py-6 md:px-4 text-gray-dark'>
+            <article className="text-center max-w-xl">
+               <p className="text-sm md:text-base lg:text-lg">
+                  ¡Celebremos juntos este momento especial! 🎉 
+                  El Ayni nos une en esta fiesta de amor y tradición ✨
                </p>
             </article>
 
-            {/* Western Union Section */}
-            <article className="flex flex-col gap-2 w-full
-               lg:w-[450px]">
-               <section className="flex items-center gap-2">
-                  <img src="./assets/images/green-arrows-icon.png" alt="" className='h-6'/>
-                  <h2 className='font-semibold text-base'>WESTERN UNION</h2>
+            <article className="flex flex-col items-center w-full max-w-md bg-[#6a1b9a]/5 p-4 md:p-6 rounded-lg">
+               <section className="flex items-center gap-3 mb-4">
+                  <img 
+                     src="./assets/images/yape.png" 
+                     alt="Yape" 
+                     className='h-8 w-8 md:h-10 md:w-10 object-contain'
+                  />
+                  <div className="flex items-center text-base md:text-lg">
+                     <span className='italic'>Titular: </span>
+                     <span className='font-medium ml-1'>Nilda B. Caballero</span>
+                  </div>
                </section>
-               <p >
-                  <span className='italic text-sm leading-6'>
-                     Si estás afuera y de alguna manera querés hacernos llegar tu cariño 👉🏼 Western Union.
-                     Y no olvides mandarnos el comprobante. 😏
-                  </span>
-               </p>
-               <div className='flex items-center gap-2 flex-wrap'>
-                  <span className='italic'>Nombre :</span>
-                  <div className='flex items-center gap-2'>
-                     <span className='font-semibold'> Federica Risso Patrón</span>
-                     <button
-                        className="group relative inline-flex " >
-                        <img 
-                           onClick={ () => copyToClipboard('Federica Risso Patrón') } 
-                           src="./assets/images/copy-icon.png" 
-                           alt=" Boton copiar " 
-                           title='Copiar' 
-                           className='h-6 cursor-pointer
-                           transition origin-bottom-left duration-300 ease-in-out hover:scale-110 hover:rotate-3' />
-                        <div className="hidden group-hover:block">
-                           <div
-                              className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-[#EAE8E4] before:-top-2">
-                              <div className={`rounded-md py-1 px-2 ${ copied ? 'bg-mustard' : 'bg-green' }`}>
-                                 <p className="whitespace-nowrap">{ copied ? 'Copiado!' : 'Copiar' }</p>
-                              </div>
-                           </div>
-                        </div>
-                     </button>
+
+               <div className="flex flex-col items-center gap-3">
+                  <div className="w-48 h-48 md:w-64 md:h-64 bg-white p-2 rounded-lg shadow-md">
+                     <img 
+                        src="./assets/photos/pagos/qr.webp" 
+                        alt="Código QR para Yape" 
+                        className="w-full h-full object-contain"
+                     />
                   </div>
-               </div>
-               <div className='flex items-center gap-2 flex-wrap'>
-                  <span className='italic'>DNI :</span>
-                  <div className='flex items-center gap-2'>
-                     <span className='font-semibold'> 35183885</span>
-                     <button
-                        className="group relative inline-flex " >
-                        <img 
-                           onClick={ () => copyToClipboard('35183885') } 
-                           src="./assets/images/copy-icon.png" 
-                           alt=" Boton copiar " 
-                           title='Copiar' 
-                           className='h-6 cursor-pointer
-                           transition origin-bottom-left duration-300 ease-in-out hover:scale-110 hover:rotate-3' />
-                        <div className="hidden group-hover:block">
-                           <div
-                              className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-[#EAE8E4] before:-top-2">
-                              <div className={`rounded-md py-1 px-2 ${ copied ? 'bg-mustard' : 'bg-green' }`}>
-                                 <p className="whitespace-nowrap">{ copied ? 'Copiado!' : 'Copiar' }</p>
-                              </div>
-                           </div>
-                        </div>
-                     </button>
-                  </div>
+                  <button
+                     onClick={handleDownloadQR}
+                     className="p-2 px-4 bg-[#6a1b9a]/90 rounded-lg 
+                        shadow-lg text-white hover:bg-[#6a1b9a] transition-all duration-300
+                        flex items-center gap-2 text-sm"
+                  >
+                     <svg 
+                        className="w-4 h-4" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                     >
+                        <path 
+                           strokeLinecap="round" 
+                           strokeLinejoin="round" 
+                           strokeWidth={2} 
+                           d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                        />
+                     </svg>
+                     Descargar QR
+                  </button>
                </div>
             </article>
 
-            {/* Western Union Section */}
-            <article className="flex flex-col gap-2 w-full
-               lg:w-[450px]">
-               <section className="flex items-center gap-2">
-                  <img src="./assets/images/green-arrows-icon.png" alt="" className='h-6'/>
-                  <h2 className='font-semibold text-base'>PAYONEER</h2>
-               </section>
-               <p >
-                  <span className='italic text-sm leading-6'>
-                     También tenemos cuenta en payoneer. 😎
-                  </span>
-               </p>
-               <div className='flex items-center gap-2 flex-wrap'>
-                  <span className='italic'>Mail :</span>
-                  <div className='flex items-center gap-2'>
-                     <span className='font-semibold'> federicarissopatron@gmail.com</span>
-                     <button
-                        className="group relative inline-flex " >
-                        <img 
-                           onClick={ () => copyToClipboard('federicarissopatron@gmail.com') } 
-                           src="./assets/images/copy-icon.png" 
-                           alt=" Boton copiar " 
-                           title='Copiar' 
-                           className='h-6 cursor-pointer
-                           transition origin-bottom-left duration-300 ease-in-out hover:scale-110 hover:rotate-3' />
-                        <div className="hidden group-hover:block">
-                           <div
-                              className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-[#EAE8E4] before:-top-2">
-                              <div className={`rounded-md py-1 px-2 ${ copied ? 'bg-mustard' : 'bg-green' }`}>
-                                 <p className="whitespace-nowrap">{ copied ? 'Copiado!' : 'Copiar' }</p>
-                              </div>
-                           </div>
-                        </div>
-                     </button>
-                  </div>
+            <article className='flex flex-col gap-2 items-center'>
+               <div className="w-32 md:w-48 h-0.5 bg-gradient-to-r from-[#D52B1E] via-[#F4E400] to-[#058E6E]"></div>
+               <div className='text-center max-w-xl'>
+                  <p className='text-sm md:text-base lg:text-lg font-medium mb-1'>
+                      ¡Que viva el amor! ❤️
+                  </p>
+                  <p className='text-sm md:text-base lg:text-lg'>
+                     Tu compañía es la bendición más grande. Gracias por ser parte de este gesto de apoyo y por permitirnos compartir 
+                     contigo nuestras tradiciones y este momento especial.
+                  </p>
                </div>
             </article>
-
-               <article className='flex flex-col gap-3 items-center mt-2'>
-                  <hr className='w-48 border border-[#5D7551]' />
-                  <h2 className='text-lg font-medium'>¡Desde ya mil gracias!</h2>
-               </article>
-
          </main>
 
-         <footer className='h-[8vh] bg-green flex items-center justify-center rounded-b-md'>
-            <img src="./assets/images/cbu-footer.png" alt="" className=" h-3/6" />
+         <footer className='h-[8vh] relative overflow-hidden rounded-b-lg'>
+            <div className='absolute inset-0 bg-blue-900/80'></div>
+            <img 
+               src="./assets/images/aguayo.webp" 
+               className="w-full h-full object-cover opacity-20"
+            />
          </footer>
-
       </div>
    )
 }

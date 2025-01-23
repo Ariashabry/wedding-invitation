@@ -1,0 +1,175 @@
+.container {
+    @apply min-h-screen bg-white w-full;
+}
+
+.content {
+    @apply px-6;
+}
+
+.mainContent {
+    @apply max-w-7xl mx-auto;
+}
+
+.header {
+    @apply bg-white rounded-xl shadow-sm p-4 sm:p-6;
+}
+
+.title {
+    @apply text-xl sm:text-2xl font-bold text-gray-800;
+}
+
+.subtitle {
+    @apply text-sm text-gray-500 mt-1 mb-4;
+}
+
+.tableSection {
+    @apply overflow-hidden;
+}
+
+/* Estilos de columnas responsivas */
+.indexColumn {
+    width: 50px;
+    @apply text-center;
+}
+
+.nameColumn {
+    @apply w-full sm:w-1/4;
+    min-width: 180px;
+}
+
+.phoneColumn {
+    @apply hidden sm:table-cell;
+    width: 120px;
+}
+
+.statusColumn {
+    width: 110px;
+    @apply text-center;
+}
+
+.companionsColumn {
+    @apply hidden md:table-cell;
+    min-width: 180px;
+}
+
+.idColumn {
+    width: 220px;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actionsColumn {
+    width: 100px;
+    text-align: center;
+}
+
+/* Badges de estado */
+.badge {
+    @apply inline-flex items-center justify-between px-1.5 py-[2px] rounded text-[11px] font-medium w-full leading-none;
+}
+
+.badgePending {
+    @apply bg-orange-50 text-orange-600;
+}
+
+.badgeConfirmed {
+    @apply bg-emerald-50 text-emerald-600;
+}
+
+.badgeNotAttending {
+    @apply bg-rose-50 text-rose-600;
+}
+
+/* Loading y Error states */
+.loading {
+    @apply flex items-center justify-center min-h-[400px];
+}
+
+.spinner {
+    @apply w-8 h-8 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin;
+}
+
+.error {
+    @apply p-4 text-center text-red-600 bg-red-50 rounded-xl;
+}
+
+/* Ajustes específicos para móviles pequeños */
+@media (max-width: 360px) {
+    .content {
+        @apply p-2;
+    }
+
+    .header {
+        @apply p-3;
+    }
+
+    .title {
+        @apply text-lg;
+    }
+
+    .subtitle {
+        @apply text-xs mb-3;
+    }
+
+    .badge {
+        @apply text-[10px] px-2 py-0.5;
+    }
+
+    .indexColumn {
+        width: 40px;
+    }
+
+    .nameColumn {
+        min-width: 140px;
+    }
+
+    .statusColumn {
+        width: 90px;
+    }
+}
+
+/* Ajustes para tablets */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .nameColumn {
+        min-width: 160px;
+    }
+
+    .companionsColumn {
+        min-width: 160px;
+    }
+}
+
+/* Estilos adicionales para la tabla */
+.tableSection :global(th) {
+    @apply py-1 px-2 text-[11px] font-medium text-gray-500 uppercase tracking-tight border-b border-gray-200;
+}
+
+.tableSection :global(td) {
+    @apply px-2 align-top border-b border-gray-50;
+}
+
+.tableSection :global(tr:hover) {
+    @apply bg-gray-50/50;
+}
+
+.tableSection :global(table) {
+    @apply border-collapse;
+}
+
+.statusBadge {
+    @apply flex items-center justify-between px-1.5 py-[1px] rounded bg-opacity-50 w-full;
+}
+
+.statusPending {
+    @apply bg-gray-100 text-gray-600;
+}
+
+.statusConfirmed {
+    @apply bg-emerald-50 text-emerald-700;
+}
+
+.statusNotAttending {
+    @apply bg-rose-50 text-rose-700;
+}

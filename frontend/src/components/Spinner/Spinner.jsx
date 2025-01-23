@@ -5,7 +5,7 @@ const Spinner = () => {
       <div className="spinner-text h-[200px] w-[200px] absolute top-[15px] -left-[100px] z-50 flex justify-center items-center
       lg:top-10 lg:left-40">
          <img 
-            src="/assets/images/rounded-text-mobile.png" 
+            src="/assets/images/rounded-text-mobile01.png" 
             alt="Espiral animada" 
             className='lg:hidden' />
          <img 

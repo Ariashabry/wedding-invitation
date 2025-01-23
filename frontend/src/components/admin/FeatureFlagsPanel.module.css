@@ -1,0 +1,176 @@
+.container {
+    @apply min-h-screen bg-gray-50;
+}
+
+.panel {
+    @apply max-w-4xl mx-auto p-3 sm:p-6;
+}
+
+.panelContent {
+    @apply bg-white rounded-lg shadow-md overflow-hidden;
+}
+
+.header {
+    @apply sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-3 sm:p-6;
+}
+
+.headerContent {
+    @apply flex flex-row items-center justify-between;
+}
+
+.title {
+    @apply text-lg sm:text-2xl font-bold text-gray-900;
+}
+
+.logoutButton {
+    @apply px-3 py-1.5 text-xs sm:text-sm text-gray-600 hover:text-gray-800 
+           rounded-md hover:bg-gray-100 transition-colors border border-gray-200 
+           sm:border-transparent whitespace-nowrap;
+}
+
+.featuresList {
+    @apply p-4 sm:p-6 space-y-3 sm:space-y-6;
+}
+
+.featureItem {
+    @apply bg-gray-50 p-3 rounded-lg transition-all hover:shadow-md 
+           border border-gray-100 sm:border-transparent;
+}
+
+.featureContent {
+    @apply flex items-start justify-between gap-3;
+}
+
+.featureInfo {
+    @apply flex-1;
+}
+
+.featureHeader {
+    @apply flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2;
+}
+
+.featureName {
+    @apply font-medium text-gray-900 text-sm sm:text-base break-all;
+}
+
+.statusBadge {
+    @apply text-xs px-2 py-0.5 rounded-full w-fit;
+}
+
+.statusEnabled {
+    @apply bg-emerald-100 text-emerald-800;
+}
+
+.statusDisabled {
+    @apply bg-rose-100 text-rose-800;
+}
+
+.statusUpdating {
+    @apply bg-amber-100 text-amber-800;
+}
+
+.description {
+    @apply text-xs text-gray-600 mt-1.5 line-clamp-2 sm:line-clamp-none;
+}
+
+.toggleWrapper {
+    @apply relative inline-flex items-center mt-1 sm:mt-0;
+}
+
+.toggle {
+    @apply w-11 h-6 bg-gray-200 rounded-full transition-all duration-200;
+}
+
+input:focus ~ .toggle {
+    @apply ring-2 ring-blue-300;
+}
+
+.toggleEnabled {
+    @apply bg-blue-600;
+}
+
+.toggleDisabled {
+    @apply opacity-50;
+}
+
+.toggleHandle {
+    @apply absolute top-[2px] left-[2px] bg-white w-5 h-5 rounded-full 
+           transition-all duration-200 shadow-sm;
+}
+
+.toggleHandleEnabled {
+    @apply translate-x-5;
+}
+
+.toggleHandleAnimated {
+    @apply animate-pulse;
+}
+
+.timestamp {
+    @apply text-[10px] text-gray-500 mt-2 italic;
+}
+
+/* Loading states */
+.loadingContainer {
+    @apply min-h-screen flex items-center justify-center bg-gray-50 p-4;
+}
+
+.loadingContent {
+    @apply text-center;
+}
+
+.loadingSpinner {
+    @apply w-8 h-8 sm:w-10 sm:h-10 border-4 border-blue-600 border-t-transparent 
+           rounded-full animate-spin mx-auto mb-3;
+}
+
+.loadingText {
+    @apply text-sm text-gray-600;
+}
+
+/* Error states */
+.errorContainer {
+    @apply min-h-screen flex items-center justify-center bg-gray-50 p-4;
+}
+
+.errorContent {
+    @apply bg-white p-6 rounded-lg shadow-md max-w-sm w-full mx-auto;
+}
+
+.errorIcon {
+    @apply w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-rose-500;
+}
+
+.errorTitle {
+    @apply text-base font-semibold mb-2 text-gray-900;
+}
+
+.errorMessage {
+    @apply text-xs sm:text-sm text-gray-600;
+}
+
+.retryButton {
+    @apply mt-4 w-full sm:w-auto px-4 py-2 text-sm bg-blue-600 text-white 
+           rounded-md hover:bg-blue-700 transition-colors;
+}
+
+/* Empty state */
+.emptyContainer {
+    @apply min-h-screen flex items-center justify-center bg-gray-50 p-4;
+}
+
+.emptyContent {
+    @apply text-center text-gray-600;
+}
+
+.emptyIcon {
+    @apply w-12 h-12 mx-auto mb-3 text-gray-400;
+}
+
+.emptyText {
+    @apply text-sm;
+}
+
+.disabled {
+    @apply opacity-50 cursor-not-allowed;
+} 

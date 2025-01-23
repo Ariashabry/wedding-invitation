@@ -10,15 +10,21 @@ const ModalWeather = () => {
    const [ formatDate, setFormatDate ] = useState('')
    const { setWeatherModal } = useContext(ModalContext);
 
-   const handleWeather = () => {
-      axios.get(`https://api.weatherapi.com/v1/current.json?q=Mendoza&lang=es&key=${import.meta.env.VITE_REACT_APP_WEATHER_API_KEY}`)
-         .then((response) => {
-            console.log('Response:', response.data);
-            setLocalWeather(response.data)
-         })
-         .catch((error) => {
-            console.error('Error:', error);
-         })
+   const handleWeather = (location = 'Santa Cruz de la Sierra') => {
+      axios.get(`https://api.weatherapi.com/v1/current.json`, {
+         params: {
+            key: import.meta.env.VITE_WEATHER_API_KEY,
+            q: location,
+            lang: 'es'
+         }
+      })
+      .then((response) => {
+         console.log('Response:', response.data);
+         setLocalWeather(response.data)
+      })
+      .catch((error) => {
+         console.error('Error:', error);
+      })
    }
 
    const fechaActual = () => {
@@ -42,30 +48,37 @@ const ModalWeather = () => {
    }
 
    const handleFutureWeather = () => {
-      axios.get(`https://api.weatherapi.com/v1/forecast.json?q=Mendoza&dt=${formatDate}&lang=es&key=${import.meta.env.VITE_REACT_APP_WEATHER_API_KEY}`)
-         .then((response) => {
-            console.log('Response:', response.data);
-            setFutureWeather(response.data)
-         })
-         .catch((error) => {
-            console.error('Error:', error);
-         })
+      axios.get(`http://api.weatherapi.com/v1/forecast.json`, {
+         params: {
+            key: import.meta.env.VITE_WEATHER_API_KEY,
+            q: 'Mendoza',
+            dt: formatDate,
+            lang: 'es'
+         }
+      })
+      .then((response) => {
+         console.log('Response:', response.data);
+         setFutureWeather(response.data)
+      })
+      .catch((error) => {
+         console.error('Error:', error);
+      })
    }
 
    useEffect(() => {
-      handleWeather()
+      handleWeather('Santa Cruz')
       handleFutureWeather()
       fechaActual()
    }, [])
 
    return (
-      <div className="flex flex-col w-11/12 h-full overflow-y-scroll rounded-md shadow-md
-         md:w-[640px] md:h-5/6 md:self-center
-         lg:w-[720px] ">
+      <div className="flex flex-col w-11/12 h-full overflow-y-auto rounded-md shadow-md
+         md:w-[640px] md:h-auto md:max-h-[90vh] md:self-center
+         lg:w-[720px]">
 
-<header className="relative flex flex-col items-center justify-start gap-2 w-full rounded-t-md
-            bg-[url('/assets/backgrounds/cbu-header-vertical.png')] bg-no-repeat bg-cover bg-bottom ">
-            <div className="h-[150px] lg:h-[200px] flex pt-[4vh]">
+         <header className="relative flex flex-col items-center justify-start gap-2 w-full rounded-t-md
+            bg-[url('/assets/backgrounds/cbu-header-vertical.png')] bg-no-repeat bg-cover bg-bottom">
+            <div className="h-[120px] lg:h-[140px] flex pt-[4vh]">
                <h2 className="text-2xl font-semibold text-center text-white z-50
                   lg:text-3xl">
                   ¿Qué pasa con <br className="md:hidden"></br> el clima?
@@ -84,9 +97,9 @@ const ModalWeather = () => {
             <img src="./assets/images/weather-header-pieces-02.png" alt="" className="h-12 absolute -bottom-2 left-5 jumping-element lg:h-16 lg:-bottom-2 lg:left-10" />
          </header>
 
-         <main className='flex flex-col items-center gap-8 grow bg-cream p-6 text-gray-dark text-sm'>
-
-            <article className="flex flex-col gap-2 w-full">
+         <main className='flex flex-col items-center gap-6 grow bg-cream p-6 text-gray-dark text-sm
+            md:gap-4 md:p-4'>
+            <article className="flex flex-col gap-2 w-full md:max-w-[90%]">
                <section className="flex items-center gap-2 mb-4">
                   <img src={`${localWeather?.current?.condition?.icon}`} alt="" className='h-12' />
                   <h2 className='font-semibold text-lg'>Pronóstico: {localWeather?.current?.condition?.text}</h2>
@@ -112,12 +125,16 @@ const ModalWeather = () => {
                   <span className=' font-bold text-xl'> 
                      {futureWeather?.forecast?.forecastday[0]?.day?.maxtemp_c}° 
                      <span className='text-base mx-2'>(max.)</span>
-                     - {futureWeather?.forecast?.forecastday[0]?.day?.mintemp_c}° 
+                       -   {futureWeather?.forecast?.forecastday[0]?.day?.mintemp_c}° 
                      <span className='text-base ms-2'>(min.)</span>
                   </span>
                   <hr className='w-56 border-1 border-green' />
                   <span className='flex mt-4'> 
-                  <img src="./assets/images/warning-icon.png" alt="" className='h-14 pe-3 self-center'/>
+                     <img 
+                        src="./assets/images/warning-icon.png" 
+                        alt="" 
+                        className='h-14 pe-3 self-center animate-bounce hover:animate-shake'
+                     />
                      <p>
                         <span className='font-semibold text-sm'>Alerta Naranja<br></br></span>
                         <span className='text-sm font-normal'>Fuertes resacas, moderado dolor de cabeza y náuseas. Posibilidad de amnesia temporal.</span>
@@ -125,12 +142,15 @@ const ModalWeather = () => {
                   </span>
                </div>
             </article>
-
          </main>
 
-         <footer className='h-[8vh] bg-green flex items-center justify-center rounded-b-md'>
-            <img src="./assets/images/cbu-footer.png" alt="" className=" h-3/6" />
-         </footer>
+         <footer className='h-[8vh] md:h-[6vh] bg-green flex flex-col items-center justify-center rounded-b-md'>
+        <div className="w-full border-t border-white my-2"></div>
+        <p className="text-white text-lg font-serif italic">A & N</p>
+        <div className="w-full border-t border-white my-2"></div>
+      </footer>
+         
+         
 
       </div>
    )

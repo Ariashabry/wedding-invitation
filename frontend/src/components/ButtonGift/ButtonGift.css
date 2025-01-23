@@ -1,22 +1,56 @@
 .unselectable {
    user-select: none !important;
-   -webkit-tap-highlight-color: rgba( 0,0,0,0 ) !important; /* Safari y Chrome */
-   -webkit-user-drag: none !important; /* Safari (puede evitar el resaltado al mover elementos) */
-   touch-action: manipulation !important; /* Algunos navegadores más modernos */
+   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+   -webkit-user-drag: none !important;
+   touch-action: manipulation !important;
 }
 
-@keyframes ring {
+@keyframes tipacu-dance {
    0%, 100% {
-      transform: translateY(0) rotate(0);
+      transform: rotate(0deg) scale(1);
    }
-   20%, 40%, 60%, 80% {
-      transform: translateX(-5px) rotate(12deg);
+   15% {
+      transform: rotate(-15deg) scale(1.08);
    }
-   30%, 50%, 70% {
-      transform: translateX(5px) rotate(-12deg);
+   30% {
+      transform: rotate(10deg) scale(1.15);
+   }
+   45% {
+      transform: rotate(-8deg) scale(1.12);
+   }
+   60% {
+      transform: rotate(6deg) scale(1.09);
+   }
+   75% {
+      transform: rotate(-4deg) scale(1.06);
+   }
+   85% {
+      transform: rotate(2deg) scale(1.03);
    }
 }
 
-.phone {
-  animation: ring 1s linear ; /* Ajusta la duración y la transición aquí */
+.tipacu-animation {
+   animation: tipacu-dance 1.2s ease-out;
+   transform-origin: top center;
+}
+
+.tipacu-button {
+   background: rgba(255, 255, 255, 0.95);
+   border-radius: 20px;
+   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+   min-width: fit-content;
+   padding: 1.25rem 2rem;
+   transition: all 0.3s ease;
+   transform: scale(1.15);
+}
+
+.tipacu-button:hover {
+   background: rgba(255, 255, 255, 1);
+   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+   transform: translateY(-4px) scale(1.17);
+}
+
+.tipacu-button:active {
+   transform: translateY(2px) scale(1.13);
+   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
 }
