@@ -152,7 +152,7 @@ const Timeline = () => {
       description: "Ceremonia en la Parroquia San Martín de Porres. Su presencia es muy importante para nosotros 💒",
       location: "Ver ubicación de la Parroquia",
       locationUrl: "https://maps.app.goo.gl/9RoxJZ9KR9PGB97dA",
-      transitionText: "aprox: 3:30h"
+      transitionText: "receso y sesion de fotos"
     },
     {
       time: "5:30 PM",
@@ -162,7 +162,7 @@ const Timeline = () => {
       description: "¡Los esperamos en el Salón de eventos Elianne 2 para dar inicio a la celebración! 🎉",
       location: "Ver ubicación del Salón",
       locationUrl: "https://maps.app.goo.gl/tyGvikCqBoyk3gKb9",
-      transitionText: "aprox: 30min"
+      transitionText: "Welcome!!!!!"
     },
     {
       time: "6:00 PM",
@@ -170,7 +170,7 @@ const Timeline = () => {
       title: "CEREMONIA CIVIL",
       icon: <Handshake className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Ceremonia civil donde nos uniremos legalmente en matrimonio. Agradecemos su compañía ✨",
-      transitionText: "aprox: 1 hr"
+      transitionText: "Bendición Ceremonial"
     },
     {
       time: "7:00 PM",
@@ -178,7 +178,7 @@ const Timeline = () => {
       title: "BAILE DE LOS NOVIOS",
       icon: <PersonSimpleWalk className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Show especial de los novios con canciones seleccionadas. ¡Nuestro primer baile como esposos! 💑",
-      transitionText: "aprox: 15min"
+      transitionText: ""
     },
     {
       time: "7:15 PM",
@@ -186,7 +186,7 @@ const Timeline = () => {
       title: "VALS PRINCIPAL",
       icon: <MusicNotes className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Disfrutemos del elegante vals con nuestros padres y seres queridos, celebrando este momento especial 🎵",
-      transitionText: "aprox: 15min"
+      transitionText: ""
     },
     {
       time: "7:30 PM",
@@ -194,7 +194,7 @@ const Timeline = () => {
       title: "PALABRAS DE AGRADECIMIENTO",
       icon: <Microphone className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Un momento para expresar nuestro agradecimiento a familiares y amigos 💝",
-      transitionText: "aprox: 15min"
+      transitionText: ""
     },
     {
       time: "7:45 PM",
@@ -202,7 +202,7 @@ const Timeline = () => {
       title: "BRINDIS DE HONOR",
       icon: <Wine className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Levantaremos nuestras copas para agradecerles por su amor y apoyo 🥂",
-      transitionText: "aprox: 15min"
+      transitionText: ""
     },
     {
       time: "8:00 PM",
@@ -210,7 +210,7 @@ const Timeline = () => {
       title: "BAILE DE LA CUECA",
       icon: <PersonSimpleWalk className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "¡A mover los pañuelos! 🤠",
-      transitionText: "aprox: 45min"
+      transitionText: ""
     },
     {
       time: "8:45 PM",
@@ -218,7 +218,7 @@ const Timeline = () => {
       title: "CENA",
       icon: <ForkKnife className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Compartiremos una deliciosa cena 🍽️",
-      transitionText: "aprox: 20min"
+      transitionText: ""
     },
     {
       time: "9:20 PM",
@@ -226,7 +226,7 @@ const Timeline = () => {
       title: "T'IPACU",
       icon: <HandHeart className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "Les invitamos a participar en la tradición del T'ipacu, un gesto simbólico que celebra nuestro nuevo comienzo 🙏",
-      transitionText: "aprox: 40min - podriamos hacerlo paralelo a la cena"
+      transitionText: ""
     },
     {
       time: "10:00 PM",
@@ -234,7 +234,7 @@ const Timeline = () => {
       title: "FIESTA",
       icon: <Confetti className="w-7 h-7 sm:w-8 sm:h-8 text-white" weight="fill" />,
       description: "¡Prepárense para desatar la locura! La pista de baile estará lista, así que a bailar, reír y disfrutar hasta que salga el sol 🎉",
-      transitionText: "aprox: 6h"
+      transitionText: "Lanzamiento de bouquet"
     },
     {
       time: "4:00 AM",
